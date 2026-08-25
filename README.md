@@ -16,6 +16,6 @@ EtherealOS is a fully static ui clone that mimics popular operating systems like
 
 ## What is it?
 
-EtherealOS is a fully static ui clone that mimics popular operating systems like MacOS, Windows, Linux, Ubuntu, and others coming soon!
+EtherealOS is a fully static ui clone that mimics popular operating systems like MacOS, Windows, Linux, Ubuntu, and some other ones coming soon!
 
 ---
