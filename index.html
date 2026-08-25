@@ -1,6 +1,33 @@
-<!Doctype HTML>
-<html>
-  <head>
-    <h1>test</h1>
-  </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereal OS</title>
+    <style>
+        body { background:#0c0e17; color:#fff; font-family:sans-serif; text-align:center; padding:40px 20px; }
+        .logo { width:38px; height:24px; border:4px solid #4d61d1; border-radius:50%; transform:rotate(-25deg); margin:0 auto 20px; }
+        h1 { font-size:2.2rem; margin-bottom:40px; font-weight:500; }
+        h1 span { color:#536be3; }
+        h2 { font-size:1.65rem; font-weight:400; margin-bottom:12px; }
+        p { font-size:0.88rem; color:#79808d; margin-bottom:44px; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:14px; max-width:960px; margin:0 auto; }
+        a { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); border-radius:12px; padding:44px 12px; color:#8c93a0; text-decoration:none; font-size:0.85rem; transition:0.15s; }
+        a:hover { background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.08); }
+    </style>
+</head>
+<body>
+    <div class="logo"></div>
+    <h1>Ethereal <span>OS</span></h1>
+    <h2>Choose your operating system</h2>
+    <p>Select the OS you want to explore.</p>
+    <div class="grid">
+        <a href="#">Windows</a>
+        <a href="#">macOS</a>
+        <a href="#">Linux</a>
+        <a href="#">Ubuntu</a>
+        <a href="#">Fedora</a>
+        <a href="#">Arch Linux</a>
+    </div>
+</body>
 </html>
