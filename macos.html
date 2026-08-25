@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>macOS Mockup</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif;color:#fff}
+body{user-select:none}.desktop{position:fixed;inset:0;background:radial-gradient(circle at 20% 30%,#2c3e50,#0f2027),linear-gradient(135deg,#74ebd5,#9face6);overflow:hidden}
+.menu{position:fixed;z-index:1000;top:0;left:0;right:0;height:30px;background:rgba(255,255,255,.1);backdrop-filter:blur(30px);border-bottom:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 20px rgba(255,255,255,.15);display:flex;align-items:center;padding:0 14px;font-size:13px}.menu b{font-size:17px;margin-right:18px}.menu span{margin-right:18px}.right{margin-left:auto;display:flex!important;gap:15px}.right span{margin:0}
+.desktop-icons{position:absolute;top:45px;right:18px;display:flex;flex-direction:column;gap:18px}.desktop-icon{width:70px;text-align:center;color:white;text-shadow:0 2px 5px rgba(0,0,0,.5);font-size:12px;cursor:pointer}.desktop-icon .ico{font-size:38px}
+@keyframes genieClose{
+  0%{transform:translate(var(--tx,-50%),var(--ty,-50%)) scale(1,1);opacity:1;clip-path:inset(0 0 0 0 round 24px)}
+  100%{transform:translate(var(--tx,-50%),calc(var(--ty,-50%) + 42vh)) scale(.05,.02);opacity:0;clip-path:inset(0 40% 0 40% round 24px)}
+}
+@keyframes genieOpen{
+  0%{transform:translate(var(--tx,-50%),calc(var(--ty,-50%) + 42vh)) scale(.05,.02);opacity:0;clip-path:inset(0 40% 0 40% round 24px)}
+  100%{transform:translate(var(--tx,-50%),var(--ty,-50%)) scale(1,1);opacity:1;clip-path:inset(0 0 0 0 round 24px)}
+}
+.window.genie-closing{animation:genieClose .4s cubic-bezier(.25,1,.2,1) forwards;pointer-events:none}
+.window.genie-opening{animation:genieOpen .4s cubic-bezier(.25,1,.2,1) forwards}
+.window{position:absolute;width:720px;height:470px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:24px;background:rgba(255,255,255,.08);box-shadow:0 30px 100px rgba(0,0,0,.5),inset 0 1px 32px rgba(255,255,255,.3),inset 0 10px 20px rgba(255,255,255,.15);overflow:hidden;backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.25);min-width:380px;min-height:250px}.window.hidden{display:none}.window.max{left:40px!important;top:42px!important;transform:none!important;width:calc(100vw - 80px)!important;height:calc(100vh - 105px)!important}
+.titlebar{height:48px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 10px rgba(255,255,255,.1);display:flex;align-items:center;padding:0 15px;cursor:default}.traffic{display:flex;gap:8px;z-index:2}.dot{width:12px;height:12px;border-radius:50%;cursor:pointer}.red{background:#ff5f57}.yellow{background:#febc2e}.green{background:#28c840}.title{position:absolute;left:0;right:0;text-align:center;color:rgba(255,255,255,.7);font-size:14px;font-weight:600}
+.sidebar{position:absolute;top:48px;bottom:0;width:185px;background:rgba(255,255,255,.03);border-right:1px solid rgba(255,255,255,.1);padding:15px 10px;overflow:auto}.sidehead{font-size:11px;color:rgba(255,255,255,.4);font-weight:600;padding:7px 12px}.sideitem{padding:8px 12px;border-radius:10px;margin-bottom:3px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer}.sideitem:hover,.sideitem.active{background:rgba(255,255,255,.2);color:#fff;box-shadow:inset 0 1px 8px rgba(255,255,255,.2)}
+.content{position:absolute;left:185px;top:48px;right:0;bottom:0;padding:25px;overflow:auto}.content h1{margin:0 0 20px;font-size:27px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.2)}.toolbar{display:flex;gap:8px;margin-bottom:18px}.btn{border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:7px 12px;background:rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 1px 5px rgba(255,255,255,.1);cursor:pointer}.btn:hover{background:rgba(255,255,255,.25)}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}.card{height:125px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);padding:15px;box-shadow:inset 0 1px 10px rgba(255,255,255,.1),0 4px 15px rgba(0,0,0,.15);cursor:pointer}.card:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}.card .icon{font-size:34px}.card strong{display:block;margin-top:8px;font-size:14px;color:#fff}.card small{color:rgba(255,255,255,.5)}
+.dock{position:fixed;z-index:1100;bottom:12px;left:50%;transform:translateX(-50%);height:70px;padding:9px 13px;border-radius:24px;background:rgba(255,255,255,.08);backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.3);display:flex;gap:10px;box-shadow:0 15px 45px rgba(0,0,0,.4),inset 0 1px 20px rgba(255,255,255,.4),inset 0 5px 10px rgba(255,255,255,.2)}.app{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:27px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 8px rgba(255,255,255,.3),0 4px 10px rgba(0,0,0,.15);cursor:pointer;transition:.2s cubic-bezier(.175,.885,.32,1.275)}.app:hover{transform:translateY(-10px) scale(1.15);background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.4)}
+.context,.appmenu{display:none;position:fixed;z-index:2000;background:rgba(255,255,255,.1);border-radius:14px;padding:6px;box-shadow:0 15px 40px rgba(0,0,0,.4),inset 0 1px 15px rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.2);width:190px;backdrop-filter:blur(30px)}.context div,.appmenu div{padding:8px 10px;border-radius:8px;font-size:13px;color:#fff;cursor:pointer}.context div:hover,.appmenu div:hover{background:rgba(255,255,255,.25);box-shadow:inset 0 1px 5px rgba(255,255,255,.2)}
+.alert{position:fixed;z-index:3000;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,.15);border-radius:20px;backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.3);padding:22px;min-width:280px;box-shadow:0 30px 70px rgba(0,0,0,.5),inset 0 1px 20px rgba(255,255,255,.3);text-align:center;display:none}.alert button{margin-top:15px;border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:8px 20px;background:rgba(255,255,255,.2);color:#fff;box-shadow:inset 0 1px 5px rgba(255,255,255,.2);cursor:pointer}
+.search{width:180px;padding:7px 10px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.05);color:#fff;outline:0;margin-left:auto}.search::placeholder{color:rgba(255,255,255,.4)}
+</style>
+</head>
+<body>
+<div class="desktop" id="desktop">
+<div class="menu">
+<b></b><span id="finderMenu">Finder</span><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span><span>Help</span>
+<div class="right"><span>⌁</span><span>▮▮</span><span id="time"></span></div>
+</div>
+
+<div class="desktop-icons">
+<div class="desktop-icon" data-open="window"><div class="ico">💻</div>Mac</div>
+<div class="desktop-icon" data-folder="Downloads"><div class="ico">📁</div>Downloads</div>
+<div class="desktop-icon" data-folder="Projects"><div class="ico">📁</div>Projects</div>
+<div class="desktop-icon" id="trashIcon"><div class="ico">🗑️</div>Trash</div>
+</div>
+
+<div class="window" id="window">
+<div class="titlebar" id="titlebar"><div class="traffic"><div class="dot red" id="close"></div><div class="dot yellow" id="min"></div><div class="dot green" id="max"></div></div><div class="title">Finder</div></div>
+<div class="sidebar">
+<div class="sidehead">FAVORITES</div>
+<div class="sideitem active" data-folder="Home">⌂ &nbsp; Home</div>
+<div class="sideitem" data-folder="Desktop">▣ &nbsp; Desktop</div>
+<div class="sideitem" data-folder="Downloads">↓ &nbsp; Downloads</div>
+<div class="sideitem" data-folder="Applications">◉ &nbsp; Applications</div>
+<div class="sidehead">LOCATIONS</div>
+<div class="sideitem" data-folder="Mac">💻 &nbsp; Mac</div>
+</div>
+<div class="content">
+<div style="display:flex;align-items:center"><h1 id="heading">Home</h1><input class="search" id="search" placeholder="Search"></div>
+<div class="toolbar"><button class="btn" id="back">← Back</button><button class="btn" id="newFolder">New Folder</button><button class="btn" id="info">Get Info</button></div>
+<div class="cards" id="cards"></div>
+</div>
+</div>
+
+<div class="dock">
+<div class="app finder" data-app="Finder">📁</div><div class="app safari" data-app="Safari">🧭</div><div class="app" data-app="Messages">💬</div><div class="app music" data-app="Music">♫</div><div class="app" data-app="Settings">⚙️</div><div class="app" data-app="Notes">📝</div><div class="app trash" data-app="Trash">🗑️</div>
+</div>
+<div class="context" id="context"><div id="newDesktopFolder">New Folder</div><div id="getDesktopInfo">Get Info</div><div id="wallpaper">Change Wallpaper</div><div id="refresh">Refresh</div></div>
+<div class="appmenu" id="appmenu"></div>
+<div class="alert" id="alert"><div id="alertText"></div><button id="alertClose">OK</button></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+let fs={
+Home:[{n:'Documents',t:'f',i:'📁',s:'24MB'},{n:'Downloads',t:'f',i:'📁',s:'1.2GB'},{n:'Projects',t:'f',i:'📁',s:'450MB'},{n:'Notes.txt',t:'i',i:'📝',s:'4KB'}],
+Desktop:[{n:'Mac',t:'f',i:'💻'},{n:'Downloads',t:'f',i:'📁'},{n:'Projects',t:'f',i:'📁'}],
+Downloads:[{n:'Setup.dmg',t:'i',i:'📦',s:'84MB'},{n:'Wallpaper.jpg',t:'i',i:'🖼️',s:'4MB'}],
+Projects:[{n:'Web-App',t:'f',i:'📁',s:'12MB'},{n:'Design-Assets',t:'f',i:'📁',s:'438MB'}],
+Applications:[{n:'Finder',t:'a',i:'📁'},{n:'Safari',t:'a',i:'🧭'},{n:'Music',t:'a',i:'♫'},{n:'Settings',t:'a',i:'⚙️'},{n:'Notes',t:'a',i:'📝'}],
+Mac:[{n:'Macintosh HD',t:'f',i:'💽',s:'240GB free'}],Trash:[]
+},cf='Home',hist=['Home'],app='Finder',wp=['radial-gradient(circle at 20% 30%,#2c3e50,#0f2027)','radial-gradient(circle at 50% 50%,#1a1c29,#0d0e15)','radial-gradient(circle at 80% 20%,#4a00e0,#8e2de2)'],wpidx=0,max=0,min=0,drag=0,sx,sy,il,it;
