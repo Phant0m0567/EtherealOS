@@ -7,7 +7,7 @@
 
 ## Links
 
--https://ethereal-os.pages.dev
+- https://ethereal-os.pages.dev/
 
 ---
 
