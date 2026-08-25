@@ -6,21 +6,47 @@
 <title>EtherealOS</title>
 <style>
   :root {
-    /* ui colors*/
+    /* ui colors darkmode*/
     --primary-color-darkmode: #313338 ;
     --secondary-color-darkmode: #2b2d31; 
 
+     /* ui colors lightmode */
+    --primary-color-lightmode: #f2f3f5 ;
+    --secondary-color-lightmode: #e3e5e8; 
 
+    /* text colors darkmode*/
+    --primary-text-color-darkmode: #111214;   
+    --secondary-text-color-darkmode: #4e5058; 
 
-    /* text colors*/
-    --primary-text-color-darkmode: #f2f3f5;   
-    --secondary-text-color-darkmode: #b5bac1; 
+    /* text colors lightmode */
   }
   body {
     background: var(--primary-color-darkmode);
     color: var(--primary-text-color-darkmode);
     font-family: sans-serif;
   }
+  h1 { font-size:2.2rem; margin-bottom:40px; font-weight:500; }
+  h1 span { color:#536be3; }
+   h2 { font-size:1.65rem; font-weight:400; margin-bottom:12px; }
+  p { font-size:0.88rem; color:#79808d; margin-bottom:44px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:14px; max-width:960px; margin:0 auto; }
+   a { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); border-radius:12px; padding:44px 12px; color:#8c93a0; text-decoration:none; font-size:0.85rem; transition:0.15s; }
+  a:hover { background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.08); }
 </style>
 </head>
+<body>
+  <div class="logo"></div>
+  <h1>Ethereal <span>OS</span></h1>
+  <h2>Choose your primary operating system</h2>
+   <p>You can always change this later in settings.</p>
+       <div class="grid">
+        <a href="#">Windows</a>
+        <a href="#">macOS</a>
+        <a href="#">Linux</a>
+        <a href="#">Ubuntu</a>
+        <a href="#">Fedora</a>
+        <a href="#">Arch Linux</a>
+    </div>
+</body>
+</html>
 </html>
