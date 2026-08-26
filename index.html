@@ -46,12 +46,13 @@
      user-select: none;
   }
   h1 span {
-     font-weight: 700;
-    background: linear-gradient(45deg, #7c4dff 0%, #3d0190 100%);
-     background-position: 0% 50%;
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: transparent;
-     background-clip: text;
+    font-weight: 700;
+    background-image: linear-gradient(45deg, #7c4dff, #3d0190, #7c4dff, #3d0190);
+    background-size: 300% 300%;
+    background-image: linear-gradient(45deg, #7c4dff, #3d0190, #7c4dff, #3d0190);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     animation: gradientMove 1.5s linear infinite;
     filter: drop-shadow(0 0 12px rgba(124, 77, 255, 0.6));
   }
