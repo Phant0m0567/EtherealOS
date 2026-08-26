@@ -46,7 +46,15 @@
      user-select: none;
   }
   h1 span {
-     color:#536be3; 
+     font-weight: 700;
+     /* gradient code*/
+     background: linear-gradient(135deg, #7c4dff 0%, #536be3 25%, #25184b 50%, #536be3 75%, #7c4dff 100%);
+     background-size: 400% 100%; 
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+    filter: drop-shadow(0 0 15px rgba(83, 107, 227, 0.6));
+     animation: gradientMove 4s ease-in-out infinite;
   }
   h2 { 
     font-size:1.65rem; 
@@ -101,7 +109,7 @@
    </div>
        <div class="grid">
         <a href="#">Windows</a>
-        <a href="./macos.html">MacOS</a>
+        <a href="#">MacOS</a>
         <a href="#">Linux</a>
         <a href="#">Ubuntu</a>
         <a href="#">Fedora</a>
