@@ -47,13 +47,13 @@
   }
   h1 span {
     font-weight: 700;
-    background-position: 200% 0%;
-    background-size: 300% 300%;
-    background-image: linear-gradient(45deg, #7c4dff, #3d0190, #7c4dff, #3d0190);
+    background-size: 200% 100%;
+    background-position: 0% 0%;
+    background-image: linear-gradient(135deg, #7c4dff, #3d0190, #7c4dff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradientMove 4s linear infinite;
+    animation: gradientMove 6s linear infinite;
     filter: drop-shadow(0 0 12px rgba(124, 77, 255, 0.6));
   }
   h2 { 
@@ -101,15 +101,13 @@
 
   
   @keyframes gradientMove {
-    0% { 
-      background-position: 200% 0%; 
+    0% {
+      background-position: 200% 0%;
     }
-    100% { 
-      background-position: 0% 200%;
+    100% {
+      background-position: 0% 0%;
     }
   }
-
-
 
 </style>
 </head>
