@@ -47,13 +47,11 @@
   }
   h1 span {
      font-weight: 700;
-     /* gradient code*/
-     background: linear-gradient(135deg, #7c4dff 0%, #536be3 25%, #25184b 50%, #536be3 75%, #7c4dff 100%);
-     background-size: 400% 100%; 
+    background-size: 300% 300%;
+     background: linear-gradient(45deg, #512da8 0%, #4a148c 100%);
      -webkit-background-clip: text;
      -webkit-text-fill-color: transparent;
      background-clip: text;
-    filter: drop-shadow(0 0 15px rgba(83, 107, 227, 0.6));
      animation: gradientMove 4s ease-in-out infinite;
   }
   h2 { 
@@ -98,6 +96,18 @@
     user-select: none;
     -webkit-user-drag: none;
   }
+
+  @keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 </style>
 </head>
 <body>
