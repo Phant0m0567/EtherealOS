@@ -45,11 +45,11 @@
      margin-top: -16px;
      user-select: none;
   }
-  h1 span {
+    h1 span {
     font-weight: 700;
-    background-size: 200% 100%;
+    background-size: 200% 200%;
     background-position: 0% 0%;
-    background-image: repeating-linear-gradient(135deg, #7c4dff, #3d0190, #7c4dff);
+    background-image: repeating-linear-gradient(135deg, #7c4dff 0%, #3d0190 25%, #7c4dff 50%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -102,10 +102,10 @@
   
     @keyframes gradientMove {
     0% {
-      background-position: 200% 0%;
+      background-position: 0% 0%;
     }
     100% {
-      background-position: 0% 0%;
+      background-position: 100% 100%;
     }
   }
 </style>
