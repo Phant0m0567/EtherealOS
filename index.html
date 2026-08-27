@@ -82,12 +82,17 @@
      background:rgba(255,255,255,0.02);
      border:1px solid rgba(255,255,255,0.04);
      border-radius:12px;
-     padding:44px 12px; 
+     padding: 24px 12px;
      color:#8c93a0;
      text-decoration:none;
      text-align: center;
      font-size:1rem;
      transition:0.15s;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     gap: 12px;
   }
   
   a:hover {
@@ -95,13 +100,24 @@
      border-color:rgba(255,255,255,0.08); 
   }
 
+  a:hover .os-logo {
+    opacity: 1;
+  }
   .logo-image {
     width: clamp(160px, 25vw, 300px); 
     height: auto; 
     user-select: none;
     -webkit-user-drag: none;
   }
-
+  .os-icon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain; 
+    user-select: none;
+    -webkit-user-drag: none;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
   
    @keyframes gradientMove {
   0% {
@@ -120,13 +136,13 @@
   <h2>Choose your primary operating system</h2>
    <p>You can always change this later in settings.</p>
    </div>
-       <div class="grid">
-        <a href="#">Windows</a>
-        <a href="#">MacOS</a>
-        <a href="#">Linux</a>
-        <a href="#">Ubuntu</a>
-        <a href="#">Fedora</a>
-        <a href="#">Arch Linux</a>
+         <div class="grid">
+        <a href="#"><img src="./images/windows.png" class="os-icon" alt="">Windows</a>
+        <a href="#"><img src="./images/macos.png" class="os-icon" alt="">MacOS</a>
+        <a href="#"><img src="./images/linux.png" class="os-icon" alt="">Linux</a>
+        <a href="#"><img src="./images/ubuntu.png" class="os-icon" alt="">Ubuntu</a>
+        <a href="#"><img src="./images/fedora.png" class="os-icon" alt="">Fedora</a>
+        <a href="#"><img src="./images/arch.png" class="os-icon" alt="">Arch Linux</a>
     </div>
 </body>
 </html>
