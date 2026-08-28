@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ubuntu 24.04 LTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Ubuntu',sans-serif;user-select:none}
+body{background:#2c001e}
+#desktop{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,#772953 0%,#4b1533 40%,#2c001e 100%);overflow:hidden}
+#desktop::after{content:'';position:absolute;inset:0;background:
+ radial-gradient(circle at 70% 75%, rgba(233,84,32,.35), transparent 45%),
+ radial-gradient(circle at 20% 80%, rgba(119,41,83,.6), transparent 50%);pointer-events:none}
+
+#dock{position:absolute;left:0;top:28px;bottom:0;width:68px;background:rgba(29,10,23,.75);backdrop-filter:blur(12px);z-index:9000;display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:10px;border-right:1px solid rgba(255,255,255,.08)}
+.dock-icon{width:50px;height:50px;flex:0 0 50px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:.15s;background:rgba(255,255,255,.08)}
+.dock-icon:hover{background:rgba(255,255,255,.18);transform:scale(1.06)}
+.dock-icon svg{width:32px;height:32px}
+.dock-icon{font-size:28px;color:#fff}
+.dock-icon.active::before{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:3px;height:22px;border-radius:2px;background:#e95420}
+.dock-icon .tip{position:absolute;left:62px;background:#1d0a17;color:#fff;padding:5px 10px;border-radius:6px;font-size:12px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;border:1px solid rgba(255,255,255,.15)}
+.dock-icon:hover .tip{opacity:1}
+
+#topbar{position:absolute;left:0;right:0;top:0;height:28px;background:rgba(20,7,16,.9);backdrop-filter:blur(10px);z-index:9500;display:flex;align-items:center;justify-content:center;padding:0 14px;color:#fff;font-size:13px}
+#topbar #activities{position:absolute;left:14px;font-weight:500}
+
+.win{position:absolute;background:#faf9f8;border-radius:10px;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.35);display:flex;flex-direction:column;min-width:340px;min-height:220px}
+.win.max{border-radius:0}
+.titlebar{height:38px;background:linear-gradient(#3c3b37,#302f2b);display:flex;align-items:center;padding:0 10px;color:#fff;font-size:13px;font-weight:500;cursor:move;flex:0 0 auto;gap:8px}
+.titlebar .ttl{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wbtn{width:22px;height:22px;border-radius:50%;background:#4d4b46;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1}
+.wbtn:hover{background:#5d5b56}
+.wbtn.close:hover{background:#e95420}
+.wbody{flex:1;overflow:hidden;position:relative;display:flex}
+.resizer{position:absolute;right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize;z-index:20}
+
+.fm-side{width:180px;flex:0 0 180px;background:#f2f1f0;border-right:1px solid #dcdad5;padding:10px 6px;overflow:auto;font-size:13.5px}
+.fm-side div{padding:6px 10px;border-radius:6px;cursor:pointer;display:flex;gap:8px;align-items:center;color:#3d3d3d}
+.fm-side div:hover{background:#e4e2e0}
+.fm-main{flex:1;min-width:0;display:flex;flex-direction:column;background:#fff}
+.fm-path{min-height:40px;flex:0 0 auto;border-bottom:1px solid #dcdad5;display:flex;align-items:center;gap:6px;padding:0 10px;background:#f7f6f5;overflow:hidden}
+.crumbs{display:flex;gap:4px;overflow:hidden;flex-wrap:nowrap}
+.crumb{white-space:nowrap;flex:0 0 auto}
+.fm-path .stat-sp{flex:1 1 auto;min-width:6px}
+.crumb{background:#e7e5e2;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12.5px}
+.crumb:hover{background:#d9d6d2}
+.fm-grid{flex:1;overflow:auto;padding:14px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:6px}
+.fitem{width:98px;padding:8px 4px;border-radius:8px;text-align:center;cursor:pointer;font-size:12px;color:#2b2b2b;word-break:break-word}
+.fitem:hover{background:#eceae8}
+.fitem.sel{background:#d4e9f7}
+.fitem .ic{font-size:38px;line-height:1.1}
+
+.term{flex:1;min-width:0;background:#300a24;color:#eee;font-family:'Ubuntu Mono',monospace;font-size:14.5px;padding:8px 10px;overflow-y:auto;overflow-x:hidden;line-height:1.35;white-space:pre-wrap;word-break:break-word;user-select:text}
+.tline{display:flex;flex-wrap:wrap}
+.tline .ps{white-space:pre}
+.np{flex:1;min-width:0;display:flex;flex-direction:column}
+.np-bar{flex:0 0 36px}
+.term b{color:#8ae234}
+.term i{color:#729fcf;font-style:normal}
+.tin{background:transparent;border:none;outline:none;color:#eee;font-family:inherit;font-size:inherit;flex:1}
+.tline{display:flex}
+
+.np{flex:1;display:flex;flex-direction:column}
+.np-bar{height:36px;background:#f2f1f0;border-bottom:1px solid #dcdad5;display:flex;align-items:center;gap:6px;padding:0 8px}
+.np-bar button{font-family:inherit;font-size:12.5px;padding:4px 12px;border:1px solid #cfcdc9;background:#fff;border-radius:6px;cursor:pointer}
+.np-bar button:hover{background:#eceae8}
+.np textarea{flex:1;border:none;outline:none;resize:none;padding:14px;font-family:'Ubuntu Mono',monospace;font-size:14.5px;line-height:1.5;user-select:text}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:#b5b1ab;border-radius:5px}
+</style>
+</head>
+<body>
+<div id="desktop">
+  <div id="topbar">
+    <span id="activities">Activities</span>
+    <span id="clock"></span>
+  </div>
+  <div id="dock">
+    <div class="dock-icon" data-app="files" onclick="launch('files')">📁<span class="tip">Files</span></div>
+    <div class="dock-icon" data-app="term" onclick="launch('term')">
+      <svg viewBox="0 0 32 32"><rect x="1" y="3" width="30" height="26" rx="4" fill="#300a24"/><text x="6" y="21" fill="#8ae234" font-family="monospace" font-size="13">&gt;_</text></svg>
+      <span class="tip">Terminal</span></div>
+    <div class="dock-icon" data-app="note" onclick="launch('note')">📝<span class="tip">Text Editor</span></div>
+  </div>
+</div>
+<script>
+
+const USER='ubuntu', HOST='ubuntu-vm';
+function dir(children){return {type:'dir',children:children||{}}}
+function file(c){return {type:'file',content:c}}
+let FS = dir({
+  bin:dir({}), etc:dir({
+    hostname:file(HOST+'\n'),
+    'os-release':file('NAME="Ubuntu"\nVERSION="24.04 LTS (Noble Numbat)"\nID=ubuntu\nPRETTY_NAME="Ubuntu 24.04 LTS"\n'),
+    passwd:file('root:x:0:0:root:/root:/bin/bash\nubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash\n')
+  }),
+  var:dir({log:dir({'syslog':file('Jan  1 00:00:01 ubuntu-vm systemd[1]: Started Ubuntu Web Session.\n')})}),
+  usr:dir({bin:dir({}),share:dir({})}),
+  tmp:dir({}),
+  root:dir({}),
+  home:dir({ubuntu:dir({
+    Desktop:dir({}),
+    Documents:dir({'welcome.txt':file('Welcome to Ubuntu 24.04 LTS!\n\nThis desktop has three apps: Files, Terminal and Text Editor.\nEverything shares one virtual filesystem.\n'),
+      'notes.md':file('# Notes\n- Try `ls -la` in the terminal\n- Try `nano newfile.txt`\n')}),
+    Downloads:dir({}), Pictures:dir({}), Music:dir({}), Videos:dir({}),
+    '.bashrc':file('# ~/.bashrc\nexport PS1="\\u@\\h:\\w$ "\nalias ll="ls -alF"\n')
+  })})
+});
+const HOME='/home/ubuntu';
+function norm(p){
+  const abs=p.startsWith('/'); const parts=p.split('/'); const out=[];
+  for(const s of parts){ if(s===''||s==='.')continue; if(s==='..'){out.pop();continue;} out.push(s); }
+  return (abs?'/':'')+out.join('/');
+}
+function resolve(cwd,p){
+  if(!p)return cwd;
+  p=p.replace(/^~(?=$|\/)/,HOME);
+  let full = p.startsWith('/')? p : (cwd==='/'?'/':cwd+'/')+p;
+  let n=norm(full); return n===''?'/':n;
+}
+function getNode(path){
+  path=norm(path); if(path==='/')return FS;
+  let cur=FS;
+  for(const s of path.split('/').filter(Boolean)){
+    if(!cur||cur.type!=='dir'||!cur.children[s])return null;
+    cur=cur.children[s];
+  }
+  return cur;
+}
+function parentOf(path){const n=norm(path);const i=n.lastIndexOf('/');return [i<=0?'/':n.slice(0,i), n.slice(i+1)];}
+function mkNode(path,node){
+  const [p,name]=parentOf(path); const par=getNode(p);
+  if(!par||par.type!=='dir')return 'no such directory: '+p;
+  par.children[name]=node; return null;
+}
+function rmNode(path){const [p,name]=parentOf(path);const par=getNode(p);if(par&&par.children[name]){delete par.children[name];return true}return false}
+function displayPath(p){return p.startsWith(HOME)? '~'+p.slice(HOME.length) : p}
+
+
+let z=100, wins={}, wid=0;
+function createWindow(title,icon,w,h,builder,appKey){
+  const id='w'+(++wid);
+  const el=document.createElement('div');
+  el.className='win'; el.id=id;
+  const availW=window.innerWidth-68, availH=window.innerHeight-28;
+  w=Math.min(w,availW-20); h=Math.min(h,availH-20);
+  const ox=Math.max(78,Math.min(88+(wid%6)*28, window.innerWidth-w-10));
+  const oy=Math.max(38,Math.min(46+(wid%6)*26, window.innerHeight-h-10));
+  el.style.cssText=`left:${ox}px;top:${oy}px;width:${w}px;height:${h}px;z-index:${++z}`;
+  el.innerHTML=`<div class="titlebar"><span>${icon}</span><span class="ttl">${title}</span>
+    <button class="wbtn min">–</button><button class="wbtn max">▢</button><button class="wbtn close">✕</button></div>
+    <div class="wbody"></div><div class="resizer"></div>`;
+  document.getElementById('desktop').appendChild(el);
+  const body=el.querySelector('.wbody');
+  el.onmousedown=()=>{el.style.zIndex=++z};
+  const tb=el.querySelector('.titlebar');
+  tb.onmousedown=e=>{
+    if(e.target.tagName==='BUTTON')return;
+    const sx=e.clientX-el.offsetLeft, sy=e.clientY-el.offsetTop;
+    const mv=ev=>{el.style.left=Math.max(68,ev.clientX-sx)+'px';el.style.top=Math.max(28,ev.clientY-sy)+'px'};
+    const up=()=>{document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up)};
+    document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);
+  };
+  tb.ondblclick=e=>{if(e.target.tagName!=='BUTTON')toggleMax()};
+  const rz=el.querySelector('.resizer');
+  rz.onmousedown=e=>{e.stopPropagation();
+    const sw=el.offsetWidth,sh=el.offsetHeight,sx=e.clientX,sy=e.clientY;
+    const mv=ev=>{el.style.width=Math.max(340,sw+ev.clientX-sx)+'px';el.style.height=Math.max(220,sh+ev.clientY-sy)+'px'};
+    const up=()=>{document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up)};
+    document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);
+  };
+  let prev=null;
+  function toggleMax(){
+    if(prev){el.style.cssText=prev+';z-index:'+(++z);el.classList.remove('max');prev=null;}
+    else{prev=`left:${el.offsetLeft}px;top:${el.offsetTop}px;width:${el.offsetWidth}px;height:${el.offsetHeight}px`;
+      el.classList.add('max');el.style.cssText=`left:68px;top:28px;width:calc(100% - 68px);height:calc(100% - 28px);z-index:${++z}`;}
+  }
+  el.querySelector('.max').onclick=toggleMax;
+  el.querySelector('.min').onclick=()=>{el.style.display='none';setTimeout(()=>{el.style.display='flex'},1200)};
+  el.querySelector('.close').onclick=()=>{el.remove();delete wins[id];refreshDock()};
+  wins[id]={el,app:appKey};
+  builder(body,{setTitle:t=>el.querySelector('.ttl').textContent=t, el});
+  refreshDock();
+  return el;
+}
+function refreshDock(){
+  const live=new Set(Object.values(wins).map(w=>w.app));
+  document.querySelectorAll('.dock-icon').forEach(d=>d.classList.toggle('active',live.has(d.dataset.app)));
+}
+function launch(app,arg){
+  if(app==='files')return openFiles(arg||HOME);
+  if(app==='term')return openTerm(arg||HOME);
+  if(app==='note')return openNote(arg);
+}
+
+
+const ICONS={dir:'📁',txt:'📄',md:'📝',sh:'⚙️',png:'🖼️',jpg:'🖼️',mp3:'🎵',mp4:'🎬',def:'📃'};
+function iconFor(name,node){
+  if(node.type==='dir')return '📁';
+  const e=name.split('.').pop().toLowerCase();
+  return ICONS[e]||ICONS.def;
+}
+function openFiles(start){
+  createWindow('Files','📁',780,500,(body,api)=>{
+    body.innerHTML=`<div class="fm-side"></div><div class="fm-main">
+      <div class="fm-path"><button class="crumb" id="up">↑</button><div class="crumbs"></div>
+      <div class="stat-sp"></div>
+      <button class="crumb nf">New Folder</button><button class="crumb nfl">New File</button><button class="crumb del">Delete</button></div>
+      <div class="fm-grid"></div>
+      <div style="height:24px;border-top:1px solid #dcdad5;background:#f7f6f5;font-size:11.5px;color:#666;display:flex;align-items:center;padding:0 10px" class="stat"></div></div>`;
+    let cwd=start, sel=null;
+    const side=body.querySelector('.fm-side'), grid=body.querySelector('.fm-grid'),
+          crumbs=body.querySelector('.crumbs'), stat=body.querySelector('.stat');
+    const places=[['🏠','Home',HOME],['🖥️','Desktop',HOME+'/Desktop'],['📄','Documents',HOME+'/Documents'],['⬇️','Downloads',HOME+'/Downloads'],['🖼️','Pictures',HOME+'/Pictures'],['🎵','Music',HOME+'/Music'],['🎬','Videos',HOME+'/Videos'],['💽','Computer','/']];
+    side.innerHTML=places.map(p=>`<div data-p="${p[2]}"><span>${p[0]}</span>${p[1]}</div>`).join('');
+    side.onclick=e=>{const d=e.target.closest('[data-p]');if(d)go(d.dataset.p)};
+    body.querySelector('#up').onclick=()=>go(parentOf(cwd)[0]);
+    body.querySelector('.nf').onclick=()=>{const n=prompt('Folder name:','New Folder');if(n){mkNode(resolve(cwd,n),dir());render()}};
+    body.querySelector('.nfl').onclick=()=>{const n=prompt('File name:','untitled.txt');if(n){mkNode(resolve(cwd,n),file(''));render()}};
+    body.querySelector('.del').onclick=()=>{if(sel&&confirm('Delete "'+sel+'"?')){rmNode(resolve(cwd,sel));sel=null;render()}};
+    function go(p){const n=getNode(p);if(n&&n.type==='dir'){cwd=p;sel=null;render()}}
+    function render(){
+      api.setTitle(cwd===HOME?'Home':(cwd.split('/').pop()||'/'));
+      const parts=cwd.split('/').filter(Boolean);
+      let acc=''; let list=[['/','/']];
+      parts.forEach(p=>{acc+='/'+p;list.push([p,acc])});
+      crumbs.innerHTML=list.map(l=>`<button class="crumb" data-p="${l[1]}">${l[0]}</button>`).join('');
+      crumbs.onclick=e=>{const b=e.target.closest('[data-p]');if(b)go(b.dataset.p)};
+      const node=getNode(cwd); const names=Object.keys(node.children).sort((a,b)=>{
+        const A=node.children[a].type==='dir',B=node.children[b].type==='dir';
+        return A!==B?(A?-1:1):a.localeCompare(b)});
+      const vis=names.filter(n=>!n.startsWith('.'));
+      grid.innerHTML=vis.map(n=>`<div class="fitem${sel===n?' sel':''}" data-n="${n}"><div class="ic">${iconFor(n,node.children[n])}</div>${n}</div>`).join('')
+        || '<div style="color:#999;padding:20px">Folder is empty</div>';
+      stat.textContent=vis.length+' items'+(sel?'  •  "'+sel+'" selected':'');
+      grid.querySelectorAll('.fitem').forEach(it=>{
+        it.onclick=()=>{sel=it.dataset.n;render()};
+        it.ondblclick=()=>{
+          const n=it.dataset.n, nd=getNode(resolve(cwd,n));
+          if(nd.type==='dir')go(resolve(cwd,n)); else openNote(resolve(cwd,n));
+        };
+      });
+    }
+    render();
+  },'files');
+}
+
+
+function openNote(path){
+  createWindow(path?path.split('/').pop():'Untitled Document','📝',660,470,(body,api)=>{
+    body.innerHTML=`<div class="np"><div class="np-bar">
+      <button class="op">Open</button><button class="sv">Save</button><button class="sa">Save As</button>
+      <span style="flex:1"></span><span class="pth" style="font-size:11.5px;color:#777"></span></div>
+      <textarea spellcheck="false"></textarea></div>`;
+    const ta=body.querySelector('textarea'), pth=body.querySelector('.pth');
+    let cur=path||null, dirty=false;
+    if(cur){const n=getNode(cur); ta.value=n&&n.type==='file'?n.content:''}
+    function upd(){pth.textContent=cur?displayPath(cur)+(dirty?' *':''):'unsaved'; api.setTitle((cur?cur.split('/').pop():'Untitled Document')+(dirty?' *':''))}
+    upd();
+    ta.oninput=()=>{dirty=true;upd()};
+    body.querySelector('.op').onclick=()=>{
+      const p=prompt('Open file path:',cur||HOME+'/Documents/welcome.txt'); if(!p)return;
+      const rp=resolve(HOME,p), n=getNode(rp);
+      if(!n||n.type!=='file'){alert('File not found: '+rp);return}
+      cur=rp; ta.value=n.content; dirty=false; upd();
+    };
+    function save(as){
+      let p=cur;
+      if(as||!p){p=prompt('Save as (path):',cur||HOME+'/Documents/untitled.txt'); if(!p)return; p=resolve(HOME,p)}
+      const err=mkNode(p,file(ta.value)); if(err){alert(err);return}
+      cur=p; dirty=false; upd();
+    }
+    body.querySelector('.sv').onclick=()=>save(false);
+    body.querySelector('.sa').onclick=()=>save(true);
+    ta.onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();save(false)}
+      if(e.key==='Tab'){e.preventDefault();const s=ta.selectionStart;ta.value=ta.value.slice(0,s)+'  '+ta.value.slice(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+2}};
+    setTimeout(()=>ta.focus(),50);
+  },'note');
+}
+
+
+const BOOT=new Date();
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function openTerm(startDir){
+  createWindow(USER+'@'+HOST+': ~','&gt;_',740,450,(body,api)=>{
+    body.innerHTML=`<div class="term"><div class="out"></div><div class="tline"><span class="ps"></span><input class="tin" spellcheck="false" autocomplete="off"></div></div>`;
+    const term=body.querySelector('.term'), out=body.querySelector('.out'),
+          ps=body.querySelector('.ps'), inp=body.querySelector('.tin');
+    let cwd=startDir||HOME, hist=[], hi=0, vars={USER,HOME,SHELL:'/bin/bash',PATH:'/usr/local/bin:/usr/bin:/bin'};
+    let nano=null;
+    function prompt_(){return `<b>${USER}@${HOST}</b>:<i>${displayPath(cwd)}</i>$ `}
+    function setPS(){ps.innerHTML=nano?'':prompt_()}
+    function echo(html){const d=document.createElement('div');d.innerHTML=html;out.appendChild(d);term.scrollTop=term.scrollHeight}
+    api.setTitle(USER+'@'+HOST+': '+displayPath(cwd));
+    echo(`Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-web x86_64)\n\n * Documentation:  https://help.ubuntu.com\n * Management:     https://landscape.canonical.com\n\nType <b>help</b> for a list of available commands.\n`);
+    setPS();
+    term.onclick=()=>{if(window.getSelection().toString()==='')inp.focus()};
+    setTimeout(()=>inp.focus(),60);
+
+   
+    function lsList(path){const n=getNode(path);return n&&n.type==='dir'?Object.keys(n.children).sort():[]}
+    function sizeOf(n){return n.type==='dir'?4096:new Blob([n.content]).size}
+    function fmtDate(){return BOOT.toLocaleString('en-US',{month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})}
+    function perms(n){return (n.type==='dir'?'drwxr-xr-x':'-rw-r--r--')}
+    function colored(name,n){return n.type==='dir'?`<b style="color:#729fcf">${esc(name)}</b>`:esc(name)}
+
+    const CMDS={
+      help:()=>['Available commands:','',
+        'ls cd pwd mkdir rmdir touch cat rm cp mv echo clear','head tail wc grep find tree stat file du df',
+        'nano vi edit open xdg-open nautilus','whoami hostname uname date uptime id env export history',
+        'man which apt sudo ps top free neofetch cal sleep exit','',
+        'Tip: Tab completes paths, ↑/↓ browse history, Ctrl+L clears.'].join('\n'),
+      pwd:()=>cwd,
+      whoami:()=>USER, hostname:()=>HOST, id:()=>`uid=1000(${USER}) gid=1000(${USER}) groups=1000(${USER}),27(sudo)`,
+      date:()=>new Date().toString(),
+      uptime:()=>{const s=Math.floor((Date.now()-BOOT)/1000);return ` ${new Date().toTimeString().slice(0,8)} up ${Math.floor(s/60)} min,  1 user,  load average: 0.08, 0.03, 0.01`},
+      uname:a=>a.includes('-a')?`Linux ${HOST} 6.8.0-web #1 SMP x86_64 GNU/Linux`:'Linux',
+      env:()=>Object.entries(vars).map(([k,v])=>k+'='+v).join('\n'),
+      clear:()=>{out.innerHTML='';return null},
+      echo:a=>a.join(' ').replace(/\$(\w+)/g,(m,k)=>vars[k]!==undefined?vars[k]:'').replace(/^["']|["']$/g,''),
+      ls:a=>{
+        const flags=a.filter(x=>x.startsWith('-')).join('');
+        const targets=a.filter(x=>!x.startsWith('-'));
+        const all=flags.includes('a'), long=flags.includes('l');
+        const one=(t)=>{
+          const p=resolve(cwd,t||'.'), n=getNode(p);
+          if(!n)return `ls: cannot access '${t}': No such file or directory`;
+          if(n.type==='file')return t;
+          let names=Object.keys(n.children).sort();
+          if(all)names=['.','..'].concat(names); else names=names.filter(x=>!x.startsWith('.'));
+          if(!names.length)return '';
+          if(long){
+            const rows=names.map(nm=>{
+              const c=(nm==='.'||nm==='..')?{type:'dir',children:{}}:n.children[nm];
+              return `${perms(c)} 1 ${USER} ${USER} ${String(sizeOf(c)).padStart(6)} ${fmtDate()} ${colored(nm,c)}`});
+            return `total ${names.length*4}\n`+rows.join('\n');
+          }
+          return names.map(nm=>colored(nm,(nm==='.'||nm==='..')?{type:'dir'}:n.children[nm])).join('   ');
+        };
+        if(targets.length<2)return one(targets[0]);
+        return targets.map(t=>`${t}:\n`+one(t)).join('\n\n');
+      },
+      cd:a=>{
+        const p=resolve(cwd,a[0]||HOME), n=getNode(p);
+        if(!n)return `bash: cd: ${a[0]}: No such file or directory`;
+        if(n.type!=='dir')return `bash: cd: ${a[0]}: Not a directory`;
+        cwd=p; api.setTitle(USER+'@'+HOST+': '+displayPath(cwd)); return null;
+      },
+      mkdir:a=>{
+        const rec=a.includes('-p'), t=a.filter(x=>!x.startsWith('-'));
+        if(!t.length)return 'mkdir: missing operand';
+        for(const x of t){
+          const p=resolve(cwd,x);
+          if(getNode(p))return `mkdir: cannot create directory '${x}': File exists`;
+          if(rec){let acc='';for(const s of p.split('/').filter(Boolean)){acc+='/'+s;if(!getNode(acc))mkNode(acc,dir())}}
+          else{const e=mkNode(p,dir());if(e)return `mkdir: cannot create directory '${x}': No such file or directory`}
+        } return null;
+      },
+      rmdir:a=>{for(const x of a){const p=resolve(cwd,x),n=getNode(p);
+        if(!n)return `rmdir: failed to remove '${x}': No such file or directory`;
+        if(n.type!=='dir')return `rmdir: failed to remove '${x}': Not a directory`;
+        if(Object.keys(n.children).length)return `rmdir: failed to remove '${x}': Directory not empty`;
+        rmNode(p)} return null},
+      touch:a=>{for(const x of a){const p=resolve(cwd,x);if(!getNode(p)){const e=mkNode(p,file(''));if(e)return `touch: cannot touch '${x}': No such file or directory`}} return null},
+      cat:a=>{if(!a.length)return 'cat: missing operand';
+        return a.map(x=>{const n=getNode(resolve(cwd,x));
+          if(!n)return `cat: ${x}: No such file or directory`;
+          if(n.type==='dir')return `cat: ${x}: Is a directory`;
+          return esc(n.content.replace(/\n$/,''))}).join('\n')},
+      rm:a=>{const f=a.filter(x=>x.startsWith('-')).join(''), t=a.filter(x=>!x.startsWith('-'));
+        if(!t.length)return 'rm: missing operand';
+        for(const x of t){const p=resolve(cwd,x),n=getNode(p);
+          if(!n){if(!f.includes('f'))return `rm: cannot remove '${x}': No such file or directory`;continue}
+          if(n.type==='dir'&&!(f.includes('r')||f.includes('R')))return `rm: cannot remove '${x}': Is a directory`;
+          rmNode(p)} return null},
+      cp:a=>{const t=a.filter(x=>!x.startsWith('-'));if(t.length<2)return 'cp: missing destination file operand';
+        const src=getNode(resolve(cwd,t[0]));if(!src)return `cp: cannot stat '${t[0]}': No such file or directory`;
+        let d=resolve(cwd,t[1]); const dn=getNode(d);
+        if(dn&&dn.type==='dir')d=resolve(d,t[0].split('/').pop());
+        mkNode(d,JSON.parse(JSON.stringify(src))); return null},
+      mv:a=>{const t=a.filter(x=>!x.startsWith('-'));if(t.length<2)return 'mv: missing destination file operand';
+        const sp=resolve(cwd,t[0]), src=getNode(sp);if(!src)return `mv: cannot stat '${t[0]}': No such file or directory`;
+        let d=resolve(cwd,t[1]); const dn=getNode(d);
+        if(dn&&dn.type==='dir')d=resolve(d,t[0].split('/').pop());
+        mkNode(d,src); rmNode(sp); return null},
+      head:a=>lineCmd(a,true), tail:a=>lineCmd(a,false),
+      wc:a=>{const t=a.filter(x=>!x.startsWith('-'));return t.map(x=>{const n=getNode(resolve(cwd,x));
+        if(!n||n.type!=='file')return `wc: ${x}: No such file`;
+        const c=n.content;return `${c.split('\n').length-1} ${c.split(/\s+/).filter(Boolean).length} ${c.length} ${x}`}).join('\n')},
+      grep:a=>{const t=a.filter(x=>!x.startsWith('-'));const ic=a.some(x=>/^-\w*i/.test(x));
+        if(t.length<2)return 'usage: grep PATTERN FILE...';
+        const re=new RegExp(t[0],ic?'i':'');
+        let res=[];
+        for(const f of t.slice(1)){const n=getNode(resolve(cwd,f));
+          if(!n||n.type!=='file'){res.push(`grep: ${f}: No such file or directory`);continue}
+          n.content.split('\n').forEach(l=>{if(re.test(l))res.push((t.length>2?f+':':'')+esc(l))})}
+        return res.join('\n')},
+      find:a=>{const base=resolve(cwd,a.find(x=>!x.startsWith('-'))||'.');
+        const ni=a.indexOf('-name'); const pat=ni>=0?a[ni+1].replace(/["']/g,''):null;
+        const rx=pat?new RegExp('^'+pat.replace(/[.+^${}()|[\]\\]/g,'\\$&').replace(/\*/g,'.*').replace(/\?/g,'.')+'$'):null;
+        const res=[]; (function walk(p){const n=getNode(p);if(!n)return;
+          const nm=p.split('/').pop()||p; if(!rx||rx.test(nm))res.push(p);
+          if(n.type==='dir')Object.keys(n.children).sort().forEach(c=>walk(p==='/'?'/'+c:p+'/'+c))})(base);
+        return res.length?res.join('\n'):''},
+      tree:a=>{const base=resolve(cwd,a[0]||'.');const n=getNode(base);
+        if(!n)return `tree: ${a[0]}: No such file or directory`;
+        let d=0,fl=0,lines=[displayPath(base)];
+        (function w(p,pre){const nd=getNode(p);const ks=Object.keys(nd.children).filter(k=>!k.startsWith('.')).sort();
+          ks.forEach((k,i)=>{const last=i===ks.length-1,c=nd.children[k];
+            lines.push(pre+(last?'└── ':'├── ')+colored(k,c));
+            if(c.type==='dir'){d++;w(p==='/'?'/'+k:p+'/'+k,pre+(last?'    ':'│   '))}else fl++})})(base,'');
+        return lines.join('\n')+`\n\n${d} directories, ${fl} files`},
+      stat:a=>{const p=resolve(cwd,a[0]||'.'),n=getNode(p);if(!n)return `stat: cannot stat '${a[0]}': No such file or directory`;
+        return `  File: ${p}\n  Size: ${sizeOf(n)}\tBlocks: 8\tIO Block: 4096   ${n.type==='dir'?'directory':'regular file'}\nAccess: (0${n.type==='dir'?'755':'644'}/${perms(n)})  Uid: ( 1000/${USER})   Gid: ( 1000/${USER})\nModify: ${new Date().toISOString()}`},
+      file:a=>{const n=getNode(resolve(cwd,a[0]||'.'));if(!n)return `${a[0]}: cannot open`;
+        return `${a[0]}: ${n.type==='dir'?'directory':'ASCII text'}`},
+      du:()=>{let t=0;(function w(n){if(n.type==='file'){t+=sizeOf(n)}else Object.values(n.children).forEach(w)})(getNode(cwd));return `${Math.ceil(t/1024)}\t.`},
+      df:()=>'Filesystem     1K-blocks    Used Available Use% Mounted on\n/dev/sda1       41152000 8421120  30632448  22% /\ntmpfs            2035200       0   2035200   0% /dev/shm',
+      free:()=>'               total        used        free      shared  buff/cache   available\nMem:         4070400     1284512     1553920      112340     1231968     2478112\nSwap:        2097148           0     2097148',
+      ps:()=>'    PID TTY          TIME CMD\n   1024 pts/0    00:00:00 bash\n   1337 pts/0    00:00:00 ps',
+      top:()=>'top - '+new Date().toTimeString().slice(0,8)+' up 3 min,  1 user,  load average: 0.08\nTasks:  92 total,   1 running,  91 sleeping\n%Cpu(s):  2.3 us,  0.7 sy, 97.0 id\n\n  PID USER      PR  NI  %CPU %MEM COMMAND\n 1024 ubuntu    20   0   1.3  0.4 bash\n 1200 ubuntu    20   0   0.7  2.1 gnome-shell',
+      which:a=>a[0]&&['ls','cd','cat','bash','nano','grep','find'].includes(a[0])?'/usr/bin/'+a[0]:`which: no ${a[0]||''} in (${vars.PATH})`,
+      man:a=>a[0]?`${a[0].toUpperCase()}(1)\n\nNAME\n       ${a[0]} - see 'help' for supported builtins\n\nDESCRIPTION\n       Simulated manual page in the Ubuntu Web environment.`:'What manual page do you want?',
+      apt:a=>{if(a[0]==='update')return 'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease\nReading package lists... Done\nAll packages are up to date.';
+        if(a[0]==='install')return `Reading package lists... Done\nBuilding dependency tree... Done\nE: Unable to locate package ${a[1]||''} (sandboxed environment)`;
+        if(a[0]==='list')return 'Listing... Done\nbash/noble,now 5.2.21-2ubuntu4 amd64 [installed]\ncoreutils/noble,now 9.4-3ubuntu6 amd64 [installed]';
+        return 'usage: apt [update|install|list]'},
+      sudo:a=>a.length?run(a.join(' ')):'usage: sudo command',
+      history:()=>hist.map((h,i)=>`  ${i+1}  ${esc(h)}`).join('\n'),
+      export:a=>{a.forEach(x=>{const i=x.indexOf('=');if(i>0)vars[x.slice(0,i)]=x.slice(i+1).replace(/^["']|["']$/g,'')});return null},
+      cal:()=>{const d=new Date(),y=d.getFullYear(),m=d.getMonth();
+        const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
+        let s=`   ${d.toLocaleString('en',{month:'long'})} ${y}\nSu Mo Tu We Th Fr Sa\n`+'   '.repeat(first);
+        for(let i=1;i<=days;i++){s+=String(i).padStart(2)+' ';if((first+i)%7===0)s+='\n'}return s},
+      neofetch:()=>`<b>            .-/+oossssoo+/-.               ${USER}@${HOST}</b>
+        \`:+ssssssssssssssssss+:\`         -----------------
+      -+ssssssssssssssssssyyssss+-       <b>OS:</b> Ubuntu 24.04 LTS x86_64
+    .ossssssssssssssssssd<i>MMMNy</i>sssso.     <b>Kernel:</b> 6.8.0-web
+   /sssssssssss<i>hdmmNNmmyNMMMMh</i>ssssss/    <b>Uptime:</b> ${Math.floor((Date.now()-BOOT)/60000)} mins
+  +sssssssss<i>hm</i>yd<i>MMMMMMMNddddy</i>ssssssss+  <b>Shell:</b> bash 5.2.21
+ /ssssssss<i>hNMMM</i>yh<i>hyyyyhmNMMMNh</i>ssssssss/ <b>DE:</b> GNOME 46
+.ssssssss<i>dMMMNh</i>ssssssssss<i>hNMMMd</i>ssssssss. <b>WM:</b> Mutter
++ssss<i>hhhyNMMNy</i>ssssssssssss<i>yNMMMy</i>sssssss+ <b>Terminal:</b> gnome-terminal
+oss<i>yNMMMNyMMh</i>ssssssssssssss<i>hmmmh</i>ssssssso <b>CPU:</b> WebKit Virtual (8)
+oss<i>yNMMMNyMMh</i>sssssssssssssshmmmhssssssso <b>Memory:</b> 1254MiB / 3975MiB
++ssss<i>hhhyNMMNy</i>ssssssssssss<i>yNMMMy</i>sssssss+
+.ssssssss<i>dMMMNh</i>ssssssssss<i>hNMMMd</i>ssssssss.
+ /ssssssss<i>hNMMM</i>yh<i>hyyyyhdNMMMNh</i>ssssssss/
+  +sssssssss<i>dm</i>yd<i>MMMMMMMMddddy</i>ssssssss+
+   /sssssssssss<i>hdmNNNNmyNMMMMh</i>ssssss/
+    .ossssssssssssssssss<i>dMMMNy</i>sssso.
+      -+sssssssssssssssss<i>yyy</i>ssss+-
+        \`:+ssssssssssssssssss+:\`
+            .-/+oossssoo+/-.`,
+      sleep:()=>null, exit:()=>{api.el.querySelector('.close').click();return null},
+      nano:a=>{if(!a[0])return 'nano: missing filename'; const p=resolve(cwd,a[0]);
+        if(!getNode(p))mkNode(p,file('')); openNote(p); return `Opened ${a[0]} in Text Editor.`},
+      open:a=>CMDS.nano(a), edit:a=>CMDS.nano(a), vi:a=>CMDS.nano(a), vim:a=>CMDS.nano(a),
+      nautilus:a=>{openFiles(resolve(cwd,a[0]||'.'));return null},
+      'xdg-open':a=>{const p=resolve(cwd,a[0]||'.'),n=getNode(p);
+        if(!n)return `xdg-open: ${a[0]}: No such file or directory`;
+        if(n.type==='dir')openFiles(p); else openNote(p); return null}
+    };
+    function lineCmd(a,isHead){
+      let n=10; const ni=a.indexOf('-n'); if(ni>=0)n=parseInt(a[ni+1])||10;
+      const t=a.filter((x,i)=>!x.startsWith('-')&&!(ni>=0&&i===ni+1));
+      return t.map(x=>{const nd=getNode(resolve(cwd,x));
+        if(!nd||nd.type!=='file')return `${isHead?'head':'tail'}: cannot open '${x}'`;
+        const ls=nd.content.replace(/\n$/,'').split('\n');
+        return esc((isHead?ls.slice(0,n):ls.slice(-n)).join('\n'))}).join('\n');
+    }
+    function tokenize(s){const m=s.match(/"[^"]*"|'[^']*'|\S+/g)||[];return m}
+    function run(line){
+      
+      let redir=null, m=line.match(/^(.*?)\s*(>>|>)\s*(\S+)\s*$/);
+      if(m){redir={mode:m[2],path:resolve(cwd,m[3])};line=m[1]}
+      const parts=tokenize(line.trim()); if(!parts.length)return null;
+      const cmd=parts[0], args=parts.slice(1).map(a=>a.replace(/^["']|["']$/g,''));
+      if(!CMDS[cmd])return `${cmd}: command not found`;
+      let res=CMDS[cmd](args);
+      if(redir&&res!==null&&res!==undefined){
+        const ex=getNode(redir.path); const txt=res.replace(/<[^>]+>/g,'')+'\n';
+        mkNode(redir.path,file(redir.mode==='>>'&&ex&&ex.type==='file'?ex.content+txt:txt));
+        return null;
+      }
+      return res;
+    }
+    inp.onkeydown=e=>{
+      if(e.key==='Enter'){
+        const line=inp.value; inp.value='';
+        echo(prompt_()+esc(line));
+        if(line.trim()){hist.push(line);hi=hist.length;
+          const r=run(line);
+          if(r!==null&&r!==undefined&&r!=='')echo(r);
+        }
+        setPS(); term.scrollTop=term.scrollHeight;
+      } else if(e.key==='ArrowUp'){e.preventDefault();if(hi>0){hi--;inp.value=hist[hi]||''}}
+      else if(e.key==='ArrowDown'){e.preventDefault();if(hi<hist.length-1){hi++;inp.value=hist[hi]}else{hi=hist.length;inp.value=''}}
+      else if(e.key==='l'&&e.ctrlKey){e.preventDefault();out.innerHTML=''}
+      else if(e.key==='c'&&e.ctrlKey){echo(prompt_()+esc(inp.value)+'^C');inp.value=''}
+      else if(e.key==='Tab'){
+        e.preventDefault();
+        const v=inp.value, sp=v.lastIndexOf(' '), frag=v.slice(sp+1);
+        if(sp<0){const c=Object.keys(CMDS).filter(k=>k.startsWith(frag));
+          if(c.length===1)inp.value=c[0]+' '; else if(c.length>1)echo(c.join('   '));return}
+        const slash=frag.lastIndexOf('/'), base=slash<0?'':frag.slice(0,slash+1), part=frag.slice(slash+1);
+        const cand=lsList(resolve(cwd,base||'.')).filter(x=>x.startsWith(part));
+        if(cand.length===1){const nd=getNode(resolve(cwd,base+cand[0]));
+          inp.value=v.slice(0,sp+1)+base+cand[0]+(nd&&nd.type==='dir'?'/':' ')}
+        else if(cand.length>1)echo(cand.join('   '));
+      }
+    };
+  },'term');
+}
+
+
+function tick(){const d=new Date();
+  document.getElementById('clock').textContent=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+'  '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}
+tick();setInterval(tick,1000);
+
+setTimeout(()=>{openTerm();},400);
+</script>
+</body>
+</html>
