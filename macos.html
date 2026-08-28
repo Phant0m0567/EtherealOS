@@ -3,79 +3,959 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>macOS Mockup</title>
+<title>macOS Tahoe</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif;color:#fff}
-body{user-select:none}.desktop{position:fixed;inset:0;background:radial-gradient(circle at 20% 30%,#2c3e50,#0f2027),linear-gradient(135deg,#74ebd5,#9face6);overflow:hidden}
-.menu{position:fixed;z-index:1000;top:0;left:0;right:0;height:30px;background:rgba(255,255,255,.1);backdrop-filter:blur(30px);border-bottom:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 20px rgba(255,255,255,.15);display:flex;align-items:center;padding:0 14px;font-size:13px}.menu b{font-size:17px;margin-right:18px}.menu span{margin-right:18px}.right{margin-left:auto;display:flex!important;gap:15px}.right span{margin:0}
-.desktop-icons{position:absolute;top:45px;right:18px;display:flex;flex-direction:column;gap:18px}.desktop-icon{width:70px;text-align:center;color:white;text-shadow:0 2px 5px rgba(0,0,0,.5);font-size:12px;cursor:pointer}.desktop-icon .ico{font-size:38px}
-@keyframes genieClose{
-  0%{transform:translate(var(--tx,-50%),var(--ty,-50%)) scale(1,1);opacity:1;clip-path:inset(0 0 0 0 round 24px)}
-  100%{transform:translate(var(--tx,-50%),calc(var(--ty,-50%) + 42vh)) scale(.05,.02);opacity:0;clip-path:inset(0 40% 0 40% round 24px)}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Arial,sans-serif}
+body{background:#111;color:#fff;user-select:none}
+button,input{font:inherit}
+button{border:0}
+
+svg.glass-svg{
+position:absolute;
+width:0;
+height:0;
 }
-@keyframes genieOpen{
-  0%{transform:translate(var(--tx,-50%),calc(var(--ty,-50%) + 42vh)) scale(.05,.02);opacity:0;clip-path:inset(0 40% 0 40% round 24px)}
-  100%{transform:translate(var(--tx,-50%),var(--ty,-50%)) scale(1,1);opacity:1;clip-path:inset(0 0 0 0 round 24px)}
+
+.desktop{
+position:fixed;
+inset:0;
+background-image:url("https://512pixels.net/downloads/macos-wallpapers-6k/26-Tahoe-Light-6K.png");
+background-size:cover;
+background-position:center;
+overflow:hidden;
 }
-.window.genie-closing{animation:genieClose .4s cubic-bezier(.25,1,.2,1) forwards;pointer-events:none}
-.window.genie-opening{animation:genieOpen .4s cubic-bezier(.25,1,.2,1) forwards}
-.window{position:absolute;width:720px;height:470px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:24px;background:rgba(255,255,255,.08);box-shadow:0 30px 100px rgba(0,0,0,.5),inset 0 1px 32px rgba(255,255,255,.3),inset 0 10px 20px rgba(255,255,255,.15);overflow:hidden;backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.25);min-width:380px;min-height:250px}.window.hidden{display:none}.window.max{left:40px!important;top:42px!important;transform:none!important;width:calc(100vw - 80px)!important;height:calc(100vh - 105px)!important}
-.titlebar{height:48px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 10px rgba(255,255,255,.1);display:flex;align-items:center;padding:0 15px;cursor:default}.traffic{display:flex;gap:8px;z-index:2}.dot{width:12px;height:12px;border-radius:50%;cursor:pointer}.red{background:#ff5f57}.yellow{background:#febc2e}.green{background:#28c840}.title{position:absolute;left:0;right:0;text-align:center;color:rgba(255,255,255,.7);font-size:14px;font-weight:600}
-.sidebar{position:absolute;top:48px;bottom:0;width:185px;background:rgba(255,255,255,.03);border-right:1px solid rgba(255,255,255,.1);padding:15px 10px;overflow:auto}.sidehead{font-size:11px;color:rgba(255,255,255,.4);font-weight:600;padding:7px 12px}.sideitem{padding:8px 12px;border-radius:10px;margin-bottom:3px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer}.sideitem:hover,.sideitem.active{background:rgba(255,255,255,.2);color:#fff;box-shadow:inset 0 1px 8px rgba(255,255,255,.2)}
-.content{position:absolute;left:185px;top:48px;right:0;bottom:0;padding:25px;overflow:auto}.content h1{margin:0 0 20px;font-size:27px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.2)}.toolbar{display:flex;gap:8px;margin-bottom:18px}.btn{border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:7px 12px;background:rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 1px 5px rgba(255,255,255,.1);cursor:pointer}.btn:hover{background:rgba(255,255,255,.25)}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}.card{height:125px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);padding:15px;box-shadow:inset 0 1px 10px rgba(255,255,255,.1),0 4px 15px rgba(0,0,0,.15);cursor:pointer}.card:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}.card .icon{font-size:34px}.card strong{display:block;margin-top:8px;font-size:14px;color:#fff}.card small{color:rgba(255,255,255,.5)}
-.dock{position:fixed;z-index:1100;bottom:12px;left:50%;transform:translateX(-50%);height:70px;padding:9px 13px;border-radius:24px;background:rgba(255,255,255,.08);backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.3);display:flex;gap:10px;box-shadow:0 15px 45px rgba(0,0,0,.4),inset 0 1px 20px rgba(255,255,255,.4),inset 0 5px 10px rgba(255,255,255,.2)}.app{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:27px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 8px rgba(255,255,255,.3),0 4px 10px rgba(0,0,0,.15);cursor:pointer;transition:.2s cubic-bezier(.175,.885,.32,1.275)}.app:hover{transform:translateY(-10px) scale(1.15);background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.4)}
-.context,.appmenu{display:none;position:fixed;z-index:2000;background:rgba(255,255,255,.1);border-radius:14px;padding:6px;box-shadow:0 15px 40px rgba(0,0,0,.4),inset 0 1px 15px rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.2);width:190px;backdrop-filter:blur(30px)}.context div,.appmenu div{padding:8px 10px;border-radius:8px;font-size:13px;color:#fff;cursor:pointer}.context div:hover,.appmenu div:hover{background:rgba(255,255,255,.25);box-shadow:inset 0 1px 5px rgba(255,255,255,.2)}
-.alert{position:fixed;z-index:3000;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,.15);border-radius:20px;backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,.3);padding:22px;min-width:280px;box-shadow:0 30px 70px rgba(0,0,0,.5),inset 0 1px 20px rgba(255,255,255,.3);text-align:center;display:none}.alert button{margin-top:15px;border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:8px 20px;background:rgba(255,255,255,.2);color:#fff;box-shadow:inset 0 1px 5px rgba(255,255,255,.2);cursor:pointer}
-.search{width:180px;padding:7px 10px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.05);color:#fff;outline:0;margin-left:auto}.search::placeholder{color:rgba(255,255,255,.4)}
+
+.desktop:after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(180deg,rgba(0,0,0,.08),transparent 35%,rgba(0,0,0,.12));
+pointer-events:none;
+}
+
+.topbar{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:30px;
+z-index:1000;
+display:flex;
+align-items:center;
+padding:0 12px;
+color:#fff;
+font-size:13px;
+font-weight:500;
+background:rgba(20,20,25,.28);
+backdrop-filter:blur(25px) saturate(160%);
+-webkit-backdrop-filter:blur(25px) saturate(160%);
+border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.menu-left,.menu-right{
+display:flex;
+align-items:center;
+height:100%;
+gap:4px;
+}
+
+.menu-left{flex:1}
+.menu-right{gap:10px}
+
+.apple{
+font-size:18px;
+line-height:1;
+padding:2px 7px;
+cursor:pointer;
+}
+
+.menu-item{
+padding:5px 8px;
+border-radius:7px;
+cursor:pointer;
+white-space:nowrap;
+}
+
+.menu-item:hover,.apple:hover{
+background:rgba(255,255,255,.13);
+}
+
+.control{
+display:flex;
+align-items:center;
+gap:4px;
+white-space:nowrap;
+}
+
+.control svg{
+width:15px;
+height:15px;
+fill:none;
+stroke:currentColor;
+stroke-width:1.7;
+}
+
+.desktop-icons{
+position:absolute;
+right:22px;
+top:50px;
+z-index:10;
+display:flex;
+flex-direction:column;
+gap:22px;
+align-items:center;
+}
+
+.desktop-icon{
+width:78px;
+text-align:center;
+font-size:12px;
+text-shadow:0 1px 4px #000;
+cursor:pointer;
+}
+
+.desktop-icon img{
+width:58px;
+height:58px;
+object-fit:contain;
+display:block;
+margin:auto;
+filter:drop-shadow(0 5px 7px rgba(0,0,0,.35));
+}
+
+.desktop-icon span{
+display:block;
+margin-top:4px;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.window{
+position:absolute;
+z-index:50;
+left:50%;
+top:50%;
+width:850px;
+height:560px;
+transform:translate(-50%,-50%) scale(1);
+border-radius:18px;
+overflow:hidden;
+isolation:isolate;
+box-shadow:0 25px 70px rgba(0,0,0,.42),0 0 0 1px rgba(255,255,255,.15);
+transition:
+transform .28s cubic-bezier(.2,.8,.2,1),
+opacity .2s ease,
+width .25s ease,
+height .25s ease,
+left .25s ease,
+top .25s ease;
+}
+
+.window:before{
+content:"";
+position:absolute;
+inset:0;
+z-index:0;
+border-radius:18px;
+background:rgba(255,255,255,.12);
+box-shadow:inset 0 0 10px -6px rgba(255,255,255,.8);
+pointer-events:none;
+}
+
+.window:after{
+content:"";
+position:absolute;
+inset:0;
+z-index:-1;
+border-radius:18px;
+backdrop-filter:blur(22px) saturate(150%);
+-webkit-backdrop-filter:blur(22px) saturate(150%);
+filter:url(#glass-distortion);
+-webkit-filter:url(#glass-distortion);
+pointer-events:none;
+}
+
+.window.hidden{
+opacity:0;
+pointer-events:none;
+transform:translate(-50%,40%) scale(.08);
+}
+
+.window.minimized{
+opacity:0;
+pointer-events:none;
+transform:translate(-50%,45%) scale(.12);
+}
+
+.window.maximized{
+left:0!important;
+top:30px!important;
+width:100%!important;
+height:calc(100% - 30px)!important;
+transform:none!important;
+border-radius:0;
+}
+
+.window.maximized:before,
+.window.maximized:after{
+border-radius:0;
+}
+
+.window-header{
+height:52px;
+display:flex;
+align-items:center;
+position:relative;
+z-index:5;
+background:rgba(255,255,255,.1);
+border-bottom:1px solid rgba(255,255,255,.13);
+padding:0 16px;
+cursor:default;
+}
+
+.traffic{
+display:flex;
+gap:8px;
+align-items:center;
+}
+
+.traffic button{
+width:13px;
+height:13px;
+border-radius:50%;
+padding:0;
+cursor:pointer;
+box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);
+}
+
+.close{background:#ff5f57}
+.minimize{background:#ffbd2e}
+.fullscreen{background:#28c840}
+
+.traffic button:hover{
+filter:brightness(1.12);
+}
+
+.window-title{
+position:absolute;
+left:50%;
+transform:translateX(-50%);
+font-size:13px;
+font-weight:600;
+color:rgba(255,255,255,.92);
+}
+
+.window-body{
+position:absolute;
+top:52px;
+bottom:0;
+left:0;
+right:0;
+overflow:hidden;
+z-index:2;
+}
+
+.app-content{
+height:100%;
+width:100%;
+overflow:auto;
+color:#fff;
+}
+
+.finder-content{
+display:flex;
+height:100%;
+}
+
+.sidebar{
+width:190px;
+padding:16px 10px;
+background:rgba(20,20,30,.25);
+border-right:1px solid rgba(255,255,255,.1);
+}
+
+.sidebar-title{
+font-size:11px;
+font-weight:600;
+opacity:.6;
+padding:8px 10px;
+text-transform:uppercase;
+}
+
+.sidebar-item{
+padding:8px 11px;
+border-radius:8px;
+font-size:13px;
+cursor:pointer;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active{
+background:rgba(255,255,255,.14);
+}
+
+.files{
+flex:1;
+padding:25px;
+}
+
+.file-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,100px);
+gap:24px;
+}
+
+.file{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:7px;
+font-size:12px;
+text-align:center;
+}
+
+.file-icon{
+width:55px;
+height:55px;
+border-radius:12px;
+background:rgba(255,255,255,.13);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:32px;
+box-shadow:inset 0 1px rgba(255,255,255,.18);
+}
+
+.safari{
+background:#fff;
+height:100%;
+color:#111;
+display:flex;
+flex-direction:column;
+}
+
+.safari-toolbar{
+height:54px;
+background:rgba(235,235,240,.88);
+display:flex;
+align-items:center;
+gap:9px;
+padding:8px 12px;
+border-bottom:1px solid #ccc;
+}
+
+.safari-buttons{
+display:flex;
+gap:5px;
+}
+
+.safari-buttons button{
+width:28px;
+height:28px;
+border-radius:50%;
+background:rgba(0,0,0,.07);
+cursor:pointer;
+}
+
+.address{
+height:31px;
+flex:1;
+max-width:550px;
+margin:auto;
+border-radius:8px;
+background:rgba(0,0,0,.07);
+border:1px solid rgba(0,0,0,.08);
+display:flex;
+align-items:center;
+padding:0 12px;
+font-size:12px;
+color:#444;
+}
+
+.safari-frame{
+width:100%;
+height:calc(100% - 54px);
+border:0;
+background:#fff;
+}
+
+.diesmos{
+height:100%;
+background:#101114;
+display:flex;
+flex-direction:column;
+}
+
+.diesmos-toolbar{
+height:50px;
+display:flex;
+align-items:center;
+gap:8px;
+padding:8px 12px;
+background:rgba(20,20,25,.7);
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.diesmos-url{
+flex:1;
+height:31px;
+border-radius:9px;
+border:1px solid rgba(255,255,255,.12);
+background:rgba(255,255,255,.09);
+color:#fff;
+padding:0 12px;
+outline:none;
+}
+
+.diesmos-url:focus{
+border-color:rgba(255,255,255,.28);
+}
+
+.diesmos-go{
+height:31px;
+padding:0 14px;
+border-radius:9px;
+background:rgba(255,255,255,.13);
+color:#fff;
+cursor:pointer;
+}
+
+.diesmos-frame{
+border:0;
+width:100%;
+height:calc(100% - 50px);
+background:#fff;
+}
+
+.settings{
+padding:30px;
+height:100%;
+overflow:auto;
+}
+
+.settings h1{
+margin:0 0 20px;
+font-size:28px;
+}
+
+.setting-card{
+padding:18px;
+border-radius:18px;
+background:rgba(255,255,255,.09);
+border:1px solid rgba(255,255,255,.12);
+margin-bottom:12px;
+}
+
+.dock-wrap{
+position:absolute;
+bottom:13px;
+left:50%;
+transform:translateX(-50%);
+z-index:1000;
+}
+
+.dock{
+height:76px;
+padding:7px 10px;
+display:flex;
+align-items:flex-end;
+gap:9px;
+border-radius:25px;
+background:rgba(30,30,35,.38);
+border:1px solid rgba(255,255,255,.24);
+box-shadow:
+0 12px 35px rgba(0,0,0,.35),
+inset 0 1px rgba(255,255,255,.25);
+backdrop-filter:blur(28px) saturate(170%);
+-webkit-backdrop-filter:blur(28px) saturate(170%);
+}
+
+.dock-app{
+width:61px;
+height:61px;
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:
+transform .18s cubic-bezier(.2,.8,.2,1),
+margin .18s ease;
+}
+
+.dock-app img{
+width:57px;
+height:57px;
+object-fit:contain;
+border-radius:15px;
+display:block;
+box-shadow:
+0 4px 8px rgba(0,0,0,.28),
+inset 0 0 0 1px rgba(255,255,255,.12);
+transition:transform .18s ease;
+}
+
+.dock-app:hover{
+transform:translateY(-13px) scale(1.12);
+}
+
+.dock-app:hover img{
+box-shadow:
+0 8px 14px rgba(0,0,0,.35),
+inset 0 0 0 1px rgba(255,255,255,.2);
+}
+
+.dock-app:active{
+transform:translateY(-7px) scale(1.04);
+}
+
+.dock-app.running:after{
+content:"";
+position:absolute;
+bottom:-5px;
+left:50%;
+transform:translateX(-50%);
+width:5px;
+height:5px;
+border-radius:50%;
+background:#fff;
+box-shadow:0 0 5px rgba(255,255,255,.8);
+}
+
+.dock-separator{
+height:48px;
+width:1px;
+background:rgba(255,255,255,.25);
+margin:0 2px 4px;
+}
+
+.tooltip{
+position:absolute;
+bottom:88px;
+left:50%;
+transform:translateX(-50%) translateY(5px);
+background:rgba(25,25,30,.82);
+color:white;
+padding:6px 10px;
+border-radius:8px;
+font-size:11px;
+white-space:nowrap;
+opacity:0;
+pointer-events:none;
+transition:.15s;
+backdrop-filter:blur(12px);
+}
+
+.dock-app:hover .tooltip{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.launcher{
+position:absolute;
+z-index:900;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%) scale(.9);
+width:min(800px,90vw);
+height:min(600px,75vh);
+padding:30px;
+border-radius:30px;
+background:rgba(25,25,30,.55);
+border:1px solid rgba(255,255,255,.18);
+backdrop-filter:blur(30px) saturate(160%);
+-webkit-backdrop-filter:blur(30px) saturate(160%);
+box-shadow:0 25px 80px rgba(0,0,0,.4);
+opacity:0;
+pointer-events:none;
+transition:.25s ease;
+}
+
+.launcher.open{
+opacity:1;
+pointer-events:auto;
+transform:translate(-50%,-50%) scale(1);
+}
+
+.launcher h1{
+margin:0 0 25px;
+font-size:25px;
+}
+
+.launcher-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+gap:25px;
+}
+
+.launcher-app{
+text-align:center;
+font-size:12px;
+cursor:pointer;
+}
+
+.launcher-app img{
+width:65px;
+height:65px;
+object-fit:contain;
+border-radius:17px;
+display:block;
+margin:auto auto 8px;
+box-shadow:0 5px 12px rgba(0,0,0,.3);
+}
+
+.clock{
+font-variant-numeric:tabular-nums;
+}
+
+@media(max-width:900px){
+.window{
+width:92vw;
+height:75vh;
+}
+.menu-left .optional{
+display:none;
+}
+.dock{
+gap:5px;
+}
+.dock-app{
+width:53px;
+height:53px;
+}
+.dock-app img{
+width:50px;
+height:50px;
+}
+}
+
+@media(max-width:600px){
+.topbar{
+padding:0 7px;
+}
+.menu-item{
+padding:5px;
+}
+.menu-left .hide-mobile{
+display:none;
+}
+.menu-right .hide-mobile{
+display:none;
+}
+.dock{
+max-width:95vw;
+overflow-x:auto;
+}
+.sidebar{
+width:145px;
+}
+}
 </style>
 </head>
 <body>
-<div class="desktop" id="desktop">
-<div class="menu">
-<b></b><span id="finderMenu">Finder</span><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span><span>Help</span>
-<div class="right"><span>⌁</span><span>▮▮</span><span id="time"></span></div>
+
+<svg class="glass-svg" aria-hidden="true">
+<defs>
+<filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency="0.03 0.03" numOctaves="2" seed="92" result="noise"/>
+<feGaussianBlur in="noise" stdDeviation="2" result="blurred"/>
+<feDisplacementMap in="SourceGraphic" in2="blurred" scale="40" xChannelSelector="R" yChannelSelector="G"/>
+</filter>
+</defs>
+</svg>
+
+<div class="desktop">
+
+<div class="topbar">
+<div class="menu-left">
+<div class="apple"></div>
+<div class="menu-item">Finder</div>
+<div class="menu-item optional">File</div>
+<div class="menu-item optional">Edit</div>
+<div class="menu-item optional">View</div>
+<div class="menu-item optional">Go</div>
+<div class="menu-item optional">Window</div>
+<div class="menu-item optional">Help</div>
+</div>
+
+<div class="menu-right">
+<div class="control clock" id="clock"></div>
+</div>
 </div>
 
 <div class="desktop-icons">
-<div class="desktop-icon" data-open="window"><div class="ico">💻</div>Mac</div>
-<div class="desktop-icon" data-folder="Downloads"><div class="ico">📁</div>Downloads</div>
-<div class="desktop-icon" data-folder="Projects"><div class="ico">📁</div>Projects</div>
-<div class="desktop-icon" id="trashIcon"><div class="ico">🗑️</div>Trash</div>
+<div class="desktop-icon" onclick="openApp('finder')">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Finder_Icon_macOS_Tahoe.png">
+<span>Macintosh HD</span>
+</div>
 </div>
 
-<div class="window" id="window">
-<div class="titlebar" id="titlebar"><div class="traffic"><div class="dot red" id="close"></div><div class="dot yellow" id="min"></div><div class="dot green" id="max"></div></div><div class="title">Finder</div></div>
+<div class="window" id="finderWindow">
+<div class="window-header">
+<div class="traffic">
+<button class="close" onclick="closeApp('finder')"></button>
+<button class="minimize" onclick="minimizeApp('finder')"></button>
+<button class="fullscreen" onclick="fullscreenApp('finder')"></button>
+</div>
+<div class="window-title">Finder</div>
+</div>
+<div class="window-body">
+<div class="app-content finder-content">
 <div class="sidebar">
-<div class="sidehead">FAVORITES</div>
-<div class="sideitem active" data-folder="Home">⌂ &nbsp; Home</div>
-<div class="sideitem" data-folder="Desktop">▣ &nbsp; Desktop</div>
-<div class="sideitem" data-folder="Downloads">↓ &nbsp; Downloads</div>
-<div class="sideitem" data-folder="Applications">◉ &nbsp; Applications</div>
-<div class="sidehead">LOCATIONS</div>
-<div class="sideitem" data-folder="Mac">💻 &nbsp; Mac</div>
+<div class="sidebar-title">Favorites</div>
+<div class="sidebar-item active">⌂ AirDrop</div>
+<div class="sidebar-item">▣ Recents</div>
+<div class="sidebar-item">★ Applications</div>
+<div class="sidebar-item">▤ Desktop</div>
+<div class="sidebar-item">▤ Documents</div>
+<div class="sidebar-item">⌄ Downloads</div>
+<div class="sidebar-title">Locations</div>
+<div class="sidebar-item">💻 Macintosh HD</div>
 </div>
-<div class="content">
-<div style="display:flex;align-items:center"><h1 id="heading">Home</h1><input class="search" id="search" placeholder="Search"></div>
-<div class="toolbar"><button class="btn" id="back">← Back</button><button class="btn" id="newFolder">New Folder</button><button class="btn" id="info">Get Info</button></div>
-<div class="cards" id="cards"></div>
+<div class="files">
+<div class="file-grid">
+<div class="file"><div class="file-icon">📁</div><span>Applications</span></div>
+<div class="file"><div class="file-icon">📁</div><span>Documents</span></div>
+<div class="file"><div class="file-icon">📁</div><span>Downloads</span></div>
+<div class="file"><div class="file-icon">📁</div><span>Pictures</span></div>
+<div class="file"><div class="file-icon">📁</div><span>Music</span></div>
+<div class="file"><div class="file-icon">📁</div><span>Desktop</span></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
-<div class="dock">
-<div class="app finder" data-app="Finder">📁</div><div class="app safari" data-app="Safari">🧭</div><div class="app" data-app="Messages">💬</div><div class="app music" data-app="Music">♫</div><div class="app" data-app="Settings">⚙️</div><div class="app" data-app="Notes">📝</div><div class="app trash" data-app="Trash">🗑️</div>
+<div class="window" id="safariWindow">
+<div class="window-header">
+<div class="traffic">
+<button class="close" onclick="closeApp('safari')"></button>
+<button class="minimize" onclick="minimizeApp('safari')"></button>
+<button class="fullscreen" onclick="fullscreenApp('safari')"></button>
 </div>
-<div class="context" id="context"><div id="newDesktopFolder">New Folder</div><div id="getDesktopInfo">Get Info</div><div id="wallpaper">Change Wallpaper</div><div id="refresh">Refresh</div></div>
-<div class="appmenu" id="appmenu"></div>
-<div class="alert" id="alert"><div id="alertText"></div><button id="alertClose">OK</button></div>
+<div class="window-title">Safari</div>
+</div>
+<div class="window-body">
+<div class="safari">
+<div class="safari-toolbar">
+<div class="safari-buttons">
+<button onclick="safariBack()">‹</button>
+<button onclick="safariForward()">›</button>
+</div>
+<div class="address" id="safariAddress">https://www.apple.com</div>
+</div>
+<iframe class="safari-frame" id="safariFrame" src="https://www.apple.com"></iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="window" id="settingsWindow">
+<div class="window-header">
+<div class="traffic">
+<button class="close" onclick="closeApp('settings')"></button>
+<button class="minimize" onclick="minimizeApp('settings')"></button>
+<button class="fullscreen" onclick="fullscreenApp('settings')"></button>
+</div>
+<div class="window-title">System Settings</div>
+</div>
+<div class="window-body">
+<div class="settings">
+<h1>System Settings</h1>
+<div class="setting-card">
+<strong>Appearance</strong>
+<p>Liquid Glass interface</p>
+</div>
+<div class="setting-card">
+<strong>Desktop & Dock</strong>
+<p>Customize your desktop and Dock.</p>
+</div>
+<div class="setting-card">
+<strong>About This Mac</strong>
+<p>macOS Tahoe Mockup</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="launcher" id="launcher">
+<h1>Applications</h1>
+<div class="launcher-grid">
+<div class="launcher-app" onclick="openApp('finder');toggleLauncher()">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Finder_Icon_macOS_Tahoe.png">
+Finder
+</div>
+<div class="launcher-app" onclick="openApp('safari');toggleLauncher()">
+<img src="https://static.wikia.nocookie.net/logopedia/images/5/56/Webkit-build-300x300.png/revision/latest/scale-to-width-down/250?cb=20240617225628">
+Safari
+</div>
+<div class="launcher-app" onclick="openApp('settings');toggleLauncher()">
+<img src="https://s3-alpha.figma.com/hub/file/369556540/2b78f13e-cbc8-4e7f-95ad-c00d7c135305-cover">
+Settings
+</div>
+</div>
+</div>
+
+<div class="dock-wrap">
+<div class="dock">
+
+<div class="dock-app" onclick="openApp('finder')" data-app="finder">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Finder_Icon_macOS_Tahoe.png">
+<div class="tooltip">Finder</div>
+</div>
+
+<div class="dock-app" onclick="openApp('safari')" data-app="safari">
+<img src="https://static.wikia.nocookie.net/logopedia/images/5/56/Webkit-build-300x300.png/revision/latest/scale-to-width-down/250?cb=20240617225628">
+<div class="tooltip">Safari</div>
+</div>
+
+<div class="dock-separator"></div>
+
+<div class="dock-app" onclick="openApp('settings')" data-app="settings">
+<img src="https://s3-alpha.figma.com/hub/file/369556540/2b78f13e-cbc8-4e7f-95ad-c00d7c135305-cover">
+<div class="tooltip">System Settings</div>
+</div>
+
+<div class="dock-app" onclick="toggleLauncher()">
+<img src="https://static.wikia.nocookie.net/logopedia/images/a/a6/Icon_512x512_Normallpad.png/revision/latest?cb=20210620184438">
+<div class="tooltip">Apps</div>
+</div>
+
+</div>
+</div>
+
 </div>
 
 <script>
-const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
-let fs={
-Home:[{n:'Documents',t:'f',i:'📁',s:'24MB'},{n:'Downloads',t:'f',i:'📁',s:'1.2GB'},{n:'Projects',t:'f',i:'📁',s:'450MB'},{n:'Notes.txt',t:'i',i:'📝',s:'4KB'}],
-Desktop:[{n:'Mac',t:'f',i:'💻'},{n:'Downloads',t:'f',i:'📁'},{n:'Projects',t:'f',i:'📁'}],
-Downloads:[{n:'Setup.dmg',t:'i',i:'📦',s:'84MB'},{n:'Wallpaper.jpg',t:'i',i:'🖼️',s:'4MB'}],
-Projects:[{n:'Web-App',t:'f',i:'📁',s:'12MB'},{n:'Design-Assets',t:'f',i:'📁',s:'438MB'}],
-Applications:[{n:'Finder',t:'a',i:'📁'},{n:'Safari',t:'a',i:'🧭'},{n:'Music',t:'a',i:'♫'},{n:'Settings',t:'a',i:'⚙️'},{n:'Notes',t:'a',i:'📝'}],
-Mac:[{n:'Macintosh HD',t:'f',i:'💽',s:'240GB free'}],Trash:[]
-},cf='Home',hist=['Home'],app='Finder',wp=['radial-gradient(circle at 20% 30%,#2c3e50,#0f2027)','radial-gradient(circle at 50% 50%,#1a1c29,#0d0e15)','radial-gradient(circle at 80% 20%,#4a00e0,#8e2de2)'],wpidx=0,max=0,min=0,drag=0,sx,sy,il,it;
+const apps={
+finder:{window:"finderWindow"},
+safari:{window:"safariWindow"},
+diesmos:{window:"diesmosWindow"},
+settings:{window:"settingsWindow"}
+};
+
+let z=100;
+
+function getWindow(app){
+return document.getElementById(apps[app].window);
+}
+
+function openApp(app){
+const win=getWindow(app);
+if(!win)return;
+win.classList.remove("hidden","minimized");
+win.style.zIndex=++z;
+document.querySelectorAll(".dock-app").forEach(x=>{
+if(x.dataset.app===app)x.classList.add("running");
+});
+}
+
+function closeApp(app){
+const win=getWindow(app);
+if(!win)return;
+win.classList.remove("maximized");
+win.classList.add("hidden");
+document.querySelectorAll(".dock-app").forEach(x=>{
+if(x.dataset.app===app)x.classList.remove("running");
+});
+}
+
+function minimizeApp(app){
+const win=getWindow(app);
+if(!win)return;
+win.classList.remove("maximized");
+win.classList.add("minimized");
+}
+
+function fullscreenApp(app){
+const win=getWindow(app);
+if(!win)return;
+win.classList.remove("hidden","minimized");
+win.style.zIndex=++z;
+win.classList.toggle("maximized");
+}
+
+document.querySelectorAll(".window").forEach(win=>{
+win.addEventListener("mousedown",()=>{
+win.style.zIndex=++z;
+});
+});
+
+document.querySelectorAll(".window-header").forEach(header=>{
+let dragging=false;
+let startX=0;
+let startY=0;
+let startLeft=0;
+let startTop=0;
+const win=header.closest(".window");
+
+header.addEventListener("mousedown",e=>{
+if(e.target.closest(".traffic")||win.classList.contains("maximized"))return;
+dragging=true;
+startX=e.clientX;
+startY=e.clientY;
+const r=win.getBoundingClientRect();
+startLeft=r.left;
+startTop=r.top;
+win.style.transform="none";
+});
+
+document.addEventListener("mousemove",e=>{
+if(!dragging)return;
+win.style.left=(startLeft+e.clientX-startX)+"px";
+win.style.top=(startTop+e.clientY-startY)+"px";
+});
+
+document.addEventListener("mouseup",()=>{
+if(dragging){
+dragging=false;
+}
+});
+});
+
+function toggleLauncher(){
+document.getElementById("launcher").classList.toggle("open");
+}
+
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape"){
+document.getElementById("launcher").classList.remove("open");
+}
+if(e.metaKey&&e.key===" "){
+e.preventDefault();
+toggleLauncher();
+}
+});
+
+function updateClock(){
+const now=new Date();
+let h=now.getHours();
+const m=String(now.getMinutes()).padStart(2,"0");
+const ampm=h>=12?"PM":"AM";
+h=h%12||12;
+document.getElementById("clock").textContent=h+":"+m+" "+ampm;
+}
+
+setInterval(updateClock,1000);
+updateClock();
+});
+
+function safariBack(){
+try{
+document.getElementById("safariFrame").contentWindow.history.back();
+}catch(e){}
+}
+
+function safariForward(){
+try{
+document.getElementById("safariFrame").contentWindow.history.forward();
+}catch(e){}
+}
+
+openApp("finder");
+</script>
+</body>
+</html>
