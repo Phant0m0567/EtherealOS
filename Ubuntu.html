@@ -298,6 +298,7 @@ function openTerm(startDir){
     term.onclick=()=>{if(window.getSelection().toString()==='')inp.focus()};
     setTimeout(()=>inp.focus(),60);
 
+    <!-- im super dooper dooper gay -->
    
     function lsList(path){const n=getNode(path);return n&&n.type==='dir'?Object.keys(n.children).sort():[]}
     function sizeOf(n){return n.type==='dir'?4096:new Blob([n.content]).size}
