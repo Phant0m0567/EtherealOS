@@ -275,6 +275,53 @@ body[data-theme="dark"] .sidePane {
 
   #dycalendar {
     background: var(--bg2);
+    padding: 0 0.7rem 0.9rem;
+    border-radius: 0 0 8px 8px;
+
+    .dycalendar-container {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .dycalendar-month-container {
+      padding: 0.2rem 0 0;
+      color: var(--dark-txt);
+    }
+
+    .dycalendar-month-container .dycalendar-header {
+      padding: 0.25rem 0.5rem 0.6rem;
+    }
+
+    .dycalendar-span-month-year {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark-txt);
+    }
+
+    .dycalendar-month-container .dycalendar-header .dycalendar-prev-next-btn {
+      top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border-radius: 6px;
+    }
+
+    .dycalendar-month-container .dycalendar-body table tr:first-child td {
+      font-size: 0.75rem;
+      padding-bottom: 0.2rem;
+      color: var(--sat-txt);
+    }
+
+    .dycalendar-month-container .dycalendar-body table tr td {
+      width: 2.4rem;
+      height: 2.4rem;
+      font-size: 0.8rem;
+    }
   }
 
   .topBar {
