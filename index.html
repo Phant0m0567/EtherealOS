@@ -123,7 +123,43 @@
     opacity: 0.7;
     transition: opacity 0.15s;
   }
-  
+  .themeButton {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: var(--secondary-color-darkmode);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--primary-text-color-darkmode);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.15s;
+  z-index: 100;
+}
+body.light-mode {
+  background: var(--primary-color-lightmode);
+  color: var(--primary-text-color-lightmode);
+}
+body.light-mode .theme-toggle {
+  background: var(--secondary-color-lightmode);
+  color: var(--primary-text-color-lightmode);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+body.light-mode a {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.04);
+  color: var(--secondary-text-color-lightmode);
+}
+body.light-mode a:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
    @keyframes gradientMove {
   0% {
     background-position: 100% 100%;
@@ -135,6 +171,9 @@
 </style>
 </head>
 <body>
+  <button class="themeButton">
+  <i class="fa-solid fa-sun" id="themeIcon"></i>
+  </button>
   <div class="header-section">
   <div class="logo"><img class="logo-image" src="./images/logo.png"></div>
   <h1 class="ethereal-title">Ethereal <span>OS</span></h1>
@@ -143,12 +182,27 @@
    </div>
          <div class="grid">
         <a href="./windows/"><img src="./images/windows.png" class="os-icon">Windows</a>
-        <a href="#"><img src="./images/macos.png" class="os-icon">MacOS</a>
-        <a href="#"><img src="./images/linux.png" class="os-icon" >Linux</a>
+        <a href="./macos/"><img src="./images/macos.png" class="os-icon">MacOS</a>
+        <a href="./linux/"><img src="./images/linux.png" class="os-icon" >Linux</a>
         <a href="./ubuntu/"><img src="./images/ubuntu.png" class="os-icon">Ubuntu</a>
-        <a href="#"><img src="./images/fedora.png" class="os-icon">Fedora</a>
-        <a href="#"><img src="./images/arch.png" class="os-icon">Arch Linux</a>
+        <a href="./fedora/"><img src="./images/fedora.png" class="os-icon">Fedora</a>
+        <a href="./arch-linux/"><img src="./images/arch.png" class="os-icon">Arch Linux</a>
     </div>
 </body>
+<script>
+  const toggleBtn = document.getElementById('themeButton');
+  const themeIcon = document.getElementById('themeIcon');
+  
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    if (document.body.classList.contains('light-mode')) {
+      themeIcon.classList.remove('fa-sun');
+      themeIcon.classList.add('fa-moon');
+    } else {
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
+    }
+  });
+</script>
 </html>
 </html>
