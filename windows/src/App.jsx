@@ -21,6 +21,8 @@ import * as Applications from "./containers/applications";
 import * as Drafts from "./containers/applications/draft";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
+  const stopCodeUrl = "https://www.windows.com/stopcode";
+  
   return (
     <div
       style={{
