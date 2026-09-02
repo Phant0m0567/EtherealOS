@@ -123,23 +123,20 @@
     opacity: 0.7;
     transition: opacity 0.15s;
   }
-  .themeButton {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: var(--secondary-color-darkmode);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--primary-text-color-darkmode);
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.1rem;
-  transition: 0.15s;
-  z-index: 100;
+  .themeButton { 
+    position: fixed; 
+    top: 20px; 
+    right: 20px; 
+    color: #ffffff; /* Set icon color to plain white */
+    border-radius: 50%; 
+    width: 40px; 
+    height: 40px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer; 
+    font-size: 1rem; 
+    transition: 0.15s; 
 }
 body.light-mode {
   background: var(--primary-color-lightmode);
@@ -148,16 +145,9 @@ body.light-mode {
 body.light-mode .theme-toggle {
   background: var(--secondary-color-lightmode);
   color: var(--primary-text-color-lightmode);
-  border-color: rgba(0, 0, 0, 0.08);
 }
 body.light-mode a {
-  background: rgba(0, 0, 0, 0.02);
-  border-color: rgba(0, 0, 0, 0.04);
   color: var(--secondary-text-color-lightmode);
-}
-body.light-mode a:hover {
-  background: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.1);
 }
 
    @keyframes gradientMove {
@@ -172,7 +162,7 @@ body.light-mode a:hover {
 </head>
 <body>
   <button class="themeButton">
-  <i class="fa-solid fa-sun" id="themeIcon"></i>
+  <i class="fas fa-sun icon" id="themeIcon"></i>
   </button>
   <div class="header-section">
   <div class="logo"><img class="logo-image" src="./images/logo.png"></div>
