@@ -3,25 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://kit.fontawesome.com/ddea3b1d0f.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 <title>EtherealOS</title>
 <style>
   :root {
-    /* ui colors darkmode*/
-    --primary-color-darkmode: #313338 ;
-    --secondary-color-darkmode: #2b2d31; 
+    --primary-color-darkmode: #313338;
+    --secondary-color-darkmode: #2b2d31;
+    --card-color-darkmode: #ffffff05;
+    --card-border-darkmode: #ffffff0a;
+    --card-hover-darkmode: #ffffff08;
 
-     /* ui colors lightmode */
-    --primary-color-lightmode: #f2f3f5 ;
-    --secondary-color-lightmode: #e3e5e8; 
+    --primary-color-lightmode: #f2f3f5;
+    --secondary-color-lightmode: #e3e5e8;
+    --card-color-lightmode: #ffffffd9;
+    --card-border-lightmode: #11121414;
+    --card-hover-lightmode: #ffffff;
 
-    /* text colors darkmode*/
-    --primary-text-color-darkmode: #f2f3f5;   
-    --secondary-text-color-darkmode: #b5bac1; 
+    --primary-text-color-darkmode: #f2f3f5;
+    --secondary-text-color-darkmode: #b5bac1;
 
-    /* text colors lightmode */
-    --primary-text-color-lightmode: #111214;   
-    --secondary-text-color-lightmode: #4e5058; 
+    --primary-text-color-lightmode: #111214;
+    --secondary-text-color-lightmode: #4e5058;
+
   }
   body {
     background: var(--primary-color-darkmode);
@@ -84,11 +87,11 @@
      transform: translateY(-30px);
   }
    a {
-     background:rgba(255,255,255,0.02);
-     border:1px solid rgba(255,255,255,0.04);
+     background: var(--card-color-darkmode);
+     border:1px solid var(--card-border-darkmode);
      border-radius:12px;
      padding: 24px 12px;
-     color:#8c93a0;
+     color: var(--secondary-text-color-darkmode);
      text-decoration:none;
      text-align: center;
      font-size:1rem;
@@ -101,11 +104,11 @@
   }
   
   a:hover {
-     background:rgba(255,255,255,0.03);
-     border-color:rgba(255,255,255,0.08); 
+     background: var(--card-hover-darkmode);
+     border-color: rgba(255,255,255,0.08);
   }
 
-  a:hover .os-logo {
+  a:hover .os-icon {
     opacity: 1;
   }
   .logo-image {
@@ -123,27 +126,44 @@
     opacity: 0.7;
     transition: opacity 0.15s;
   }
-  .themeButton { 
-    position: fixed; 
-    top: 20px; 
-    right: 20px; 
-    width: 40px; 
-    height: 40px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    cursor: pointer; 
-}
+  .themeButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--primary-text-color-darkmode);
+    padding: 0;
+    appearance: none;
+    box-shadow: none;
+  }
+  .themeButton .icon {
+    font-size: 18px;
+    line-height: 1;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
 body.light-mode {
   background: var(--primary-color-lightmode);
   color: var(--primary-text-color-lightmode);
 }
-body.light-mode .theme-toggle {
-  background: var(--secondary-color-lightmode);
+body.light-mode .themeButton {
   color: var(--primary-text-color-lightmode);
 }
 body.light-mode a {
+  background: var(--card-color-lightmode);
+  border-color: var(--card-border-lightmode);
   color: var(--secondary-text-color-lightmode);
+}
+body.light-mode a:hover {
+  background: var(--card-hover-lightmode);
+  border-color: rgba(17, 18, 20, 0.12);
 }
 
    @keyframes gradientMove {
@@ -157,8 +177,8 @@ body.light-mode a {
 </style>
 </head>
 <body>
-  <button class="themeButton">
-  <i class="fas fa-sun icon" id="themeIcon"></i>
+  <button id="themeButton" class="themeButton" type="button" aria-label="Toggle theme">
+  <i class="fa-solid fa-sun icon" id="themeIcon"></i>
   </button>
   <div class="header-section">
   <div class="logo"><img class="logo-image" src="./images/logo.png"></div>
@@ -184,9 +204,11 @@ body.light-mode a {
     if (document.body.classList.contains('light-mode')) {
       themeIcon.classList.remove('fa-sun');
       themeIcon.classList.add('fa-moon');
+      themeIcon.style.color = '#111214';
     } else {
       themeIcon.classList.remove('fa-moon');
       themeIcon.classList.add('fa-sun');
+      themeIcon.style.color = '#f2f3f5';
     }
   });
 </script>
