@@ -351,26 +351,181 @@ const EXTERNAL_URLS = {
     media: 'https://music.youtube.com/'
 };
 function Browser({ appId = 'steam', title = 'Browser', icon = 'brave' }) {
-    const url = EXTERNAL_URLS[appId] || EXTERNAL_URLS.brave;
-    const isProblemApp = appId === 'chatgpt' || appId === 'discord';
-    const openExternal = () => window.open(url, '_blank', 'noopener,noreferrer');
-    return React.createElement("div", { className: `browser ${isProblemApp ? 'browser-app-shell' : ''}` },
-        React.createElement("div", { className: "browser-toolbar" },
-            React.createElement(ImgIcon, { name: icon || 'brave', size: 24 }),
-            React.createElement("button", null, "\u2190"),
-            React.createElement("button", null, "\u2192"),
-            React.createElement("button", null, "\u21BB"),
-            React.createElement("div", { className: "address" }, url),
-            React.createElement("button", { onClick: openExternal }, "Open externally")),
-        React.createElement("div", { className: "browser-body" },
-            React.createElement("div", { className: "browser-launch-card" },
-                React.createElement(ImgIcon, { name: icon || 'brave', size: 56 }),
-                React.createElement("h2", null, title),
-                React.createElement("p", null, isProblemApp ? 'This service does not allow reliable embedding inside another webpage. Launch the official site in a new tab.' : 'Launch the official website in a new tab.'),
-                React.createElement("button", { className: "primary-launch", onClick: openExternal },
-                    "Open ",
-                    title),
-                React.createElement("div", { className: "browser-url" }, url))));
+    const defaultUrl = EXTERNAL_URLS[appId] || EXTERNAL_URLS.brave;
+    const [url, setUrl] = useState(defaultUrl);
+    const [inputUrl, setInputUrl] = useState(defaultUrl);
+    const iframeRef = useRef(null);
+
+    const isBrave = appId === 'brave';
+
+    const navigate = () => {
+        let next = inputUrl.trim();
+
+        if (!next)
+            return;
+
+        if (!/^https?:\/\//i.test(next)) {
+            next = `https://${next}`;
+        }
+
+        setUrl(next);
+        setInputUrl(next);
+    };
+
+    const reload = () => {
+        if (!iframeRef.current)
+            return;
+
+        iframeRef.current.src = iframeRef.current.src;
+    };
+
+    const openExternal = () => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
+    return React.createElement(
+        "div",
+        { className: "browser" },
+
+        React.createElement(
+            "div",
+            { className: "browser-toolbar" },
+
+            React.createElement(
+                "button",
+                {
+                    onClick: () => {
+                        if (iframeRef.current) {
+                            iframeRef.current.contentWindow.history.back();
+                        }
+                    },
+                    title: "Back"
+                },
+                "←"
+            ),
+
+            React.createElement(
+                "button",
+                {
+                    onClick: () => {
+                        if (iframeRef.current) {
+                            iframeRef.current.contentWindow.history.forward();
+                        }
+                    },
+                    title: "Forward"
+                },
+                "→"
+            ),
+
+            React.createElement(
+                "button",
+                {
+                    onClick: reload,
+                    title: "Reload"
+                },
+                "↻"
+            ),
+
+            React.createElement(
+                ImgIcon,
+                {
+                    name: icon || 'brave',
+                    size: 22
+                }
+            ),
+
+            React.createElement(
+                "input",
+                {
+                    className: "browser-address-input",
+                    value: inputUrl,
+                    onChange: e => setInputUrl(e.target.value),
+                    onKeyDown: e => {
+                        if (e.key === 'Enter') {
+                            navigate();
+                        }
+                    },
+                    spellCheck: false
+                }
+            ),
+
+            React.createElement(
+                "button",
+                {
+                    onClick: navigate,
+                    title: "Go"
+                },
+                "Go"
+            ),
+
+            React.createElement(
+                "button",
+                {
+                    onClick: openExternal,
+                    title: "Open externally"
+                },
+                "↗"
+            )
+        ),
+
+        React.createElement(
+            "div",
+            { className: "browser-body" },
+
+            isBrave
+                ? React.createElement(
+                    "iframe",
+                    {
+                        ref: iframeRef,
+                        className: "browser-iframe",
+                        src: url,
+                        title: title,
+                        allow: "fullscreen; autoplay; clipboard-read; clipboard-write",
+                        referrerPolicy: "no-referrer-when-downgrade"
+                    }
+                )
+                : React.createElement(
+                    "div",
+                    { className: "browser-launch-card" },
+
+                    React.createElement(
+                        ImgIcon,
+                        {
+                            name: icon || 'brave',
+                            size: 56
+                        }
+                    ),
+
+                    React.createElement(
+                        "h2",
+                        null,
+                        title
+                    ),
+
+                    React.createElement(
+                        "p",
+                        null,
+                        "Launch the official website in a new tab."
+                    ),
+
+                    React.createElement(
+                        "button",
+                        {
+                            className: "primary-launch",
+                            onClick: openExternal
+                        },
+                        "Open ",
+                        title
+                    ),
+
+                    React.createElement(
+                        "div",
+                        { className: "browser-url" },
+                        url
+                    )
+                )
+        )
+    );
 }
 function AppCenter({ onLaunch }) { return React.createElement("div", { className: "app-center" },
     React.createElement("aside", null,
