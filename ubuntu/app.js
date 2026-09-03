@@ -60,7 +60,7 @@ function StatusPopover({ type, battery, batterySupported, temp, wifiOnline, volu
             React.createElement("div", { className: "status-row" },
                 React.createElement("span", null, "Status"),
                 React.createElement("b", null, wifiOnline ? 'Connected' : 'Offline')),
-            React.createElement("div", { className: "status-note" }, "Browser pages can read connection state, but cannot toggle your computer's Wi-Fi adapter."));
+            React.createElement("div", { className: "status-note" }, "I can read your wifi but can't control it."));
     if (type === 'volume')
         return React.createElement("div", { className: "status-popover", onClick: e => e.stopPropagation() },
             React.createElement("div", { className: "status-popover-title" },
@@ -72,7 +72,7 @@ function StatusPopover({ type, battery, batterySupported, temp, wifiOnline, volu
                     muted ? 0 : volume,
                     "%")),
             React.createElement("button", { className: "popover-action", onClick: () => setMuted(v => !v) }, muted ? 'Unmute' : 'Mute'),
-            React.createElement("div", { className: "status-note" }, "This slider controls the Web OS UI volume only; browsers cannot change the computer's master volume."));
+            React.createElement("div", { className: "status-note" }, "This controls ubuntu's sound, not your pc's."));
     if (type === 'battery')
         return React.createElement("div", { className: "status-popover", onClick: e => e.stopPropagation() },
             React.createElement("div", { className: "status-popover-title" },
@@ -95,7 +95,7 @@ function StatusPopover({ type, battery, batterySupported, temp, wifiOnline, volu
             React.createElement("div", { className: "status-row" },
                 React.createElement("span", null, "Local temperature"),
                 React.createElement("b", null, temp)),
-            React.createElement("div", { className: "status-note" }, "Uses your browser's location permission and Open-Meteo. If location is denied, the value stays \u201C-\u201D."));
+            React.createElement("div", { className: "status-note" }, "Shows the local temp with location perms."));
     return null;
 }
 function batteryIconName(level, charging) {
