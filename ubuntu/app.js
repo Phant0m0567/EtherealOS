@@ -366,7 +366,9 @@ function Browser({ appId = 'steam', title = 'Browser', icon = 'brave' }) {
             React.createElement("button", { onClick: openExternal }, "Open externally")),
         React.createElement("div", { className: "browser-body" },
             React.createElement("div", { className: "browser-launch-card" },
-                React.createElement(ImgIcon, { name: icon || 'brave', size: 56 }),
+    icon === "brave"
+        ? React.createElement(BrandIcon, { name: "brave", size: 56 })
+        : React.createElement(ImgIcon, { name: icon || "brave", size: 56 }),
                 React.createElement("h2", null, title),
                 React.createElement("p", null, isProblemApp ? 'This service does not allow reliable embedding inside another webpage. Launch the official site in a new tab.' : 'Launch the official website in a new tab.'),
                 React.createElement("button", { className: "primary-launch", onClick: openExternal },
