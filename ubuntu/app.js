@@ -24,17 +24,17 @@ docs: { id: 'docs', title: 'Docs', icon: 'docs', kind: 'browser' },
 media: { id: 'media', title: 'Media', icon: 'media', kind: 'browser' },
 };
 const BRAND_URLS = {
-: 'https://cdn.simpleicons.org//ffffff/ff5f19',
-chatgpt: 'https://cdn.simpleicons.org/openai/111111',
-discord: 'https://cdn.simpleicons.org/discord/5865F2',
-docs: 'https://cdn.simpleicons.org/googledocs/4285F4',
-gemini: 'https://cdn.simpleicons.org/googlegemini/8E75FF',
-reddit: 'https://cdn.simpleicons.org/reddit/FF4500',
-steam: 'https://cdn.simpleicons.org/steam/66c0f4',
-telegram: 'https://cdn.simpleicons.org/telegram/26A5E4',
-vscode: 'https://cdn.simpleicons.org/visualstudiocode/23A8F2',
-whatsapp: 'https://cdn.simpleicons.org/whatsapp/25D366',
-youtube: 'https://cdn.simpleicons.org/youtube/FF0000',
+    brave: 'https://cdn.simpleicons.org/brave/ff5f00',
+    chatgpt: 'https://cdn.simpleicons.org/openai/111111',
+    discord: 'https://cdn.simpleicons.org/discord/5865F2',
+    docs: 'https://cdn.simpleicons.org/googledocs/4285F4',
+    gemini: 'https://cdn.simpleicons.org/googlegemini/8E75FF',
+    reddit: 'https://cdn.simpleicons.org/reddit/FF4500',
+    steam: 'https://cdn.simpleicons.org/steam/66c0f4',
+    telegram: 'https://cdn.simpleicons.org/telegram/26A5E4',
+    vscode: 'https://cdn.simpleicons.org/visualstudiocode/23A8F2',
+    whatsapp: 'https://cdn.simpleicons.org/whatsapp/25D366',
+    youtube: 'https://cdn.simpleicons.org/youtube/FF0000',
 };
 function BrandIcon({ name, size = 30, className = '' }) {
 const src = BRAND_URLS[name];
@@ -351,26 +351,109 @@ contacts: 'https://contacts.google.com/',
 media: 'https://music.youtube.com/'
 };
 function Browser({ appId = 'steam', title = 'Browser', icon = 'brave' }) {
-const url = EXTERNAL_URLS[appId] || EXTERNAL_URLS.brave;
-const isProblemApp = appId === 'chatgpt' || appId === 'discord';
-const openExternal = () => window.open(url, '_blank', 'noopener,noreferrer');
-return React.createElement("div", { className: browser ${isProblemApp ? 'browser-app-shell' : ''} },
-React.createElement("div", { className: "browser-toolbar" },
-React.createElement(ImgIcon, { name: icon || 'brave', size: 24 }),
-React.createElement("button", null, "\u2190"),
-React.createElement("button", null, "\u2192"),
-React.createElement("button", null, "\u21BB"),
-React.createElement("div", { className: "address" }, url),
-React.createElement("button", { onClick: openExternal }, "Open externally")),
-React.createElement("div", { className: "browser-body" },
-React.createElement("div", { className: "browser-launch-card" },
-React.createElement(ImgIcon, { name: icon || 'brave', size: 56 }),
-React.createElement("h2", null, title),
-React.createElement("p", null, isProblemApp ? 'This service does not allow reliable embedding inside another webpage. Launch the official site in a new tab.' : 'Launch the official website in a new tab.'),
-React.createElement("button", { className: "primary-launch", onClick: openExternal },
-"Open ",
-title),
-React.createElement("div", { className: "browser-url" }, url))));
+    const url = EXTERNAL_URLS[appId] || EXTERNAL_URLS.brave;
+    const isProblemApp = appId === 'chatgpt' || appId === 'discord';
+    const openExternal = () => window.open(url, '_blank', 'noopener,noreferrer');
+
+    return React.createElement(
+        "div",
+        {
+            className: `browser ${isProblemApp ? 'browser-app-shell' : ''}`
+        },
+
+        React.createElement(
+            "div",
+            { className: "browser-toolbar" },
+
+            React.createElement(
+                ImgIcon,
+                {
+                    name: icon || 'brave',
+                    size: 24
+                }
+            ),
+
+            React.createElement(
+                "button",
+                null,
+                "\u2190"
+            ),
+
+            React.createElement(
+                "button",
+                null,
+                "\u2192"
+            ),
+
+            React.createElement(
+                "button",
+                null,
+                "\u21BB"
+            ),
+
+            React.createElement(
+                "div",
+                { className: "address" },
+                url
+            ),
+
+            React.createElement(
+                "button",
+                {
+                    onClick: openExternal
+                },
+                "Open externally"
+            )
+        ),
+
+        React.createElement(
+            "div",
+            { className: "browser-body" },
+
+            React.createElement(
+                "div",
+                { className: "browser-launch-card" },
+
+                React.createElement(
+                    ImgIcon,
+                    {
+                        name: icon || 'brave',
+                        size: 56
+                    }
+                ),
+
+                React.createElement(
+                    "h2",
+                    null,
+                    title
+                ),
+
+                React.createElement(
+                    "p",
+                    null,
+                    isProblemApp
+                        ? 'This service does not allow reliable embedding inside another webpage. Launch the official site in a new tab.'
+                        : 'Launch the official website in a new tab.'
+                ),
+
+                React.createElement(
+                    "button",
+                    {
+                        className: "primary-launch",
+                        onClick: openExternal
+                    },
+                    "Open ",
+                    title
+                ),
+
+                React.createElement(
+                    "div",
+                    { className: "browser-url" },
+                    url
+                )
+            )
+        )
+    );
 }
 function AppCenter({ onLaunch }) { return React.createElement("div", { className: "app-center" },
 React.createElement("aside", null,
