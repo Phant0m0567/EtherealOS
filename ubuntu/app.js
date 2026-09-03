@@ -24,7 +24,7 @@ const APPS = {
     media: { id: 'media', title: 'Media', icon: 'media', kind: 'browser' },
 };
 const BRAND_URLS = {
-    : 'https://cdn.simpleicons.org//ffffff/ff5f19',
+    brave: 'https://cdn.simpleicons.org/brave/ffffff',
     chatgpt: 'https://cdn.simpleicons.org/openai/111111',
     discord: 'https://cdn.simpleicons.org/discord/5865F2',
     docs: 'https://cdn.simpleicons.org/googledocs/4285F4',
