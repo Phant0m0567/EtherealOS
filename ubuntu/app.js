@@ -356,7 +356,7 @@ function Browser({ appId = 'steam', title = 'Browser', icon = 'brave' }) {
     const openExternal = () => window.open(url, '_blank', 'noopener,noreferrer');
     return React.createElement("div", { className: `browser ${isProblemApp ? 'browser-app-shell' : ''}` },
         React.createElement("div", { className: "browser-toolbar" },
-            React.createElement(BrandIcon, { name: 'brave', size: 24 })
+            React.createElement(ImgIcon, { name: icon || 'brave', size: 24 }),
             React.createElement("button", null, "\u2190"),
             React.createElement("button", null, "\u2192"),
             React.createElement("button", null, "\u21BB"),
