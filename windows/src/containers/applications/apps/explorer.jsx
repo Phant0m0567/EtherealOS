@@ -112,7 +112,7 @@ export const Explorer = () => {
 
   const handleNewItem = () => {
     const folderId = files.cdir;
-    const createFile = window.confirm("Create a file? Cancel = create a folder.");
+    const createFile = window.confirm("Create a file? Cancel to create a folder.");
     const defaultName = createFile ? "New file.txt" : "New folder";
     const name = window.prompt(
       createFile ? "Enter file name" : "Enter folder name",
