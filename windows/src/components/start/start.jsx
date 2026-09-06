@@ -517,7 +517,7 @@ export const StartMenu = () => {
                   data-action="UNINSTALLAPP"
                   data-payload={match.name}
                 >
-                  <Icon className="blueicon" src="bin0" ui width={16} />
+                  <Icon className="blueicon" src="uninstall" ui width={16} />
                   <div className="text-xss ml-3">Uninstall</div>
                 </div>
               </div>
