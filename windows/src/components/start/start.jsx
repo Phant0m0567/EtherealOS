@@ -57,7 +57,6 @@ export const StartMenu = () => {
   const [query, setQuery] = useState("");
   const [match, setMatch] = useState({});
   const [atab, setTab] = useState("All");
-  // const [pwctrl, setPowCtrl] = useState
 
   const dispatch = useDispatch();
   const tabSw = (e) => {
@@ -476,7 +475,7 @@ export const StartMenu = () => {
                 <div className="text-xss mt-2">App</div>
                 <div className="hline mt-8"></div>
                 <div
-                  className="openlink w-4/5 flex prtclk handcr pt-3"
+                  className="openlink w-4/5 flex items-center prtclk handcr pt-3"
                   onClick={clickDispatch}
                   data-action={match.action}
                   data-payload={match.payload ? match.payload : "full"}
@@ -485,16 +484,16 @@ export const StartMenu = () => {
                   <div className="text-xss ml-3">Open</div>
                 </div>
                 <div
-                  className="openlink w-4/5 flex prtclk handcr pt-3"
+                  className="openlink w-4/5 flex items-center prtclk handcr pt-3"
                   onClick={clickDispatch}
                   data-action={match.action}
                   data-payload={match.payload ? match.payload : "full"}
                 >
-                  <Icon className="blueicon" src="win/shield" ui width={16} />
+                  <Icon className="blueicon adminShieldIcon" src="shield" ui width={18} />
                   <div className="text-xss ml-3">Run as administrator</div>
                 </div>
                 <div
-                  className="openlink w-4/5 flex prtclk handcr pt-3"
+                  className="openlink w-4/5 flex items-center prtclk handcr pt-3"
                   onClick={clickDispatch}
                   data-action="PINSTART"
                   data-payload={match.name}
@@ -503,7 +502,7 @@ export const StartMenu = () => {
                   <div className="text-xss ml-3">Pin to Start</div>
                 </div>
                 <div
-                  className="openlink w-4/5 flex prtclk handcr pt-3"
+                  className="openlink w-4/5 flex items-center prtclk handcr pt-3"
                   onClick={clickDispatch}
                   data-action="PINTASKBAR"
                   data-payload={match.name}
@@ -512,7 +511,7 @@ export const StartMenu = () => {
                   <div className="text-xss ml-3">Pin to Taskbar</div>
                 </div>
                 <div
-                  className="openlink w-4/5 flex prtclk handcr pt-3"
+                  className="openlink w-4/5 flex items-center prtclk handcr pt-3"
                   onClick={clickDispatch}
                   data-action="UNINSTALLAPP"
                   data-payload={match.name}

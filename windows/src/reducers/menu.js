@@ -202,7 +202,7 @@ const defState = {
         name: "Run as administrator",
         action: "performApp",
         payload: "open",
-        icon: "win/shield",
+        icon: "shield",
       },
       {
         name: "Open file location",

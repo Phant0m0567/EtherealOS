@@ -27,15 +27,42 @@ export const Icon = (props) => {
   const sidepane = useSelector((state) => state.sidepane);
 
   const dispatch = useDispatch();
-  var src = `img/icon/${props.ui != null ? "ui/" : ""}${props.src}.png`;
-  if (props.src && (props.src.includes(".") || props.src.includes("http"))) {
-    src =
-      props.src.includes("http") || props.src.startsWith("./")
-        ? props.src
-        : `img/icon/${props.ui != null ? "ui/" : ""}${props.src}`;
+  const rawSource = typeof props.src === "string" ? props.src.trim() : "";
+
+  if (!rawSource && props.fafa == null && props.icon == null) {
+    return null;
   }
-  if (props.ext != null || (props.src && props.src.includes("http"))) {
-    src = props.src;
+
+  let src = "";
+
+  if (rawSource && (rawSource.includes(".") || rawSource.includes("http"))) {
+    if (rawSource.includes("http") || rawSource.startsWith("./")) {
+      src = rawSource;
+    } else if (rawSource.startsWith("ui/")) {
+      const normalized = rawSource.replace(/^ui\//, "");
+      src = normalized.startsWith("win/")
+        ? `img/icon/${normalized}`
+        : `img/icon/${rawSource}`;
+    } else if (rawSource.startsWith("win/")) {
+      src = `img/icon/${rawSource}`;
+    } else {
+      src = `img/icon/${props.ui != null ? "ui/" : ""}${rawSource}`;
+    }
+  } else if (rawSource) {
+    if (rawSource.startsWith("ui/")) {
+      const normalized = rawSource.replace(/^ui\//, "");
+      src = normalized.startsWith("win/")
+        ? `img/icon/${normalized}.png`
+        : `img/icon/${rawSource}.png`;
+    } else if (rawSource.startsWith("win/")) {
+      src = `img/icon/${rawSource}.png`;
+    } else {
+      src = `img/icon/${props.ui != null ? "ui/" : ""}${rawSource}.png`;
+    }
+  }
+
+  if (props.ext != null || (rawSource && rawSource.includes("http"))) {
+    src = rawSource;
   }
 
   var prtclk = "";

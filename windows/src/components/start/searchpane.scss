@@ -101,11 +101,27 @@
   padding: 8px 12px;
   border-radius: 6px;
   color: var(--dark-txt);
-  transition: background 120ms ease, box-shadow 120ms ease;
+  align-items: center;
+  transition: background 120ms ease;
+
+  .uicon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .text-xss {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    background: rgba(136, 136, 136, 0.2);
+  }
+
+  &:active {
+    background: rgba(136, 136, 136, 0.24);
   }
 }
 

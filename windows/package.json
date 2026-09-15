@@ -38,8 +38,8 @@
     "translation-check": "^1.1.0"
   },
   "scripts": {
-    "start": "vite --host 0.0.0.0 --port 4176",
-    "dev": "vite --host 0.0.0.0 --port 4176",
+    "start": "vite --host 0.0.0.0 --port 4177 --strictPort",
+    "dev": "vite --host 0.0.0.0 --port 4177 --strictPort",
     "build": "vite build",
     "ghbuild": "CI=false vite build",
     "prettier": "prettier --write .",

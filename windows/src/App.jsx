@@ -74,7 +74,6 @@ function ErrorFallback({ error, resetErrorBoundary }) {
           </div>
         </div>
       </div>
-      {/* partial */}
     </div>
   );
 }
@@ -154,7 +153,6 @@ function App() {
     if (!window.onstart) {
       loadSettings();
       window.onstart = setTimeout(() => {
-        // console.log("prematurely loading ( ﾉ ﾟｰﾟ)ﾉ");
         dispatch({ type: "WALLBOOTED" });
       }, 5000);
     }
