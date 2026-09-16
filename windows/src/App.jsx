@@ -3,6 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
 import "./i18nextConf";
 import "./index.css";
+import "../dycalendar.css";
 
 import ActMenu from "./components/menu";
 import {
