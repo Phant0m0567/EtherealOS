@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "python3 -m http.server 8000 --bind 0.0.0.0",
-    "start": "python3 -m http.server 8000 --bind 0.0.0.0",
+    "dev": "npm run build && python3 -m http.server 8000 --bind 0.0.0.0 --directory dist",
+    "start": "npm run build && python3 -m http.server 8000 --bind 0.0.0.0 --directory dist",
     "build": "npm install --prefix windows && npm --prefix windows run build && rm -rf dist && mkdir -p dist/windows && cp index.html dist/ && cp -R images dist/ && cp -R macos dist/ && cp -R ubuntu dist/ && cp -R windows/build/. dist/windows/ && cp -R windows/public/. dist/windows/ && cp -R windows/img dist/windows/ && cp -R windows/font dist/windows/ && cp -R windows/locales dist/windows/ && cp -R windows/edge dist/windows/ && cp -R windows/*.js dist/windows/ && cp -R windows/*.css dist/windows/ && cp -R windows/*.ico dist/windows/ && cp windows/manifest.json dist/windows/"
   },
   "repository": {
