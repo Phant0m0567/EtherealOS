@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "python3 -m http.server 8000 --bind 0.0.0.0",
-    "start": "python3 -m http.server 8000 --bind 0.0.0.0"
+    "start": "python3 -m http.server 8000 --bind 0.0.0.0",
+    "build": "npm install --prefix windows && npm --prefix windows run build"
   },
   "repository": {
     "type": "git",
