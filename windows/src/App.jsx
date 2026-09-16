@@ -61,8 +61,8 @@ function ErrorFallback({ error, resetErrorBoundary }) {
               <h4>
                 For more information about this issue and possible fixes, visit
                 <br />{" "}
-                <a href="https://www.windows.com/stopcode">
-                  https://www.windows.com/stopcode
+                <a href="https://www.windows.com/stopcode/">
+                  https://www.windows.com/stopcode/
                 </a>{" "}
               </h4>
               <h5>
