@@ -68,10 +68,11 @@ export const Settings = () => {
             <div className="nav_top">
               <div className="account" onClick={() => setPage("Accounts")}>
                 <img
-                  src="img/settings/defAccount.webp"
+                  src="img/asset/prof.png"
                   alt=""
                   height={60}
                   width={60}
+                  style={{ objectFit: "cover", borderRadius: "50%" }}
                 />
                 <div>
                   <p>{userName}</p>
@@ -235,9 +236,10 @@ export const Settings = () => {
                           return (
                             <div key={i} className="accountsTop ">
                               <img
-                                src="img/settings/defAccount.webp"
+                                src="img/asset/prof.png"
                                 alt=""
                                 width={90}
+                                style={{ objectFit: "cover", borderRadius: "50%" }}
                               />
                               <div>
                                 <p>{userName.toUpperCase()}</p>
