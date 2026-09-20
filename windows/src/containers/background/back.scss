@@ -33,34 +33,40 @@
   min-width: 100vw;
   min-height: 100vh;
   z-index: 1;
+  background-color: #000;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all 1s ease-in-out;
+  opacity: 1;
+  overflow: hidden;
+  transition: opacity 0.35s ease;
 
   &[data-unlock="true"] {
     opacity: 0;
   }
 
   &::after {
-    -webkit-backdrop-filter: blur(0);
-    backdrop-filter: blur(0);
-    transition: all 200ms ease-in-out;
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
+    transition: opacity 0.35s ease, backdrop-filter 0.4s ease,
+      background 0.35s ease;
+    pointer-events: none;
   }
 
   &[data-blur="true"]::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    -webkit-backdrop-filter: blur(25px);
-    backdrop-filter: blur(25px);
-    background: rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    background: rgba(0, 0, 0, 0.12);
   }
 }
 
@@ -71,11 +77,13 @@
 }
 
 .splashScreen {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   transform: translateY(0);
-  transition: all 200ms ease-in-out;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 
   &[data-faded="true"] {
     opacity: 0;
@@ -88,12 +96,13 @@
   position: absolute;
   top: 25%;
   left: 50%;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   opacity: 0;
   transform: translate(-50%, 60px);
-  transition: all 400ms ease-in-out;
+  transition: opacity 0.35s ease, transform 0.35s ease;
   pointer-events: none;
 
   &[data-faded="false"] {
@@ -142,11 +151,6 @@
       border: 1px solid #888;
     }
   }
-}
-
-.slowfadein {
-  opacity: 1;
-  animation: slowfadein 1s ease-in-out;
 }
 
 // Loader css

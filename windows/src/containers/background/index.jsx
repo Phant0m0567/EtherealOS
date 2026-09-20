@@ -73,9 +73,31 @@ export const LockScreen = (props) => {
   const [password, setPass] = useState("");
   const [passType, setType] = useState(1);
   const [forgot, setForget] = useState(false);
+  const [lockBackground, setLockBackground] = useState(
+    "url(./img/wallpaper/default/img0.jpg)"
+  );
   const dispatch = useDispatch();
 
   const userName = useSelector((state) => state.setting.person.name);
+
+  const getDayOfYear = () => {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 1);
+    const diff = now - start;
+    const oneDay = 1000 * 60 * 60 * 24;
+    return Math.floor(diff / oneDay) + 1;
+  };
+
+  useEffect(() => {
+    const dayOfYear = getDayOfYear();
+    const defaultBg = "url(./img/wallpaper/default/img0.jpg)";
+    const lockBg = `url(./.background/${dayOfYear}.png)`;
+    const img = new window.Image();
+
+    img.onload = () => setLockBackground(lockBg);
+    img.onerror = () => setLockBackground(defaultBg);
+    img.src = `./.background/${dayOfYear}.png`;
+  }, []);
 
   const action = (e) => {
     var act = e.target.dataset.action,
@@ -110,10 +132,10 @@ export const LockScreen = (props) => {
 
   return (
     <div
-      className={"lockscreen " + (props.dir == -1 ? "slowfadein" : "")}
+      className="lockscreen"
       data-unlock={unlocked}
       style={{
-        backgroundImage: `url(${`img/wallpaper/lock.jpg`})`,
+        backgroundImage: lockBackground,
       }}
       onClick={action}
       data-action="splash"
