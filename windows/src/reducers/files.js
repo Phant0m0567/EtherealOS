@@ -1,6 +1,43 @@
 import { Bin } from "../utils/bin";
 import fdata from "./dir.json";
 
+const getWindowsUserName = () => {
+  try {
+    const settings = JSON.parse(localStorage.getItem("setting") || "{}");
+    const name = String(settings?.person?.name || "").trim();
+    return name || "Guest";
+  } catch {
+    return "Guest";
+  }
+};
+
+const hydrateUserFolderName = (treeData) => {
+  const userName = getWindowsUserName();
+  const usersNode = treeData?.["C:"]?.data?.Users;
+  if (!usersNode || !usersNode.data) return treeData;
+
+  const guestFolder = usersNode.data.Guest;
+  if (!guestFolder) return treeData;
+
+  if (userName === "Guest") {
+    guestFolder.name = "Guest";
+    return treeData;
+  }
+
+  usersNode.data[userName] = {
+    ...guestFolder,
+    name: userName,
+    info: {
+      ...(guestFolder.info || {}),
+      spid: "%user%",
+      icon: "user",
+    },
+  };
+
+  delete usersNode.data.Guest;
+  return treeData;
+};
+
 const defState = {
   cdir: "%user%",
   hist: [],
@@ -9,8 +46,9 @@ const defState = {
 };
 
 defState.hist.push(defState.cdir);
+const hydratedFdata = hydrateUserFolderName(JSON.parse(JSON.stringify(fdata)));
 defState.data = new Bin();
-defState.data.parse(fdata);
+defState.data.parse(hydratedFdata);
 
 const fileReducer = (state = defState, action) => {
   var tmp = { ...state };

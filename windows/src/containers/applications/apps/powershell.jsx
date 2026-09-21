@@ -7,6 +7,7 @@ import dirs from "./assets/dir.json";
 
 export const WnPowerShell = () => {
   const wnapp = useSelector((state) => state.apps.powershell);
+  const userName = useSelector((state) => state.setting.person.name || "Guest");
 
   if (!wnapp) return null;
   const [stack, setStack] = useState([
@@ -14,7 +15,7 @@ export const WnPowerShell = () => {
     "Copyright (C) Microsoft Corporation. All rights reserved.",
     "",
   ]);
-  const [pwd, setPwd] = useState("C:\\Users\\Guest");
+  const [pwd, setPwd] = useState(`C:\\Users\\${userName}`);
   const [lastCmd, setLsc] = useState(0);
   const [wntitle, setWntitle] = useState("PowerShell");
   const files = useSelector((state) => state.files);
@@ -24,6 +25,10 @@ export const WnPowerShell = () => {
   const cmdContId = useRef(`cmdcont-powershell-${Math.random().toString(36).slice(2)}`);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setPwd(`C:\\Users\\${userName || "Guest"}`);
+  }, [userName]);
 
   const normalizePath = (value) => {
     if (!value) return "C:\\";
@@ -131,7 +136,7 @@ export const WnPowerShell = () => {
           }),
       );
     } else if (type == "whoami") {
-      tmpStack.push("guest\\user");
+      tmpStack.push(`${userName || "Guest"}\\user`);
     } else if (type == "hostname") {
       tmpStack.push("BLUE");
     } else if (type == "start-process" || type == "start") {
@@ -144,7 +149,7 @@ export const WnPowerShell = () => {
         "OS Manufacturer:           Microsoft Corporation",
         "OS Configuration:          Standalone Workstation",
         "OS Build Type:             Multiprocessor Free",
-        "Registered Owner:          Guest",
+        `Registered Owner:          ${userName || "Guest"}`,
         "Registered Organization:   N/A",
         "Product ID:                7H1S1-5AP1R-473DV-3R5I0N",
       ];

@@ -377,6 +377,7 @@ const ContentArea = ({ searchtxt }) => {
 const NavPane = ({}) => {
   const files = useSelector((state) => state.files);
   const special = useSelector((state) => state.files.data.special);
+  const userName = useSelector((state) => state.setting.person.name || "Guest");
 
   return (
     <div className="navpane win11Scroll">
@@ -389,7 +390,7 @@ const NavPane = ({}) => {
             notoggle
             pinned
           />
-          <Dropdown icon="user" title="Guest" spid="%user%" notoggle pinned />
+          <Dropdown icon="user" title={userName} spid="%user%" notoggle pinned />
           <Dropdown
             icon="docs"
             title="Documents"
@@ -409,7 +410,6 @@ const NavPane = ({}) => {
           <Dropdown icon="pics" title="Pictures" spid="%pictures%" />
           <Dropdown icon="vid" title="Videos" spid="%videos%" />
           <Dropdown icon="disc" title="OS (C:)" spid="%cdrive%" />
-          <Dropdown icon="disk" title="Blue (D:)" spid="%ddrive%" />
         </Dropdown>
       </div>
     </div>

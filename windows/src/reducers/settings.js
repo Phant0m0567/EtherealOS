@@ -17,7 +17,7 @@ const defState = {
     },
   },
   person: {
-    name: "Guest",
+    name: "",
     theme: "light",
     color: "blue",
   },
@@ -36,6 +36,24 @@ const defState = {
     },
   },
 };
+
+const deepMerge = (base, incoming) => {
+  if (Array.isArray(base) || Array.isArray(incoming)) {
+    return incoming ?? base;
+  }
+
+  if (base && typeof base === "object" && incoming && typeof incoming === "object") {
+    const merged = { ...base };
+    Object.keys(incoming).forEach((key) => {
+      merged[key] = deepMerge(base[key], incoming[key]);
+    });
+    return merged;
+  }
+
+  return incoming ?? base;
+};
+
+const normalizeSettings = (incoming = {}) => deepMerge(defState, incoming);
 
 document.body.dataset.theme = defState.person.theme;
 
@@ -73,7 +91,7 @@ const settReducer = (state = defState, action) => {
       break;
     case "SETTLOAD":
       changed = true;
-      tmpState = { ...action.payload };
+      tmpState = normalizeSettings(action.payload);
       break;
     case "TOGGAIRPLNMD":
       changed = true;

@@ -120,6 +120,8 @@ export const LockScreen = (props) => {
   };
 
   const proceed = () => {
+    localStorage.setItem("setupComplete", "true");
+    window.dispatchEvent(new Event("setup-complete"));
     setUnLock(true);
     setTimeout(() => {
       dispatch({ type: "WALLUNLOCK" });

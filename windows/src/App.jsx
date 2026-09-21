@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
 import "./i18nextConf";
@@ -20,6 +20,7 @@ import { Background, BootScreen, LockScreen } from "./containers/background";
 import { loadSettings } from "./actions";
 import * as Applications from "./containers/applications";
 import * as Drafts from "./containers/applications/draft";
+import { GetstartedStandalone } from "./containers/applications/apps/getstarted";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   const stopCodeUrl = "https://www.windows.com/stopcode";
@@ -150,6 +151,49 @@ function App() {
     dispatch({ type: "WALLBOOTED" });
   };
 
+  const hasSetupCompleted = () => {
+    if (typeof window === "undefined") return true;
+
+    try {
+      return localStorage.getItem("setupComplete") === "true";
+    } catch {
+      return false;
+    }
+  };
+
+  const [setupDismissed, setSetupDismissed] = useState(() => hasSetupCompleted());
+  const setupVisible = !hasSetupCompleted();
+  const showGetStartedApp = !setupVisible;
+  window.__etherealSetup = {
+    setupDismissed,
+    setupVisible,
+    wallLocked: wall.locked,
+    explicitFlag: localStorage.getItem("setupComplete"),
+    storageValue: hasSetupCompleted(),
+  };
+
+  useEffect(() => {
+    const syncSetupState = () => {
+      const nextState = hasSetupCompleted();
+      setSetupDismissed(nextState);
+    };
+
+    syncSetupState();
+    window.addEventListener("storage", syncSetupState);
+    window.addEventListener("setup-complete", syncSetupState);
+
+    return () => {
+      window.removeEventListener("storage", syncSetupState);
+      window.removeEventListener("setup-complete", syncSetupState);
+    };
+  }, []);
+
+  const finishSetup = () => {
+    localStorage.setItem("setupComplete", "true");
+    setSetupDismissed(true);
+    window.dispatchEvent(new Event("setup-complete"));
+  };
+
   useEffect(() => {
     if (!window.onstart) {
       loadSettings();
@@ -162,34 +206,42 @@ function App() {
   return (
     <div className="App">
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        {!wall.booted ? <BootScreen dir={wall.dir} /> : null}
-        {wall.locked ? <LockScreen dir={wall.dir} /> : null}
-        <div className="appwrap">
-          <Background />
-          <div className="desktop" data-menu="desk">
-            <DesktopApp />
-            {Object.keys(Applications).map((key, idx) => {
-              var WinApp = Applications[key];
-              return <WinApp key={idx} />;
-            })}
-            {Object.keys(apps)
-              .filter((x) => x != "hz")
-              .map((key) => apps[key])
-              .map((app, i) => {
-                if (app.pwa) {
-                  var WinApp = Drafts[app.data.type];
-                  return <WinApp key={i} icon={app.icon} {...app.data} />;
-                }
-              })}
-            <StartMenu />
-            <BandPane />
-            <SidePane />
-            <WidPane />
-            <CalnWid />
-          </div>
-          <Taskbar />
-          <ActMenu />
-        </div>
+        {setupVisible ? (
+          <GetstartedStandalone onComplete={finishSetup} />
+        ) : (
+          <>
+            {!wall.booted ? <BootScreen dir={wall.dir} /> : null}
+            {wall.locked ? <LockScreen dir={wall.dir} /> : null}
+            <div className="appwrap">
+              <Background />
+              <div className="desktop" data-menu="desk">
+                <DesktopApp />
+                {Object.keys(Applications)
+                  .filter((key) => key !== "Getstarted" || showGetStartedApp)
+                  .map((key, idx) => {
+                    var WinApp = Applications[key];
+                    return <WinApp key={idx} />;
+                  })}
+                {Object.keys(apps)
+                  .filter((x) => x != "hz")
+                  .map((key) => apps[key])
+                  .map((app, i) => {
+                    if (app.pwa) {
+                      var WinApp = Drafts[app.data.type];
+                      return <WinApp key={i} icon={app.icon} {...app.data} />;
+                    }
+                  })}
+                <StartMenu />
+                <BandPane />
+                <SidePane />
+                <WidPane />
+                <CalnWid />
+              </div>
+              <Taskbar />
+              <ActMenu />
+            </div>
+          </>
+        )}
       </ErrorBoundary>
     </div>
   );

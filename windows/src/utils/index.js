@@ -5,6 +5,16 @@ const sanitizeAppList = (list = []) =>
     ? list.filter((name) => name && name !== "Buy me a coffee")
     : [];
 
+const getWindowsUserName = () => {
+  try {
+    const settings = JSON.parse(localStorage.getItem("setting") || "{}");
+    const name = String(settings?.person?.name || "").trim();
+    return name || "Guest";
+  } catch {
+    return "Guest";
+  }
+};
+
 var { taskbar, desktop, pinned, recent } = {
   taskbar: sanitizeAppList(
     (localStorage.getItem("taskbar") && JSON.parse(localStorage.getItem("taskbar"))) || [
@@ -17,7 +27,7 @@ var { taskbar, desktop, pinned, recent } = {
   ),
   desktop: sanitizeAppList(
     (localStorage.getItem("desktop") && JSON.parse(localStorage.getItem("desktop"))) || [
-      "Guest",
+      getWindowsUserName(),
       "Recycle Bin",
       "File Explorer",
       "Store",

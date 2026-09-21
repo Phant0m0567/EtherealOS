@@ -9,8 +9,9 @@ import dirs from "./assets/dir.json";
 
 export const WnTerminal = () => {
   const wnapp = useSelector((state) => state.apps.terminal);
+  const userName = useSelector((state) => state.setting.person.name || "Guest");
   const [stack, setStack] = useState(["OS [Version 10.0.22000.51]", ""]);
-  const [pwd, setPwd] = useState("C:\\Users\\Guest");
+  const [pwd, setPwd] = useState(`C:\\Users\\${userName}`);
   const [lastCmd, setLsc] = useState(0);
   const [wntitle, setWntitle] = useState("Terminal");
   const files = useSelector((state) => state.files);
@@ -20,6 +21,10 @@ export const WnTerminal = () => {
   const cmdContId = useRef(`cmdcont-terminal-${Math.random().toString(36).slice(2)}`);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setPwd(`C:\\Users\\${userName || "Guest"}`);
+  }, [userName]);
 
   const normalizePath = (value) => {
     if (!value) return "C:\\";
@@ -302,7 +307,7 @@ export const WnTerminal = () => {
         "OS Manufacturer:           ",
         "OS Configuration:          Standalone Workstation",
         "OS Build Type:             Multiprocessor Free",
-        "Registered Owner:          Guest",
+        `Registered Owner:          ${userName || "Guest"}`,
         "Registered Organization:   N/A",
         "Product ID:                7H1S1-5AP1R-473DV-3R5I0N",
       ];

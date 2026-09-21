@@ -3,6 +3,18 @@ export const gene_name = () =>
 
 let installed = JSON.parse(localStorage.getItem("installed") || "[]");
 
+const getWindowsUserName = () => {
+  try {
+    const settings = JSON.parse(localStorage.getItem("setting") || "{}");
+    const name = String(settings?.person?.name || "").trim();
+    return name || "Guest";
+  } catch {
+    return "Guest";
+  }
+};
+
+const windowsUserName = getWindowsUserName();
+
 const apps = [
   {
     name: "Start",
@@ -58,7 +70,7 @@ const apps = [
     type: "app",
   },
   {
-    name: "Guest",
+    name: windowsUserName,
     icon: "win/user",
     type: "app",
     action: "EXPLORER",

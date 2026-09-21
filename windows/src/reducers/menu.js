@@ -1,3 +1,15 @@
+const getWindowsUserName = () => {
+  try {
+    const settings = JSON.parse(localStorage.getItem("setting") || "{}");
+    const name = String(settings?.person?.name || "").trim();
+    return name || "Guest";
+  } catch {
+    return "Guest";
+  }
+};
+
+const userDesktopPath = `C:\\Users\\${getWindowsUserName()}\\Desktop`;
+
 const defState = {
   hide: true,
   top: 80,
@@ -131,7 +143,7 @@ const defState = {
         name: "Open in Terminal",
         icon: "terminal",
         action: "OPENTERM",
-        payload: "C:\\Users\\Guest\\Desktop",
+        payload: userDesktopPath,
       },
     ],
     task: [
