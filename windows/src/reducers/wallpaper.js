@@ -17,10 +17,6 @@ const walls = [
   "ThemeD/img1.jpg",
   "ThemeD/img2.jpg",
   "ThemeD/img3.jpg",
-  "ThemeE/img0.png",
-  "ThemeE/img1.png",
-  "ThemeE/img2.png",
-  "ThemeE/img3.png",
 ];
 
 const normalizeWallIndex = (value, fallback = 0) => {
@@ -36,7 +32,7 @@ var locked = localStorage.getItem("locked");
 var isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 var isLocked = isLocal ? true : locked === null ? true : locked === "true";
 
-const themes = ["default", "dark", "ThemeA", "ThemeB", "ThemeD", "ThemeC", "ThemeE"];
+const themes = ["default", "dark", "ThemeA", "ThemeB", "ThemeD", "ThemeC"];
 
 const defState = {
   themes: themes,
