@@ -1,4 +1,4 @@
-<!-- i fucked geo and grumpykitten in the ass last night -->
+<!-- singularity was here, slayyyyyyyyyyy -->
 <!Doctype HTML>
 <html lang="en">
 <head>
@@ -13,15 +13,16 @@
   :root {
     --primary-color-darkmode: #313338;
     --secondary-color-darkmode: #2b2d31;
-    --card-color-darkmode: #ffffff05;
-    --card-border-darkmode: #ffffff0a;
-    --card-hover-darkmode: #ffffff08;
+    --card-color-darkmode: #1e2b3a;
+    --card-border-darkmode: #3a4a5c;
+    --card-hover-darkmode: #24384a;
+    --card-outline: #4db8ff;
 
     --primary-color-lightmode: #f2f3f5;
     --secondary-color-lightmode: #e3e5e8;
-    --card-color-lightmode: #ffffffd9;
-    --card-border-lightmode: #11121414;
-    --card-hover-lightmode: #ffffff;
+    --card-color-lightmode: #dceeff;
+    --card-border-lightmode: #b3d9f2;
+    --card-hover-lightmode: #c7e6ff;
 
     --primary-text-color-darkmode: #f2f3f5;
     --secondary-text-color-darkmode: #b5bac1;
@@ -138,12 +139,14 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    backdrop-filter: blur(2px);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
   }
 
   a:hover {
     background: var(--card-hover-darkmode);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--card-outline);
+    outline-color: var(--card-outline);
   }
 
   a:hover .os-icon {
@@ -210,7 +213,8 @@
 
   body.light-mode a:hover {
     background: var(--card-hover-lightmode);
-    border-color: rgba(17, 18, 20, 0.12);
+    border-color: var(--card-outline);
+    outline-color: var(--card-outline);
   }
 
   @keyframes gradientMove {
@@ -247,7 +251,7 @@
   </div>
 
   <script>
-  
+    
     const toggleBtn = document.getElementById('themeButton');
     const themeIcon = document.getElementById('themeIcon');
 
@@ -259,6 +263,7 @@
       themeIcon.style.color = isLight ? '#111214' : '#f2f3f5';
     });
 
+    
     (function () {
       const canvas = document.getElementById('matrixCanvas');
       const ctx = canvas.getContext('2d');
@@ -278,7 +283,7 @@
       resize();
 
       function draw() {
-    
+        
         ctx.fillStyle = 'rgba(10, 12, 20, 0.08)';
         ctx.fillRect(0, 0, width, height);
 
@@ -288,7 +293,6 @@
           const char = chars[Math.floor(Math.random() * chars.length)];
           const x = i * fontSize;
           const y = drops[i] * fontSize;
-
 
           ctx.fillStyle = '#8fd3ff';
           ctx.fillText(char, x, y);
