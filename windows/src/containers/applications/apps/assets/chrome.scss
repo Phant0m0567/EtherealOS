@@ -1,0 +1,703 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+.chromeBrowser {
+  --ch-bg-header: #dee1e6;
+  --ch-bg-toolbar: #ffffff;
+  --ch-bg-omnibox: #f1f3f4;
+  --ch-border-omnibox: #dfe1e5;
+  --ch-txt: #3c4043;
+  --ch-txt-muted: #5f6368;
+  --ch-tab-active: #ffffff;
+  --ch-tab-inactive: transparent;
+  --ch-tab-hover: #e8eaed;
+  --ch-btn-hover: rgba(0, 0, 0, 0.08);
+  --ch-focus-ring: #1a73e8;
+  --ch-ntp-bg: #ffffff;
+  --ch-ntp-card: #f8f9fa;
+  --ch-ntp-card-border: #dadce0;
+  --ch-ntp-search-bg: #ffffff;
+  --ch-ntp-search-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  --ch-ntp-txt: #202124;
+  --ch-ntp-shortcut: #f1f3f4;
+  --ch-ntp-shortcut-hover: rgba(0, 0, 0, 0.06);
+
+  background: var(--ch-bg-header);
+  color: var(--ch-txt);
+  user-select: none;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+
+  .toolbar {
+    height: 38px;
+    background: var(--ch-bg-header) !important;
+    position: relative;
+    z-index: 10;
+
+    .topInfo {
+      height: 100%;
+      cursor: default;
+    }
+
+    .actbtns {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      z-index: 20;
+    }
+  }
+
+  .chrome-overTool {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 140px;
+    height: 38px;
+    display: flex;
+    align-items: flex-end;
+    padding-left: 8px;
+    z-index: 15;
+    pointer-events: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chrome-tab-bar {
+      pointer-events: auto;
+      display: flex;
+      align-items: flex-end;
+      height: 100%;
+      min-width: min-content;
+      gap: 2px;
+    }
+  }
+}
+
+body[data-theme="dark"] .chromeBrowser {
+  --ch-bg-header: #202124;
+  --ch-bg-toolbar: #292a2d;
+  --ch-bg-omnibox: #202124;
+  --ch-border-omnibox: #3c4043;
+  --ch-txt: #e8eaed;
+  --ch-txt-muted: #9aa0a6;
+  --ch-tab-active: #292a2d;
+  --ch-tab-inactive: transparent;
+  --ch-tab-hover: #2d2f32;
+  --ch-btn-hover: rgba(255, 255, 255, 0.1);
+  --ch-focus-ring: #8ab4f8;
+  --ch-ntp-bg: #202124;
+  --ch-ntp-card: #303134;
+  --ch-ntp-card-border: #4a4d51;
+  --ch-ntp-search-bg: #4d5156;
+  --ch-ntp-search-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  --ch-ntp-txt: #ffffff;
+  --ch-ntp-shortcut: #303134;
+  --ch-ntp-shortcut-hover: rgba(255, 255, 255, 0.08);
+}
+
+.chrome-tab-bar {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  padding-left: 0;
+  z-index: 2;
+}
+
+.chrome-tab {
+  height: 34px;
+  width: 190px;
+  max-width: 240px;
+  min-width: 80px;
+  background: var(--ch-tab-inactive);
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ch-txt-muted);
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s ease, color 0.15s ease;
+  user-select: none;
+  flex-shrink: 1;
+
+  &:hover {
+    background: var(--ch-tab-hover);
+    color: var(--ch-txt);
+  }
+
+  &.active {
+    background: var(--ch-tab-active);
+    color: var(--ch-txt);
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.08);
+    z-index: 2;
+  }
+
+  .chrome-tab-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    .chrome-tab-favicon {
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
+    }
+
+    .chrome-tab-fallback-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .chrome-tab-title {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .chrome-tab-close {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    opacity: 0.7;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      opacity: 1;
+      background: var(--ch-btn-hover);
+    }
+  }
+}
+
+.chrome-newtab-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  margin-bottom: 3px;
+  cursor: pointer;
+  color: var(--ch-txt-muted);
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--ch-btn-hover);
+    color: var(--ch-txt);
+  }
+}
+
+.chrome-nav-bar {
+  height: 44px;
+  background: var(--ch-bg-toolbar);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 4px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body[data-theme="dark"] .chrome-nav-bar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chrome-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ch-txt);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--ch-btn-hover);
+  }
+
+  &.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+}
+
+.chrome-omnibox-container {
+  flex-grow: 1;
+  height: 32px;
+  background: var(--ch-bg-omnibox);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  margin: 0 6px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+
+  &:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  &.focused {
+    background: var(--ch-bg-toolbar);
+    border-color: var(--ch-focus-ring);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .chrome-omnibox-icon {
+    display: flex;
+    align-items: center;
+    color: var(--ch-txt-muted);
+    flex-shrink: 0;
+  }
+
+  .chrome-omnibox-input {
+    flex-grow: 1;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    color: var(--ch-txt);
+    font-family: inherit;
+    padding: 0;
+
+    &::placeholder {
+      color: var(--ch-txt-muted);
+    }
+  }
+
+  .chrome-omnibox-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .action-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ch-txt-muted);
+
+      &:hover {
+        background: var(--ch-btn-hover);
+        color: var(--ch-txt);
+      }
+    }
+  }
+}
+
+.chrome-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .chrome-profile-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4285f4, #34a853);
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+
+.chrome-bookmarks-bar {
+  height: 28px;
+  background: var(--ch-bg-toolbar);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 6px;
+  font-size: 12px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+  .bookmark-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    color: var(--ch-txt);
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--ch-btn-hover);
+    }
+
+    .bookmark-favicon-img {
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
+    }
+  }
+}
+
+body[data-theme="dark"] .chrome-bookmarks-bar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.chrome-ntp-container {
+  width: 100%;
+  height: 100%;
+  background: var(--ch-ntp-bg);
+  color: var(--ch-ntp-txt);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+  box-sizing: border-box;
+  font-family: 'Roboto', Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.chrome-ntp-header {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  gap: 16px;
+  font-size: 13px;
+
+  a {
+    color: var(--ch-ntp-txt);
+    text-decoration: none;
+    opacity: 0.88;
+    font-weight: 400;
+
+    &:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+  }
+
+  .ntp-header-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ch-ntp-txt);
+
+    &:hover {
+      background: var(--ch-btn-hover);
+    }
+  }
+}
+
+.chrome-ntp-center {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.chrome-google-logo {
+  margin-bottom: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 92px;
+
+  .google-logo-light {
+    display: block;
+    width: 272px;
+    height: 92px;
+    object-fit: contain;
+  }
+
+  .google-logo-dark {
+    display: none;
+    width: 272px;
+    height: 92px;
+    object-fit: contain;
+  }
+}
+
+body[data-theme="dark"] .chrome-google-logo {
+  .google-logo-light {
+    display: none;
+  }
+  .google-logo-dark {
+    display: block;
+  }
+}
+
+.chrome-ntp-searchbar {
+  width: 100%;
+  max-width: 584px;
+  height: 46px;
+  background: var(--ch-ntp-search-bg);
+  border-radius: 24px;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  border: 1px solid var(--ch-ntp-card-border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 1px 8px rgba(32, 33, 36, 0.38);
+    border-color: transparent;
+  }
+
+  &:focus-within {
+    box-shadow: 0 1px 8px rgba(32, 33, 36, 0.45);
+    border-color: transparent;
+  }
+
+  .ntp-search-icon {
+    color: var(--ch-txt-muted);
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .ntp-search-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 16px;
+    color: var(--ch-ntp-txt);
+    padding: 0;
+
+    &::placeholder {
+      color: var(--ch-txt-muted);
+      font-family: 'Roboto', Arial, sans-serif;
+      font-size: 15px;
+    }
+  }
+}
+
+body[data-theme="dark"] .chrome-ntp-searchbar {
+  background: #4d5156;
+  border: none;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+
+  &:hover {
+    background: #53575c;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  }
+
+  &:focus-within {
+    background: #4d5156;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  }
+
+  .ntp-search-input {
+    color: #ffffff;
+
+    &::placeholder {
+      color: #9aa0a6;
+    }
+  }
+
+  .ntp-search-icon {
+    color: #9aa0a6;
+  }
+}
+
+.chrome-ntp-shortcuts {
+  display: flex;
+  gap: 12px 14px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 580px;
+
+  .shortcut-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 112px;
+    height: 112px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--ch-ntp-shortcut-hover);
+    }
+
+    .shortcut-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--ch-ntp-shortcut);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      overflow: hidden;
+
+      .shortcut-favicon-img {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        object-fit: contain;
+      }
+
+      .shortcut-fallback-letter {
+        font-family: 'Roboto', Arial, sans-serif;
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--ch-ntp-txt);
+      }
+    }
+
+    .add-shortcut-circle {
+      color: var(--ch-txt-muted);
+    }
+
+    .shortcut-label {
+      font-family: 'Roboto', Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ch-ntp-txt);
+      text-align: center;
+      max-width: 96px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 16px;
+    }
+  }
+}
+
+.chrome-customize-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: transparent;
+  border: 1px solid var(--ch-ntp-card-border);
+  color: var(--ch-focus-ring);
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--ch-btn-hover);
+  }
+}
+
+.chrome-site-frame {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.chrome-connect-banner {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 320px;
+  background: var(--ch-ntp-card);
+  border: 1px solid var(--ch-ntp-card-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  animation: fadeIn 0.25s ease-out;
+
+  .banner-close {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--ch-txt-muted);
+
+    &:hover {
+      background: var(--ch-btn-hover);
+      color: var(--ch-txt);
+    }
+  }
+
+  .banner-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #f28b82;
+    margin-bottom: 4px;
+  }
+
+  .banner-desc {
+    font-size: 11px;
+    color: var(--ch-txt-muted);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .banner-link {
+    font-size: 11px;
+    color: var(--ch-focus-ring);
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}

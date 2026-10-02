@@ -1,5 +1,19 @@
 [
   {
+    "name": "Google Chrome",
+    "icon": "img/icon/chrome.png",
+    "type": "app",
+    "data": {
+      "type": "chrome",
+      "url": "https://www.google.com/?igu=1",
+      "gallery": [
+        "img/store/chromegallery1.jpg"
+      ],
+      "desc": "Google Chrome is a fast, easy to use, and secure web browser. Designed for Windows, Chrome brings you the best of Google Search, tabbed browsing, customizable settings, and built-in protection.",
+      "feat": "Fast and smooth web browsing.\nBuilt-in Google Search and Omnibox.\nCustomizable tabs and quick shortcuts.\nSecurity and malware protection.\nSeamless Google ecosystem integration."
+    }
+  },
+  {
     "name": "Minecraft",
     "icon": "https://raw.githubusercontent.com/andrewstech/windows11-1/master/public/img/icon/minecraft.png",
     "type": "game",

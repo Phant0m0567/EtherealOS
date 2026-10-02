@@ -80,23 +80,39 @@ export const LockScreen = (props) => {
 
   const userName = useSelector((state) => state.setting.person.name);
 
-  const getDayOfYear = () => {
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 1);
-    const diff = now - start;
-    const oneDay = 1000 * 60 * 60 * 24;
-    return Math.floor(diff / oneDay) + 1;
-  };
-
   useEffect(() => {
-    const dayOfYear = getDayOfYear();
     const defaultBg = "url(./img/wallpaper/default/img0.jpg)";
-    const lockBg = `url(./.background/${dayOfYear}.png)`;
-    const img = new window.Image();
+    const today = new Date().toISOString().slice(0, 10);
+    const cacheKey = `spotlight_bg_${today}`;
 
-    img.onload = () => setLockBackground(lockBg);
-    img.onerror = () => setLockBackground(defaultBg);
-    img.src = `./.background/${dayOfYear}.png`;
+    const applyBackground = (imageUrl) => {
+      const img = new window.Image();
+      img.onload = () => setLockBackground(`url(${imageUrl})`);
+      img.onerror = () => setLockBackground(defaultBg);
+      img.src = imageUrl;
+    };
+
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      applyBackground(cached);
+      return;
+    }
+
+    fetch("https://bing.biturl.top/?resolution=1920&format=json&index=0&mkt=en-US")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.url) {
+          try {
+            localStorage.setItem(cacheKey, data.url);
+          } catch {}
+          applyBackground(data.url);
+        } else {
+          setLockBackground(defaultBg);
+        }
+      })
+      .catch(() => {
+        setLockBackground(defaultBg);
+      });
   }, []);
 
   const action = (e) => {

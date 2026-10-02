@@ -7,6 +7,7 @@ import "./wnapp.scss";
 export * from "./apps/about";
 export * from "./apps/calculator";
 export * from "./apps/camera";
+export * from "./apps/chrome";
 export * from "./apps/discord";
 export * from "./apps/edge";
 export * from "./apps/explorer";

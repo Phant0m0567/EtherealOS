@@ -187,7 +187,7 @@ export const uninstallApp = (name) => {
   if (!name) return;
 
   var app = Object.values(store.getState().apps).find(
-    (item) => item && item.name == name,
+    (item) => item && (item.name == name || (name.toLowerCase().includes("chrome") && item.icon == "chrome")),
   );
 
   if (!app) return;
@@ -214,7 +214,19 @@ export const uninstallApp = (name) => {
 };
 
 export const installApp = (data) => {
-  var app = { ...data, type: "app", pwa: true };
+  var isChrome =
+    data.name === "Google Chrome" ||
+    data.icon === "chrome" ||
+    data.icon === "img/icon/chrome.png";
+
+  var app = { ...data, type: "app", pwa: !isChrome };
+  if (isChrome) {
+    app.icon = "chrome";
+    app.action = "CHROME";
+    app.name = "Google Chrome";
+  } else {
+    app.action = gene_name();
+  }
 
   var installed = localStorage.getItem("installed");
   if (!installed) installed = "[]";
@@ -230,7 +242,6 @@ export const installApp = (data) => {
   desk.push(app.name);
   localStorage.setItem("desktop", JSON.stringify(desk));
 
-  app.action = gene_name();
   store.dispatch({ type: "ADDAPP", payload: app });
   store.dispatch({ type: "DESKADD", payload: app });
   store.dispatch({ type: "WNSTORE", payload: "mnmz" });

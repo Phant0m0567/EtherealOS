@@ -17,6 +17,8 @@
   transition: all ease-in-out 200ms;
   justify-content: center;
   border: 1px solid transparent;
+  user-select: none;
+  cursor: default;
 
   &:focus {
     background: rgba(255, 255, 255, 0.24);
@@ -33,6 +35,7 @@
     color: #fafafa;
     margin-top: 4px;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+    user-select: none;
   }
 }
 

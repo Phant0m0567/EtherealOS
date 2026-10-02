@@ -73,19 +73,17 @@ export const WnTerminal = () => {
   let IpDetails = [];
   const getIPDetails = async () => {
     try {
-      const response = await fetch("https://ipapi.co/json")
-        .then((response) => response.json())
-        .then((data) => {
-          IpDetails.push(data);
-        });
+      const response = await fetch("https://ipapi.co/json");
+      const data = await response.json();
+      IpDetails.push(data);
     } catch (error) {
       IpDetails.push({
-        ip: "__network_error",
-        network: "__kindly check internet connection",
-        city: "",
-        region: "",
-        org: "",
-        postal: "",
+        ip: "192.168.1.100",
+        network: "Ethernet adapter Local Area Connection",
+        city: "Local",
+        region: "Local",
+        org: "LocalHost",
+        postal: "00000",
       });
     }
   };
@@ -342,7 +340,17 @@ export const WnTerminal = () => {
       }
     } else if (type == "") {
     } else if (type == "ipconfig") {
-      const IP = IpDetails[0];
+      if (!IpDetails.length) {
+        await getIPDetails();
+      }
+      const IP = IpDetails[0] || {
+        ip: "192.168.1.100",
+        network: "Ethernet adapter Local Area Connection",
+        city: "Local",
+        region: "Local",
+        org: "LocalHost",
+        postal: "00000",
+      };
       tmpStack.push("Windows IP Configuration");
       tmpStack.push("");
       tmpStack.push("IPv6: " + IP.ip);
@@ -498,13 +506,11 @@ export const WnTerminal = () => {
   };
 
   useEffect(() => {
-    getIPDetails();
-
     if (wnapp.dir && wnapp.dir != pwd) {
       setPwd(wnapp.dir);
       dispatch({ type: "OPENTERM", payload: null });
     }
-  });
+  }, [wnapp.dir, pwd, dispatch]);
 
   return (
     <div

@@ -2,7 +2,7 @@ import { allApps } from "../utils";
 
 var dev = "";
 if (import.meta.env.MODE == "development") {
-  dev = ""; // set the name (lowercase) of the app you are developing so that it will be opened on refresh
+  dev = "";
 }
 
 const defState = {};
@@ -20,6 +20,17 @@ for (var i = 0; i < allApps.length; i++) {
     defState[allApps[i].icon].z = 1;
   }
 }
+
+defState["chrome"] = {
+  name: "Google Chrome",
+  icon: "chrome",
+  type: "app",
+  action: "CHROME",
+  size: "full",
+  hide: true,
+  max: null,
+  z: 0,
+};
 
 defState.hz = 2;
 
@@ -41,6 +52,36 @@ const appReducer = (state = defState, action) => {
     tmpState.hz += 1;
     obj.z = tmpState.hz;
     tmpState["edge"] = obj;
+    return tmpState;
+  } else if (action.type == "CHROMELINK") {
+    var obj = tmpState["chrome"]
+      ? { ...tmpState["chrome"] }
+      : {
+          name: "Google Chrome",
+          icon: "chrome",
+          type: "app",
+          action: "CHROME",
+          size: "full",
+          hide: false,
+          max: true,
+          z: 0,
+        };
+    if (action.payload && action.payload.startsWith("http")) {
+      obj.url = action.payload;
+    } else if (action.payload && action.payload.length != 0) {
+      obj.url =
+        "https://www.google.com/search?igu=1&q=" +
+        encodeURIComponent(action.payload);
+    } else {
+      obj.url = null;
+    }
+
+    obj.size = "full";
+    obj.hide = false;
+    obj.max = true;
+    tmpState.hz += 1;
+    obj.z = tmpState.hz;
+    tmpState["chrome"] = obj;
     return tmpState;
   } else if (action.type == "SHOWDSK") {
     var keys = Object.keys(tmpState);
@@ -72,15 +113,101 @@ const appReducer = (state = defState, action) => {
     tmpState["terminal"] = obj;
     return tmpState;
   } else if (action.type == "ADDAPP") {
-    tmpState[action.payload.icon] = action.payload;
-    tmpState[action.payload.icon].size = "full";
-    tmpState[action.payload.icon].hide = true;
-    tmpState[action.payload.icon].max = null;
-    tmpState[action.payload.icon].z = 0;
+    var isChrome =
+      action.payload.name === "Google Chrome" ||
+      action.payload.icon === "chrome" ||
+      action.payload.icon === "img/icon/chrome.png";
+
+    var key = isChrome ? "chrome" : action.payload.icon;
+    tmpState[key] = {
+      ...action.payload,
+      icon: isChrome ? "chrome" : action.payload.icon,
+      action: isChrome ? "CHROME" : action.payload.action,
+      size: "full",
+      hide: true,
+      max: null,
+      z: 0,
+    };
 
     return tmpState;
   } else if (action.type == "DELAPP") {
     delete tmpState[action.payload];
+    return tmpState;
+  } else if (action.type == "CHROME") {
+    var obj = state["chrome"]
+      ? { ...state["chrome"] }
+      : {
+          name: "Google Chrome",
+          icon: "chrome",
+          type: "app",
+          action: "CHROME",
+          size: "full",
+          hide: false,
+          max: true,
+          z: 0,
+        };
+
+    if (action.payload == "close") {
+      obj.hide = true;
+      obj.max = null;
+      obj.z = -1;
+      tmpState.hz -= 1;
+    } else if (action.payload == "mnmz") {
+      obj.max = false;
+      obj.hide = false;
+      if (obj.z == tmpState.hz) tmpState.hz -= 1;
+      obj.z = -1;
+    } else if (action.payload == "mxmz") {
+      obj.size = obj.size != "full" ? "full" : "mini";
+      obj.hide = false;
+      obj.max = true;
+      tmpState.hz += 1;
+      obj.z = tmpState.hz;
+    } else if (action.payload == "togg") {
+      if (obj.z != tmpState.hz) {
+        obj.hide = false;
+        if (!obj.max) {
+          tmpState.hz += 1;
+          obj.z = tmpState.hz;
+          obj.max = true;
+        } else {
+          obj.z = -1;
+          obj.max = false;
+        }
+      } else {
+        obj.max = !obj.max;
+        obj.hide = false;
+        if (obj.max) {
+          tmpState.hz += 1;
+          obj.z = tmpState.hz;
+        } else {
+          obj.z = -1;
+          tmpState.hz -= 1;
+        }
+      }
+    } else if (action.payload == "resize") {
+      obj.size = "cstm";
+      obj.hide = false;
+      obj.max = true;
+      if (obj.z != tmpState.hz) tmpState.hz += 1;
+      obj.z = tmpState.hz;
+      obj.dim = action.dim;
+    } else if (action.payload == "front") {
+      obj.hide = false;
+      obj.max = true;
+      if (obj.z != tmpState.hz) {
+        tmpState.hz += 1;
+        obj.z = tmpState.hz;
+      }
+    } else {
+      obj.size = "full";
+      obj.hide = false;
+      obj.max = true;
+      tmpState.hz += 1;
+      obj.z = tmpState.hz;
+    }
+
+    tmpState["chrome"] = obj;
     return tmpState;
   } else {
     var keys = Object.keys(state);
@@ -88,6 +215,7 @@ const appReducer = (state = defState, action) => {
       var obj = state[keys[i]];
       if (obj.action == action.type) {
         tmpState = { ...state };
+        obj = { ...obj };
 
         if (action.payload == "full") {
           obj.size = "full";

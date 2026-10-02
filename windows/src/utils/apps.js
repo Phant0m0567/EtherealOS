@@ -307,8 +307,22 @@ const apps = [
 ];
 
 for (let i = 0; i < installed.length; i++) {
-  installed[i].action = gene_name();
+  if (
+    installed[i].icon === "chrome" ||
+    installed[i].name === "Google Chrome" ||
+    installed[i].icon === "img/icon/chrome.png"
+  ) {
+    installed[i].icon = "chrome";
+    installed[i].action = "CHROME";
+    installed[i].name = "Google Chrome";
+  } else if (!installed[i].action) {
+    installed[i].action = gene_name();
+  }
   apps.push(installed[i]);
+}
+
+if (typeof localStorage !== "undefined") {
+  localStorage.setItem("installed", JSON.stringify(installed));
 }
 
 export default apps;

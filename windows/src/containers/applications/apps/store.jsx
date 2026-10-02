@@ -55,14 +55,19 @@ export const MicroStore = () => {
   };
 
   const action = (e) => {
-    var act = e.target.dataset.action,
-      payload = e.target.dataset.payload;
+    var act = e.target.dataset.action || e.currentTarget?.dataset.action,
+      payload = e.target.dataset.payload || e.currentTarget?.dataset.payload;
 
-    // console.log(act, payload);
     if (act == "page1") setPage(act[4]);
     else if (act == "page2") {
       for (var i = 0; i < storeapps.length; i++) {
-        if (storeapps[i].data.url == payload) {
+        if (
+          storeapps[i].data?.url == payload ||
+          storeapps[i].name.toLowerCase() == String(payload).toLowerCase() ||
+          storeapps[i].icon == payload ||
+          (String(payload).toLowerCase().includes("chrome") &&
+            storeapps[i].name.toLowerCase().includes("chrome"))
+        ) {
           setOpapp(storeapps[i]);
           setPage(2);
           break;
@@ -123,7 +128,19 @@ export const MicroStore = () => {
         .get(url)
         .then((res) => res.data)
         .then((data) => {
-          if (data) setApps(data);
+          if (data && Array.isArray(data)) {
+            const chromeItem = storedata.find(
+              (item) => item.name === "Google Chrome" || item.icon?.includes("chrome")
+            );
+            const hasChrome = data.some(
+              (item) => item.name === "Google Chrome" || item.icon?.includes("chrome")
+            );
+            if (chromeItem && !hasChrome) {
+              setApps([chromeItem, ...data]);
+            } else {
+              setApps(data);
+            }
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -191,7 +208,7 @@ export const MicroStore = () => {
             />
           </div>
           <div className="restWindow msfull win11Scroll" onScroll={frontScroll}>
-            {page == 0 ? <FrontPage /> : null}
+            {page == 0 ? <FrontPage action={action} /> : null}
             {page == 1 ? (
               <DownPage
                 action={action}
@@ -263,7 +280,11 @@ const DownPage = ({ action, apps }) => {
                 className="mx-4 mb-6 rounded"
                 w={100}
                 h={100}
-                src={item.icon}
+                src={
+                  item.icon && (item.icon.includes("/") || item.icon.startsWith("http"))
+                    ? item.icon
+                    : `img/icon/${item.icon}.png`
+                }
                 ext
               />
               <div className="capitalize text-xs font-semibold">
@@ -317,6 +338,11 @@ const DetailPage = ({ app }) => {
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
 
+  const isChrome =
+    app.name === "Google Chrome" ||
+    app.icon === "chrome" ||
+    (typeof app.icon === "string" && app.icon.includes("chrome"));
+
   const download = () => {
     setDown(1);
     setTimeout(() => {
@@ -327,12 +353,40 @@ const DetailPage = ({ app }) => {
 
   const refresh = () => window.location.reload();
   const openApp = () => {
-    dispatch({ type: apps[app.icon].action, payload: "full" });
+    if (isChrome) {
+      dispatch({ type: "CHROME", payload: "full" });
+      return;
+    }
+    const target = apps[app.icon];
+    if (target && target.action) {
+      dispatch({ type: target.action, payload: "full" });
+    }
   };
 
   useEffect(() => {
-    if (apps[app.icon] != null) setDown(3);
-  }, [dstate]);
+    try {
+      const installed = JSON.parse(localStorage.getItem("installed") || "[]");
+      const isInstalled = installed.some(
+        (item) =>
+          item.name === app.name ||
+          item.icon === app.icon ||
+          (isChrome &&
+            (item.name === "Google Chrome" ||
+              item.icon === "chrome" ||
+              item.icon === "img/icon/chrome.png"))
+      );
+      if (isInstalled || (apps[app.icon] != null && !isChrome)) {
+        setDown(3);
+      }
+    } catch {
+      if (apps[app.icon] != null && !isChrome) setDown(3);
+    }
+  }, [dstate, apps, app]);
+
+  const appIconSrc =
+    app.icon && (app.icon.includes("/") || app.icon.startsWith("http"))
+      ? app.icon
+      : `img/icon/${app.icon}.png`;
 
   return (
     <div className="detailpage w-full absolute top-0 flex">
@@ -342,7 +396,7 @@ const DetailPage = ({ app }) => {
           ext
           w={100}
           h={100}
-          src={app.icon}
+          src={appIconSrc}
           err="img/asset/mixdef.jpg"
         />
         <div className="flex flex-col items-center text-center relative">
@@ -504,7 +558,13 @@ const FrontPage = (props) => {
             apprib.map((x, i) => {
               var stars = 3 + ((x.charCodeAt(0) + x.charCodeAt(1)) % 3);
               return (
-                <div key={i} className="ribcont rounded my-auto p-2 pb-2">
+                <div
+                  key={i}
+                  className="ribcont rounded my-auto p-2 pb-2 prtclk handcr"
+                  onClick={props.action}
+                  data-action="page2"
+                  data-payload={x === "chrome" ? "Google Chrome" : x}
+                >
                   <Image
                     className="mx-1 py-1 mb-2 rounded"
                     w={120}

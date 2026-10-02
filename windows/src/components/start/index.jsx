@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Actions from "../../actions";
 import { getTreeValue } from "../../actions";
@@ -45,6 +45,38 @@ export const DesktopApp = () => {
     return arr;
   });
   const dispatch = useDispatch();
+  const lastClickRef = useRef({ time: 0, index: -1 });
+
+  const openApp = (app) => {
+    dispatch({ type: app.action, payload: app.payload || "full" });
+  };
+
+  const handleAppClick = (app, index, e) => {
+    e.stopPropagation();
+    const now = Date.now();
+    const prev = lastClickRef.current;
+
+    // Trigger on double-click: either native detail >= 2 or consecutive clicks within 450ms
+    if (e.detail >= 2 || (prev.index === index && now - prev.time < 450)) {
+      openApp(app);
+      lastClickRef.current = { time: 0, index: -1 };
+    } else {
+      lastClickRef.current = { time: now, index };
+    }
+  };
+
+  const handleDoubleClick = (app, e) => {
+    e.stopPropagation();
+    openApp(app);
+    lastClickRef.current = { time: 0, index: -1 };
+  };
+
+  const handleKeyDown = (app, e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openApp(app);
+    }
+  };
 
   return (
     <div className="desktopCont">
@@ -52,13 +84,20 @@ export const DesktopApp = () => {
         deskApps.apps.map((app, i) => {
           return (
             // to allow it to be focusable (:focus)
-            <div key={i} className="dskApp" tabIndex={0}>
+            <div
+              key={i}
+              className="dskApp prtclk"
+              tabIndex={0}
+              onClick={(e) => handleAppClick(app, i, e)}
+              onDoubleClick={(e) => handleDoubleClick(app, e)}
+              onKeyDown={(e) => handleKeyDown(app, e)}
+              data-menu="app"
+              data-action={app.action}
+              data-payload={app.payload || "full"}
+            >
               <Icon
-                click={app.action}
-                className="dskIcon prtclk"
+                className="dskIcon"
                 src={app.icon}
-                payload={app.payload || "full"}
-                pr
                 width={Math.round(deskApps.size * 36)}
                 menu="app"
               />

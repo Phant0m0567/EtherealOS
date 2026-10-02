@@ -178,6 +178,7 @@ const defState = {
     "kids apps",
   ],
   apprib: [
+    "chrome",
     "netflix",
     "whatsApp",
     "telegram",

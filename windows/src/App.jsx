@@ -3,7 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
 import "./i18nextConf";
 import "./index.css";
-import "../dycalendar.css";
+import "./dycalendar.css";
 
 import ActMenu from "./components/menu";
 import {
@@ -226,9 +226,11 @@ function App() {
                   .filter((x) => x != "hz")
                   .map((key) => apps[key])
                   .map((app, i) => {
-                    if (app.pwa) {
-                      var WinApp = Drafts[app.data.type];
-                      return <WinApp key={i} icon={app.icon} {...app.data} />;
+                    if (app && app.pwa && app.icon !== "chrome") {
+                      var WinApp = Drafts[app.data && app.data.type];
+                      if (WinApp) {
+                        return <WinApp key={i} icon={app.icon} {...app.data} />;
+                      }
                     }
                   })}
                 <StartMenu />
