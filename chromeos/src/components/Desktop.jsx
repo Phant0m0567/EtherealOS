@@ -97,15 +97,15 @@ const Desktop = () => {
           onClick={handleMenuClick}
         >
           <div className="menuItem">
-            <span className="material-symbols-outlined">shelf_position</span>
-            Always show shelf
+            <span className="material-symbols-outlined">shelf_auto_hide</span>
+            Autohide shelf
           </div>
           <div
             className={"menuItem" + (sub ? " active" : "")}
             onMouseEnter={openSub}
             onMouseLeave={closeSub}
           >
-            <span className="material-symbols-outlined">dock_to_bottom</span>
+            <span className="material-symbols-outlined">shelf_position</span>
             Shelf position
             <span className="material-symbols-outlined menuChevron">
               chevron_right
