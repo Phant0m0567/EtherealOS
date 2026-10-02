@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: "./",
+  base: mode === "production" ? "./" : "/",
   define: {
     "process.env.NODE_ENV": `"${mode}"`,
   },
