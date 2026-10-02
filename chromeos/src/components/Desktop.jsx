@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 const Desktop = () => {
   const [menu, setMenu] = useState(null);
@@ -8,6 +8,8 @@ const Desktop = () => {
   const [subShow, setSubShow] = useState(false);
   const subTimer = useRef(null);
   const box = useRef(null);
+  const desktopRef = useRef(null);
+  const closeTimer = useRef(null);
 
   useEffect(() => {
     const close = () => {
@@ -15,13 +17,18 @@ const Desktop = () => {
       setSubShow(false);
       setSub(null);
       clearTimeout(subTimer.current);
-      setTimeout(() => setMenu(null), 120);
+      clearTimeout(closeTimer.current);
+      closeTimer.current = setTimeout(() => setMenu(null), 120);
+    };
+    const closeFromContextMenu = (event) => {
+      if (!desktopRef.current?.contains(event.target)) close();
     };
     window.addEventListener("click", close);
-    window.addEventListener("contextmenu", close);
+    window.addEventListener("contextmenu", closeFromContextMenu);
     return () => {
       window.removeEventListener("click", close);
-      window.removeEventListener("contextmenu", close);
+      window.removeEventListener("contextmenu", closeFromContextMenu);
+      clearTimeout(closeTimer.current);
     };
   }, []);
 
@@ -33,20 +40,19 @@ const Desktop = () => {
     if (sub) setSubShow(true);
   }, [sub]);
 
+  useLayoutEffect(() => {
+    if (!menu || !box.current) return;
+    const { width, height } = box.current.getBoundingClientRect();
+    setFlip({
+      x: menu.x + width > window.innerWidth,
+      y: menu.y + height > window.innerHeight,
+    });
+  }, [menu]);
+
   const handleContextMenu = (e) => {
     e.preventDefault();
-    e.stopPropagation();
+    clearTimeout(closeTimer.current);
     setShow(false);
-
-    const rect = box.current
-      ? box.current.getBoundingClientRect()
-      : { width: 0, height: 0 };
-
-    setFlip({
-      x: e.clientX + rect.width > window.innerWidth,
-      y: e.clientY + rect.height > window.innerHeight,
-    });
-
     setMenu({ x: e.clientX, y: e.clientY });
   };
 
@@ -74,7 +80,7 @@ const Desktop = () => {
   };
 
   return (
-    <div className="desktop" onContextMenu={handleContextMenu}>
+    <div ref={desktopRef} className="desktop" onContextMenu={handleContextMenu}>
       {menu && (
         <div
           ref={box}
