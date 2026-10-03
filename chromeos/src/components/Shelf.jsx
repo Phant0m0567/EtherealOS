@@ -41,6 +41,8 @@ const StatusArea = () => {
   const [selectedDate, setSelectedDate] = useState(now);
   const dateButtonRef = useRef(null);
   const calendarRef = useRef(null);
+  const quickSettingsRef = useRef(null);
+  const quickSettingsButtonRef = useRef(null);
   const monthListRef = useRef(null);
   const monthRefs = useRef([]);
   const isExtendingMonths = useRef(false);
@@ -61,6 +63,46 @@ const StatusArea = () => {
     day: "numeric",
     year: "numeric",
   });
+  const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
+  const [quickSettings, setQuickSettings] = useState({
+    wifi: true,
+    capture: false,
+    bluetooth: true,
+    cast: false,
+    accessibility: false,
+    focus: false,
+    doNotDisturb: false,
+  });
+  const [volume, setVolume] = useState(65);
+  const [brightness, setBrightness] = useState(82);
+  const [batteryStatus, setBatteryStatus] = useState(null);
+
+  useEffect(() => {
+    if (typeof navigator.getBattery !== "function") return;
+    let batteryManager;
+    let active = true;
+    const updateBattery = () => {
+      if (!active || !batteryManager) return;
+      setBatteryStatus({
+        level: Math.round(batteryManager.level * 100),
+        charging: batteryManager.charging,
+      });
+    };
+    navigator.getBattery().then((manager) => {
+      if (!active) return;
+      batteryManager = manager;
+      updateBattery();
+      manager.addEventListener("levelchange", updateBattery);
+      manager.addEventListener("chargingchange", updateBattery);
+    }).catch(() => {
+      if (active) setBatteryStatus(null);
+    });
+    return () => {
+      active = false;
+      batteryManager?.removeEventListener("levelchange", updateBattery);
+      batteryManager?.removeEventListener("chargingchange", updateBattery);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     if (!calendarOpen) return;
@@ -96,19 +138,24 @@ const StatusArea = () => {
   }, [months]);
 
   useEffect(() => {
-    if (!calendarOpen) return;
+    if (!calendarOpen && !quickSettingsOpen) return;
     const closeOutside = (event) => {
       if (
         !calendarRef.current?.contains(event.target) &&
-        !dateButtonRef.current?.contains(event.target)
+        !dateButtonRef.current?.contains(event.target) &&
+        !quickSettingsRef.current?.contains(event.target) &&
+        !quickSettingsButtonRef.current?.contains(event.target)
       ) {
         setCalendarOpen(false);
+        setQuickSettingsOpen(false);
       }
     };
     const closeOnEscape = (event) => {
       if (event.key === "Escape") {
         setCalendarOpen(false);
-        dateButtonRef.current?.focus();
+        setQuickSettingsOpen(false);
+        if (calendarOpen) dateButtonRef.current?.focus();
+        if (quickSettingsOpen) quickSettingsButtonRef.current?.focus();
       }
     };
     window.addEventListener("pointerdown", closeOutside);
@@ -117,7 +164,46 @@ const StatusArea = () => {
       window.removeEventListener("pointerdown", closeOutside);
       window.removeEventListener("keydown", closeOnEscape);
     };
-  }, [calendarOpen]);
+  }, [calendarOpen, quickSettingsOpen]);
+
+  const toggleQuickSetting = (setting) => {
+    setQuickSettings((current) => ({
+      ...current,
+      [setting]: !current[setting],
+    }));
+  };
+
+  const quickToggle = (
+    label,
+    setting,
+    icon,
+    detail,
+    size = "tile",
+    showChevron = true
+  ) => (
+    <button
+      type="button"
+      className={`quickTile ${size}${quickSettings[setting] ? " active" : ""}`}
+      aria-pressed={quickSettings[setting]}
+      onClick={() => toggleQuickSetting(setting)}
+    >
+      <span className="material-symbols-outlined quickTileIcon" aria-hidden="true">
+        {icon}
+      </span>
+      <span className="quickTileCopy">
+        <span>{label}</span>
+        {detail && <small>{detail}</small>}
+      </span>
+      {showChevron && (
+        <span
+          className="material-symbols-outlined quickTileChevron"
+          aria-hidden="true"
+        >
+          chevron_right
+        </span>
+      )}
+    </button>
+  );
 
   const changeMonth = (amount) => {
     const nextIndex = visibleMonthIndex + amount;
@@ -214,6 +300,14 @@ const StatusArea = () => {
 
   return (
     <div className="statusArea">
+      {createPortal(
+        <div
+          className="screenBrightnessOverlay"
+          style={{ opacity: (100 - brightness) / 100 }}
+          aria-hidden="true"
+        />,
+        document.body
+      )}
       <span className="quickPill micPill">
         <span className="material-symbols-outlined">mic</span>
       </span>
@@ -229,11 +323,139 @@ const StatusArea = () => {
       >
         {date}
       </button>
-      <span className="quickPill timePill">
+      <button
+        ref={quickSettingsButtonRef}
+        type="button"
+        className="quickPill timePill"
+        aria-label="Open quick settings"
+        aria-haspopup="dialog"
+        aria-expanded={quickSettingsOpen}
+        aria-controls="quickSettingsPanel"
+        onClick={() => setQuickSettingsOpen((open) => !open)}
+      >
         {time}
         <span className="material-symbols-outlined">signal_wifi_4_bar</span>
         <span className="material-symbols-outlined">battery_full</span>
-      </span>
+      </button>
+      {quickSettingsOpen && (
+        <section
+          ref={quickSettingsRef}
+          id="quickSettingsPanel"
+          className="quickSettingsPanel"
+          role="dialog"
+          aria-label="Quick settings"
+        >
+          <div className="quickTopGrid">
+            {quickToggle(
+              "Wi-Fi",
+              "wifi",
+              "signal_wifi_4_bar",
+              quickSettings.wifi ? "Strong" : "Off",
+              "wide"
+            )}
+            {quickToggle("Screen capture", "capture", "screenshot_region", null, "compact", false)}
+            {quickToggle("Do Not Disturb", "doNotDisturb", "do_not_disturb_on", null, "compact", false)}
+          </div>
+          <div className="quickSettingsGrid">
+            {quickToggle(
+              "Bluetooth",
+              "bluetooth",
+              "bluetooth",
+              quickSettings.bluetooth ? "On" : "Off"
+            )}
+            {quickToggle("Cast screen", "cast", "cast")}
+            {quickToggle("Accessibility", "accessibility", "accessibility_new")}
+            {quickToggle("Focus", "focus", "lightbulb")}
+          </div>
+          <div className="quickSliders">
+            <div className="quickSliderRow">
+              <label
+                className="quickSlider"
+                style={{ "--slider-value": `${volume}%` }}
+              >
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  volume_up
+                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={volume}
+                  aria-label="Volume"
+                  onChange={(event) => setVolume(Number(event.target.value))}
+                />
+              </label>
+              <span className="material-symbols-outlined quickSliderChevron" aria-hidden="true">
+                chevron_right
+              </span>
+            </div>
+            <div className="quickSliderRow">
+              <label
+                className="quickSlider"
+                style={{ "--slider-value": `${brightness}%` }}
+              >
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  brightness_medium
+                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={brightness}
+                  aria-label="Brightness"
+                  onChange={(event) => setBrightness(Number(event.target.value))}
+                />
+              </label>
+              <span className="material-symbols-outlined quickSliderChevron" aria-hidden="true">
+                chevron_right
+              </span>
+            </div>
+          </div>
+          <footer className="quickSettingsFooter">
+            <div className="quickFooterPrimary">
+              <button type="button" className="quickPowerButton">
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  power_settings_new
+                </span>
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  keyboard_arrow_down
+                </span>
+              </button>
+              <button type="button" className="quickAccountButton">
+                <span>Sign out</span>
+              </button>
+            </div>
+            <div className="quickFooterActions">
+              <span
+                className="quickBattery"
+                aria-label={
+                  batteryStatus
+                    ? `Battery ${batteryStatus.level}%${batteryStatus.charging ? ", charging" : ""}`
+                    : "Battery status unavailable"
+                }
+              >
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  {!batteryStatus
+                    ? "battery_unknown"
+                    : batteryStatus.charging
+                      ? "battery_charging_full"
+                      : batteryStatus.level > 70
+                        ? "battery_full"
+                        : batteryStatus.level > 35
+                          ? "battery_3_bar"
+                          : "battery_1_bar"}
+                </span>
+                {batteryStatus ? `${batteryStatus.level}%` : "--"}
+              </span>
+              <button type="button" className="quickIconButton" aria-label="Settings">
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  settings
+                </span>
+              </button>
+            </div>
+          </footer>
+        </section>
+      )}
       {calendarOpen && (
         <section
           ref={calendarRef}

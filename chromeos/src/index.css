@@ -116,26 +116,6 @@ body,
   margin: 0;
 }
 
-.menuSeparator {
-  height: 1px;
-  margin: 6px 0;
-  background: rgba(95, 99, 104, 0.2);
-}
-
-.deskIcon {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
-}
-
-.deskName {
-  font-size: 12px;
-  color: #ffffff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-  text-align: center;
-}
-
 .shelf {  position: relative;  height: 48px;
   width: 100%;
   display: flex;
@@ -169,8 +149,6 @@ body,
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
   box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3);
 }
 
@@ -209,7 +187,7 @@ body,
   bottom:54px;
   display: flex;
   flex-direction: column;
-  width: min(610px, calc(100vw - 16px)); /* adjust to smaller screens */
+  width: min(610px, calc(100vw - 16px));
   height: min(620px, calc(100dvh - 72px));
   min-height: 280px;
   overflow: hidden;
@@ -384,7 +362,6 @@ body,
   flex-direction: column;
   width: min(400px, calc(100vw - 32px));
   height: min(340px, calc(100dvh - 80px));
-  max-height: calc(100dvh - 80px);
   overflow: hidden;
   padding: 18px 20px 14px;
   border: 1px solid rgba(255, 255, 255, 0.7);
@@ -396,17 +373,10 @@ body,
   backdrop-filter: blur(20px);
 }
 
-.calendarMonthRow,
-.calendarNavigation {
+.calendarMonthRow {
   display: flex;
   align-items: center;
-}
-
-.calendarMonthRow {
   justify-content: space-between;
-}
-
-.calendarMonthRow {
   flex: 0 0 auto;
   margin-bottom: 14px;
 }
@@ -418,6 +388,8 @@ body,
 }
 
 .calendarNavigation {
+  display: flex;
+  align-items: center;
   gap: 4px;
 }
 
@@ -556,4 +528,304 @@ body,
   display: inline-flex;
   align-items: center;
   font-variation-settings: "FILL" 1, "wght" 600;
+}
+
+.timePill {
+  border: 0;
+  color: inherit;
+  font: inherit;
+}
+
+.timePill[aria-expanded="true"] {
+  background: #bbc6e3;
+}
+
+.screenBrightnessOverlay {
+  position: fixed;
+  z-index: 5000;
+  inset: 0;
+  background: #000000;
+  pointer-events: none;
+  transition: opacity 100ms linear;
+}
+
+.quickSettingsPanel {
+  position: absolute;
+  z-index: 1200;
+  right: 0;
+  bottom: calc(100% + 13px);
+  width: min(380px, calc(100vw - 24px));
+  max-height: calc(100dvh - 72px);
+  overflow-y: auto;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 18px;
+  color: #202124;
+  background: rgba(248, 248, 248, 0.96);
+  box-shadow: 0 4px 16px rgba(60, 64, 67, 0.2);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.quickTopGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.quickSettingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.quickTile {
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 15px;
+  color: #202124;
+  background: rgba(225, 228, 234, 0.72);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.quickTile.wide {
+  grid-column: span 2;
+}
+
+.quickTile.compact {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 8px;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.quickTile.compact .quickTileIcon {
+  position: absolute;
+  top: 13px;
+  left: 50%;
+  font-size: 22px;
+  transform: translateX(-50%);
+}
+
+.quickTile.active {
+  background: #bbc6e3;
+}
+
+.quickTileIcon {
+  font-size: 20px;
+}
+
+.quickTileCopy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.quickTileCopy small {
+  color: #4f545b;
+  font-size: 12px;
+}
+
+.quickTileChevron {
+  font-size: 18px;
+  opacity: 0.72;
+}
+
+.quickTile.compact .quickTileCopy {
+  position: absolute;
+  right: 5px;
+  bottom: 7px;
+  left: 5px;
+  max-width: none;
+  flex: none;
+  align-items: center;
+  text-align: center;
+}
+
+.quickTile.compact .quickTileCopy > span {
+  max-width: 52px;
+  white-space: normal;
+  text-align: center;
+}
+
+.quickSliders {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.quickSliderRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 46px;
+  align-items: center;
+}
+
+.quickSliderChevron {
+  display: grid;
+  width: 46px;
+  height: 34px;
+  place-items: center;
+  color: #5f6368;
+  font-size: 20px;
+}
+
+.quickSlider {
+  position: relative;
+  display: block;
+  height: 34px;
+  min-height: 34px;
+  border-radius: 17px;
+}
+
+.quickSlider::before,
+.quickSlider::after {
+  position: absolute;
+  top: 50%;
+  height: 4px;
+  content: "";
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.quickSlider::after {
+  z-index: 0;
+  right: 0;
+  left: 0;
+  border-radius: 4px;
+  background: #b9bec7;
+}
+
+.quickSlider::before {
+  z-index: 1;
+  top: 0;
+  right: auto;
+  bottom: 0;
+  left: 0;
+  width: max(var(--slider-value), 44px);
+  height: auto;
+  border-radius: 17px;
+  background: #bbc6e3;
+  transform: none;
+}
+
+.quickSlider > .material-symbols-outlined {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 12px;
+  font-size: 19px;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.quickSlider input {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  appearance: none;
+  border: 0;
+  border-radius: 17px;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.quickSettingsFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(95, 99, 104, 0.16);
+}
+
+.quickFooterPrimary {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.quickAccountButton,
+.quickIconButton,
+.quickPowerButton {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 20px;
+  color: inherit;
+  background: rgba(225, 228, 234, 0.72);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.quickPowerButton {
+  gap: 5px;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.quickFooterActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quickBattery {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  border-radius: 19px;
+  color: #3c4043;
+  background: rgba(225, 228, 234, 0.72);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.quickBattery .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.quickIconButton {
+  width: 34px;
+  padding: 0;
+  font-size: 19px;
+}
+
+.quickPowerButton .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.quickSettingsPanel button:focus-visible,
+.quickSlider input:focus-visible {
+  outline: 2px solid #647baa;
+  outline-offset: 2px;
 }
