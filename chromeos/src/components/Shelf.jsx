@@ -4,11 +4,16 @@ import { useSelector } from "react-redux";
 
 const StatusArea = () => {
   const now = new Date();
-  const time = now.toLocaleTimeString(undefined, {
-    hour: "2-digit",
+  const time = new Intl.DateTimeFormat(undefined, {
+    hour: "numeric",
     minute: "2-digit",
-    hour12: false,
-  });
+    hourCycle: "h12",
+  })
+    .formatToParts(now)
+    .filter((part) => part.type !== "dayPeriod")
+    .map((part) => part.value)
+    .join("")
+    .trim();
   const date = now.toLocaleDateString(undefined, {
     month: "short",
     day: "numeric",
