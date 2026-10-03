@@ -169,7 +169,6 @@ body,
   content: "";
   width: 11px;
   height: 11px;
-  aspect-ratio: 1;
   border-radius: 50%;
   background: transparent;
   border: 2px solid #000000;
@@ -448,7 +447,6 @@ body,
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 100%;
   padding-bottom: 8px;
   scroll-snap-align: start;
 }
@@ -520,20 +518,17 @@ body,
   margin-right: -6px;
   display: inline-flex;
   align-items: center;
-}
-
-.timePill .material-symbols-outlined {
-  font-size: 18px;
-  line-height: 0;
-  display: inline-flex;
-  align-items: center;
-  font-variation-settings: "FILL" 1, "wght" 600;
-}
-
-.timePill {
   border: 0;
   color: inherit;
   font: inherit;
+}
+
+.timePill .material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+  line-height: 0;
+  font-variation-settings: "FILL" 1, "wght" 600;
 }
 
 .timePill[aria-expanded="true"] {
@@ -690,7 +685,6 @@ body,
   position: relative;
   display: block;
   height: 34px;
-  min-height: 34px;
   border-radius: 17px;
 }
 
