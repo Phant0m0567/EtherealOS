@@ -76,6 +76,15 @@ const StatusArea = () => {
   const [volume, setVolume] = useState(65);
   const [brightness, setBrightness] = useState(82);
   const [batteryStatus, setBatteryStatus] = useState(null);
+  const batteryIcon = !batteryStatus
+    ? "battery_unknown"
+    : batteryStatus.charging
+      ? "battery_charging_full"
+      : batteryStatus.level > 70
+        ? "battery_full"
+        : batteryStatus.level > 35
+          ? "battery_3_bar"
+          : "battery_1_bar";
 
   useEffect(() => {
     if (typeof navigator.getBattery !== "function") return;
@@ -341,7 +350,9 @@ const StatusArea = () => {
       >
         {time}
         <span className="material-symbols-outlined">signal_wifi_4_bar</span>
-        <span className="material-symbols-outlined">battery_full</span>
+        <span className="material-symbols-outlined" aria-hidden="true">
+          {batteryIcon}
+        </span>
       </button>
       {quickSettingsOpen && (
         <section
@@ -441,15 +452,7 @@ const StatusArea = () => {
                 }
               >
                 <span className="material-symbols-outlined" aria-hidden="true">
-                  {!batteryStatus
-                    ? "battery_unknown"
-                    : batteryStatus.charging
-                      ? "battery_charging_full"
-                      : batteryStatus.level > 70
-                        ? "battery_full"
-                        : batteryStatus.level > 35
-                          ? "battery_3_bar"
-                          : "battery_1_bar"}
+                  {batteryIcon}
                 </span>
                 {batteryStatus ? `${batteryStatus.level}%` : "--"}
               </span>
