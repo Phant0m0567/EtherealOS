@@ -319,7 +319,10 @@ const StatusArea = () => {
         aria-haspopup="dialog"
         aria-expanded={calendarOpen}
         aria-controls="shelfCalendar"
-        onClick={() => setCalendarOpen((open) => !open)}
+        onClick={() => {
+          setCalendarOpen((open) => !open);
+          setQuickSettingsOpen(false);
+        }}
       >
         {date}
       </button>
@@ -331,7 +334,10 @@ const StatusArea = () => {
         aria-haspopup="dialog"
         aria-expanded={quickSettingsOpen}
         aria-controls="quickSettingsPanel"
-        onClick={() => setQuickSettingsOpen((open) => !open)}
+        onClick={() => {
+          setQuickSettingsOpen((open) => !open);
+          setCalendarOpen(false);
+        }}
       >
         {time}
         <span className="material-symbols-outlined">signal_wifi_4_bar</span>
