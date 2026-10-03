@@ -188,18 +188,20 @@ const StatusArea = () => {
   const handleMonthScroll = () => {
     const monthList = monthListRef.current;
     if (!monthList?.clientHeight) return;
-    const monthHeight = monthList.clientHeight;
-    const nextIndex = Math.max(
-      0,
-      Math.min(
-        months.length - 1,
-        Math.floor((monthList.scrollTop + 16) / monthHeight)
-      )
-    );
+    const listTop = monthList.getBoundingClientRect().top + 16;
+    let nextIndex = 0;
+    for (let index = 0; index < monthRefs.current.length; index += 1) {
+      const month = monthRefs.current[index];
+      if (month?.getBoundingClientRect().bottom > listTop) {
+        nextIndex = index;
+        break;
+      }
+    }
     setVisibleMonthIndex((currentIndex) =>
       currentIndex === nextIndex ? currentIndex : nextIndex
     );
     if (isExtendingMonths.current) return;
+    const monthHeight = monthList.clientHeight;
     if (monthList.scrollTop < monthHeight * 2) {
       prependMonths();
     } else if (
