@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
+import Launcher from "./Launcher";
 
 const StatusArea = () => {
   const now = new Date();
@@ -36,8 +37,8 @@ const StatusArea = () => {
 
 const Shelf = () => {
   const pinned = useSelector((state) => state.shelf.pinned);
-  const launcher = pinned.find((app) => app.icon === "launcher");
-  const apps = pinned.filter((app) => app.icon !== "launcher");
+  const launcher = pinned.find((app) => app.className === "launcher");
+  const apps = pinned.filter((app) => app.className !== "launcher");
 
   const [menu, setMenu] = useState(null);
   const [show, setShow] = useState(false);
@@ -124,20 +125,16 @@ const Shelf = () => {
 
   return (
     <div ref={shelfRef} className="shelf" onContextMenu={handleContextMenu}>
-      <div
-        className="shelfApp"
-        data-icon={launcher.icon}
-        data-name={launcher.name}
-      ></div>
+      <Launcher name={launcher.name} />
       <div className="shelfApps">
         {apps.map((app, i) => (
           <React.Fragment key={i}>
-            {app.icon === "settings" && <div className="shelfDivider" />}
+            {app.className === "settings" && <div className="shelfDivider" />}
             <div
-              className="shelfApp"
-              data-icon={app.icon}
-              data-name={app.name}
-            ></div>
+              className={`shelfApp ${app.className}`}
+              role="img"
+              aria-label={app.name}
+            />
           </React.Fragment>
         ))}
       </div>

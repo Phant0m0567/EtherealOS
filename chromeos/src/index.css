@@ -129,20 +129,6 @@ body,
   box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
 }
 
-.deskIcon[data-icon="chrome"] {
-  background: conic-gradient(#ea4335 0 33%, #fbbc04 0 50%, #34a853 0 83%, #4285f4 0);
-}
-
-.deskIcon[data-icon="files"] {
-  background: url("/img/asset/file_explorer.png") center / contain no-repeat;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.deskIcon[data-icon="settings"] {
-  background: #9aa0a6;
-}
-
 .deskName {
   font-size: 12px;
   color: #ffffff;
@@ -188,31 +174,7 @@ body,
   box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3);
 }
 
-.shelfApp::after {
-  content: attr(data-name);
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translate(-50%, 6px);
-  padding: 7px 12px;
-  border-radius: 6px;
-  background: #000000;
-  color: #ffffff;
-  font-size: 11px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 20;
-}
-
-.shelfApp:hover::after {
-  opacity: 1;
-  transform: translate(-50%, 0);
-  transition: opacity 0.25s ease 0.25s, transform 0.25s ease 0.25s;
-}
-
-.shelfApp[data-icon="launcher"] {
+.shelfApp.launcherButton {
   background: #f1f3f4;
   border: none;
   box-shadow: none;
@@ -221,7 +183,11 @@ body,
   justify-content: center;
 }
 
-.shelfApp[data-icon="launcher"]::before {
+.launcherButton[data-open="true"] {
+  background: #bbc6e3;
+}
+
+.launcherButton::before {
   content: "";
   width: 11px;
   height: 11px;
@@ -231,19 +197,136 @@ body,
   border: 2px solid #000000;
 }
 
-.shelfApp[data-icon="chrome"] {
+.launcherButton {
+  appearance: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.launcherPanel {
+  position: fixed;
+  left: 8px;
+  bottom: 56px;
+  display: flex;
+  flex-direction: column;
+  width: min(610px, calc(100vw - 16px)); /* adjust to smaller screens */
+  height: min(620px, calc(100dvh - 72px));
+  min-height: 280px;
+  overflow: hidden;
+  color: #202124;
+  background: rgba(248, 248, 248, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(60, 64, 67, 0.25);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+}
+
+.launcherPanel.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.launcherSearch {
+  display: flex;
+  flex: 0 0 56px;
+  align-items: center;
+  gap: 14px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(95, 99, 104, 0.2);
+  color: #5f6368;
+}
+
+.launcherSearch img {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  object-fit: contain;
+}
+
+.launcherSearch input {
+  min-width: 0;
+  flex: 1;
+  color: #202124;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 14px;
+  user-select: text;
+}
+
+.launcherSearch input::placeholder {
+  color: rgba(60, 64, 67, 0.68);
+}
+
+.launcherContent {
+  overflow-y: auto;
+  padding: 20px 22px 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(95, 99, 104, 0.38) transparent;
+}
+
+.launcherGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px 10px;
+}
+
+.launcherTile {
+  display: flex;
+  min-width: 0;
+  min-height: 94px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 4px 3px;
+  border-radius: 10px;
+  color: #202124;
+  text-align: center;
+}
+
+.launcherIcon {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.launcherName {
+  width: 100%;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chrome {
   background: url("/img/asset/chrome.png") center / contain no-repeat;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
 }
 
-.shelfApp[data-icon="files"] {
+.file-explorer {
   background: url("/img/asset/file_explorer.png") center / contain no-repeat;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
 }
 
-.shelfApp[data-icon="settings"] {
+.text-edittor {
+  background: url("/img/asset/text_edditor.png") center / contain no-repeat;
+}
+
+.settings {
   background: url("/img/asset/settings.png") center / contain no-repeat;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
 }
 
 .statusArea {

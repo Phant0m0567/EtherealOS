@@ -2,10 +2,11 @@ import { createStore, combineReducers } from "redux";
 
 const initialShelf = {
   pinned: [
-    { name: "Launcher", icon: "launcher" },
-    { name: "Google Chrome", icon: "chrome" },
-    { name: "Files", icon: "files" },
-    { name: "Settings", icon: "settings" },
+    { name: "Launcher", className: "launcher" },
+    { name: "Google Chrome", className: "chrome" },
+    { name: "Files", className: "file-explorer" },
+    { name: "Text", className: "text-edittor" },
+    { name: "Settings", className: "settings" },
   ],
 };
 
