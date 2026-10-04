@@ -8,6 +8,12 @@ const initialShelf = {
     { name: "Text", className: "text-edittor" },
     { name: "Settings", className: "settings" },
   ],
+  hidden: [
+    {
+      name: "Wallpaper & Background",
+      className: "wallpaper-background",
+    },
+  ],
 };
 
 const shelf = (state = initialShelf, action) => {

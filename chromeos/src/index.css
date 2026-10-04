@@ -306,6 +306,10 @@ body,
   background: url("/img/asset/settings.png") center / contain no-repeat;
 }
 
+.wallpaper-background {
+  background: url("/img/asset/wallpaper&background.png") center / cover no-repeat;
+}
+
 .statusArea {
   position: relative;
   display: flex;
