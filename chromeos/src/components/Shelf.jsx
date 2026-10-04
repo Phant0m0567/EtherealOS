@@ -138,7 +138,6 @@ const StatusArea = () => {
     if (pendingMonthIndex.current !== null) {
       const targetMonth = monthRefs.current[pendingMonthIndex.current];
       if (targetMonth) {
-        setVisibleMonthIndex(pendingMonthIndex.current);
         monthList.scrollTo({ top: targetMonth.offsetTop, behavior: "smooth" });
       }
       pendingMonthIndex.current = null;
@@ -224,12 +223,11 @@ const StatusArea = () => {
     }
     if (nextIndex >= months.length) {
       if (isExtendingMonths.current) return;
-      pendingMonthIndex.current = months.length - monthBatchSize;
+      pendingMonthIndex.current = months.length;
       appendMonths();
       return;
     }
     const nextMonth = monthRefs.current[nextIndex];
-    setVisibleMonthIndex(nextIndex);
     if (monthListRef.current && nextMonth) {
       monthListRef.current.scrollTo({
         top: nextMonth.offsetTop,
@@ -253,7 +251,7 @@ const StatusArea = () => {
       );
       return [
         ...createMonthRange(firstAddedMonth, monthBatchSize),
-        ...currentMonths.slice(0, -monthBatchSize),
+        ...currentMonths,
       ];
     });
     setVisibleMonthIndex((index) => index + monthBatchSize);
@@ -263,8 +261,6 @@ const StatusArea = () => {
     const monthList = monthListRef.current;
     if (!monthList || isExtendingMonths.current) return;
     isExtendingMonths.current = true;
-    pendingScrollAdjustment.current =
-      -monthList.clientHeight * monthBatchSize;
     setMonths((currentMonths) => {
       const lastMonth = currentMonths[currentMonths.length - 1];
       const firstAddedMonth = new Date(
@@ -273,11 +269,10 @@ const StatusArea = () => {
         1
       );
       return [
-        ...currentMonths.slice(monthBatchSize),
+        ...currentMonths,
         ...createMonthRange(firstAddedMonth, monthBatchSize),
       ];
     });
-    setVisibleMonthIndex((index) => index - monthBatchSize);
   };
 
   const handleMonthScroll = () => {

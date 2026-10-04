@@ -438,8 +438,8 @@ body,
   min-height: 0;
   flex: 1;
   overflow-y: auto;
+  overflow-anchor: none;
   overscroll-behavior: contain;
-  scroll-snap-type: y mandatory;
   scrollbar-width: none;
 }
 
@@ -452,7 +452,6 @@ body,
   flex-direction: column;
   height: 100%;
   padding-bottom: 8px;
-  scroll-snap-align: start;
 }
 
 .calendarMonthName {
