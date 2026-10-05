@@ -74,7 +74,7 @@ const StatusArea = () => {
     doNotDisturb: false,
   });
   const [volume, setVolume] = useState(65);
-  const [brightness, setBrightness] = useState(82);
+  const [brightness, setBrightness] = useState(100);
   const [batteryStatus, setBatteryStatus] = useState(null);
   const batteryIcon = !batteryStatus
     ? "battery_unknown"
