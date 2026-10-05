@@ -330,7 +330,7 @@ body,
   border-radius: 17.5px;
   background: rgba(255, 255, 255, 0.92);
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14.5px;
 }
 
 .micPill {
@@ -351,6 +351,7 @@ body,
   border: 0;
   color: inherit;
   font: inherit;
+  font-size: 14.5px;
 }
 
 .datePill[aria-expanded="true"] {
@@ -458,7 +459,7 @@ body,
   flex: 0 0 auto;
   margin: 0 0 8px;
   color: #202124;
-  font-size: 16px;
+  font-size: 14.5px;
   font-weight: 400;
   opacity: 1;
   line-height: 20px;
@@ -524,6 +525,7 @@ body,
   border: 0;
   color: inherit;
   font: inherit;
+  font-size: 15px;
 }
 
 .timePill .material-symbols-outlined {
@@ -536,6 +538,47 @@ body,
 
 .timePill[aria-expanded="true"] {
   background: #bbc6e3;
+}
+
+@media (max-width: 520px) {
+  .shelf {
+    padding-right: 10px;
+    padding-left: 6px;
+  }
+
+  .statusArea {
+    gap: 2px;
+    font-size: 12px;
+  }
+
+  .quickPill {
+    gap: 5px;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 14px;
+  }
+
+  .datePill,
+  .timePill {
+    font-size: 16px;
+  }
+
+  .micPill {
+    padding-right: 7px;
+    padding-left: 9px;
+  }
+
+  .timePill {
+    gap: 4px;
+    padding-right: 9px;
+    padding-left: 9px;
+    margin-right: -4px;
+  }
+}
+
+.statusArea button:focus-visible {
+  outline: 2px solid #717d9f;
+  outline-offset: 2px;
 }
 
 .screenBrightnessOverlay {
