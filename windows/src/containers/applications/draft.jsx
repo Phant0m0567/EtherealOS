@@ -55,7 +55,21 @@ export const IFrame = (props) => {
       />
       <div className="windowScreen flex flex-col" data-dock="true">
         <div className="restWindow flex-grow flex flex-col">
-          <div className="flex-grow overflow-hidden" ref={containerRef} />
+          {data.url ? (
+            <div className="iframeAppContent">
+              <iframe
+                key={data.url}
+                className="iframeAppFrame"
+                src={data.url}
+                title={`${wnapp.name || "App"} content`}
+                allow="autoplay; fullscreen; gamepad; clipboard-read; clipboard-write"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            </div>
+          ) : (
+            <div className="flex-grow overflow-hidden" ref={containerRef} />
+          )}
         </div>
       </div>
     </div>
